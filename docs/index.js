@@ -55,12 +55,17 @@ start.button_click = e => {
 
 let current_o = null;
 
-function O(i) {
+function O(i, f) {
     if (Array.isArray(i)) {
 		this.images = i;
 	} else {
         this.images = [i];
 	}
+    if (f === undefined) {
+        this.f = null;
+    } else {
+        this.f = f.bind(this);
+    }
 }
 
 O.prototype.run = function() {
@@ -68,7 +73,9 @@ O.prototype.run = function() {
         ctx.drawImage(i, 0, 0);
     });
     current_o = this;
-    //canvas.addEventListener('click', start.button_click);
+	if (this.f !== null) {
+	    canvas.addEventListener('click', this.f);
+	}
 };
 
 window.addEventListener('resize', _ => {
@@ -77,7 +84,18 @@ window.addEventListener('resize', _ => {
 });
 
 
-const start = new O(i_button_0);
+const button_1 = new O(i_button_1);
 
-start.run();
+const button_0 = new O(i_button_0, function(e) {
+    const p = design_coords(e);
+    const dx = 183 - p.x;
+    const dy = 212 - p.y;
+    if (dx * dx + dy * dy < 28 * 28) {
+        canvas.removeEventListener('click', this.f);
+        button_1.run();
+    }
+});
+
+
+button_0.run();
 
