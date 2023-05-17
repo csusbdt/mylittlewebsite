@@ -53,6 +53,8 @@ start.button_click = e => {
 
 */
 
+
+/*
 let current_o = null;
 
 function O(i, f) {
@@ -96,6 +98,105 @@ const button_0 = new O(i_button_0, function(e) {
     }
 });
 
+*/
 
-button_0.run();
+const button = {
+	start: function() {
+		window.addEventListener('resize', button.resize);
+		canvas.addEventListener('click', button.touch);
+		button.draw();
+	},
+	draw: function() {
+		ctx.drawImage(i_button_0, 0, 0);
+	},
+	resize: function() {
+		adjust_canvas();
+		button.draw();
+	},
+	touch: function(e) {
+		const p = design_coords(e);
+	    const dx = 183 - p.x;
+	    const dy = 212 - p.y;
+	    if (dx * dx + dy * dy < 28 * 28) {
+			window.removeEventListener('resize', button.resize);		
+	        canvas.removeEventListener('click', button.touch);
+			button.t1();
+	    }
+	},
+	t1: function() {
+		ctx.drawImage(i_button_1, 0, 0);
+		setTimeout(button.t2, 100);
+	},
+	t2: function() {
+		ctx.drawImage(i_button_2, 0, 0);		
+		setTimeout(button.t3, 100);
+	},
+	t3: function() {
+		ctx.drawImage(i_button_3, 0, 0);		
+		setTimeout(ships.start, 100);
+	}
+};
 
+adjust_canvas();
+button.start();
+
+const ship = {
+	pos         : 0,
+	interval    : null,
+	bullet_left : null,
+	bullet_right: null,
+	start: function() {
+		window.addEventListener('resize', ship.resize);
+		canvas.addEventListener('click', ship.touch);
+		ship.draw();
+		ship.interval = setInterval(function() {
+			if (++ship.pos === 4) ship.pos = 0;
+			ship.draw();
+		}, 500);
+	},
+	draw: function() {
+		ctx.drawImage(i_green           , 0, 0);
+		ctx.drawImage(i_gun_left_border , 0, 0);
+		ctx.drawImage(i_gun_right_border, 0, 0);
+		ctx.drawImage(i_gun_left_blue   , 0, 0);
+		ctx.drawImage(i_gun_right_blue  , 0, 0);
+		if (ship.pos === 0) {
+			ctx.drawImage(i_ship_left   , 0, 0);
+		} else if (this.pos === 2) {
+			ctx.drawImage(i_ship_right  , 0, 0);
+		} else {
+			ctx.drawImage(i_ship_middle , 0, 0);
+		}
+		if (ship.bullet_left === 0) {
+			ctx.drawImage(i_bullet_left_0 , 0, 0);			
+		} else if (ship.bullet_left === 1) {
+			ctx.drawImage(i_bullet_left_1, 0, 0);			
+		} else if (ship.bullet_right === 0) {
+			ctx.drawImage(i_bullet_right_0, 0, 0);			
+		} else if (ship.bullet_right === 1) {
+			ctx.drawImage(i_bullet_right_1, 0, 0);			
+		}
+	},
+	resize: function() {
+		adjust_canvas();
+		ships.draw();
+	},
+	touch: function(e) {
+		const p = design_coords(e);
+		if (22 <= p.x && p.x < 126 && 228 <= p.y && p.y <= 372) {
+			// fire left gun
+			ships.bullet_left = 0;
+			clearInterval(ships.interval);
+			ships.interval = null;
+		} else if (235 <= p.x && p.x < 344 && 215 <= p.y && p.y < 360) {
+			// fire right gun
+			console.log("right");
+			clearInterval(ships.interval);
+			ships.interval = null;
+		} else {
+			return;
+		}
+		window.removeEventListener('resize', ships.resize);		
+	    canvas.removeEventListener('click' , ships.touch);
+	}
+};

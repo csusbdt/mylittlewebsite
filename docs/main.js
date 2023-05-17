@@ -30,7 +30,7 @@ window.adjust_canvas = _ => {
 
 //window.addEventListener('resize', adjust_canvas);
 
-adjust_canvas();
+//adjust_canvas();
 
 // Convert mouse and touch event coords to design coords.
 window.design_coords = e => {
