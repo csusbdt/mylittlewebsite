@@ -1,5 +1,5 @@
-let design_width        = 360;
-let design_height       = 360;
+const design_width        = 360;
+const design_height       = 360;
 
 // alpha === false speeds up drawing of transparent images
 window.ctx = canvas.getContext('2d', { alpha: false });
@@ -28,9 +28,9 @@ window.adjust_canvas = _ => {
 	ctx.setTransform(scale, 0, 0, scale, 0, 0);
 }
 
-//window.addEventListener('resize', adjust_canvas);
+window.addEventListener('resize', adjust_canvas);
 
-//adjust_canvas();
+adjust_canvas();
 
 // Convert mouse and touch event coords to design coords.
 window.design_coords = e => {
@@ -40,33 +40,10 @@ window.design_coords = e => {
 	};
 };
 
-/*
-window.touchables = [];
-
-const on_touch = p => {
-	for (let i = 0; i < touchables.length; ++i) {
-		if (touchables[i].touch(p.x, p.y)) break;
-	}	
+window.is_inside_circle = function(x, y, r, p) {
+	return (x - p.x) * (x - p.x) +  (y - p.y) * (y - p.y) < r * r;
 };
 
-const mousedown = e => {
-	e.preventDefault();
-	e.stopImmediatePropagation();
-//	canvas.style.cursor = 'default';
-	on_touch(design_coords(e));
+window.is_inside_rect = function(left, top, right, bottom, p) {
+	return left <= p.x && top <= p.y && p.x < right && p.y < bottom;
 };
-
-// the following touchend and touchmove code needed for fullscreen on chrome
-// see: https://stackoverflow.com/questions/42945378/full-screen-event-on-touch-not-working-on-chrome/42948120
-
-const touchend = e => {
-	e.preventDefault();
-	e.stopImmediatePropagation();
-//	canvas.style.cursor = 'none';
-	on_touch(design_coords(e.changedTouches[0]));
-};
-
-document.addEventListener('mousedown', mousedown, true); 
-document.addEventListener('touchend' , touchend , true); 
-
-*/
