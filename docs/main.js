@@ -1,12 +1,24 @@
-const design_width        = 360;
-const design_height       = 360;
+let design_width  = 360 ;
+let design_height = 360 ;
+let scale         = 1   ;
+let left          = 0   ;
+let top           = 0   ;
+
+window.set_design_size = function(w, h) {
+	design_width  = w;
+	design_height = h;
+};
+
+// Convert mouse and touch event coords to design coords.
+window.design_coords = e => {
+	return {
+		x: (e.pageX - left) / scale,
+		y: (e.pageY - top ) / scale
+	};
+};
 
 // alpha === false speeds up drawing of transparent images
 window.ctx = canvas.getContext('2d', { alpha: false });
-
-let scale = 1;
-let left  = 0;
-let top   = 0;
 
 window.adjust_canvas = _ => {
 	let w = window.innerWidth;
@@ -31,14 +43,6 @@ window.adjust_canvas = _ => {
 window.addEventListener('resize', adjust_canvas);
 
 adjust_canvas();
-
-// Convert mouse and touch event coords to design coords.
-window.design_coords = e => {
-	return {
-		x: (e.pageX - left) / scale,
-		y: (e.pageY - top ) / scale
-	};
-};
 
 window.is_inside_circle = function(x, y, r, p) {
 	return (x - p.x) * (x - p.x) +  (y - p.y) * (y - p.y) < r * r;
