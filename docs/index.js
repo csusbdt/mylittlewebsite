@@ -179,4 +179,4 @@ g.click = function(e) {
 
 canvas.addEventListener('click', g.click);
 
-setInterval(g.loop, 350);
+g.interval_id = setInterval(g.loop, 350);
