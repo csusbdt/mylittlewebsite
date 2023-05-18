@@ -7,6 +7,7 @@ let top           = 0   ;
 window.set_design_size = function(w, h) {
 	design_width  = w;
 	design_height = h;
+	adjust_canvas();
 };
 
 // Convert mouse and touch event coords to design coords.
