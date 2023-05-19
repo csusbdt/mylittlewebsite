@@ -1,5 +1,7 @@
 import "./main.js";
 
+set_design_size(400, 400);
+
 window.g = {
 	// state variables
 	ship            : 0      , // 1, 2, 3, null
@@ -10,6 +12,7 @@ window.g = {
 	gun_left        : 'blue' , // 'red'
 	gun_right       : 'blue' , // 'red'
 	portal          : 0      , // 1, 2, 3, null, 4, 5, 6
+	small_twirl     : 0      , // null
 	
 	// other variables
 	interval_id     : null   ,  // not needed, maybe need later
@@ -70,10 +73,12 @@ g.loop = function() {
 		g.portal = 2;
 	} else if (g.portal === 2) {
 		g.portal = 3;
+		g.small_twirl = null;
 	} else if (g.portal === 3) {
 		g.portal = null;
 	} else if (g.portal === 4) {
 		g.portal = 5;
+		g.small_twirl = 0;
 	} else if (g.portal === 5) {
 		g.portal = 6;
 	} else if (g.portal === 6) {
@@ -152,13 +157,19 @@ g.draw = function() {
 	} else if (g.portal === 6) {
 		ctx.drawImage(i_portal_1, 0, 0);
 	}
+
+	if (g.small_twirl === 0) {
+		ctx.drawImage(i_small_twirl, 0, 0);
+	} 
 };
 
 g.click = function(e) {
 	const p = design_coords(e);
 	if (g.portal === 0) {
-		if (is_inside_circle(183, 212, 28, p)) {
+		if (is_inside_circle(183, 212, 45, p)) {
 			g.portal = 1;
+		} else if (is_inside_rect(320, 22, 373, 80, p)) {
+			console.log("twirl");
 		}
 	} else if (
 		g.portal          === null && 
@@ -179,4 +190,4 @@ g.click = function(e) {
 
 canvas.addEventListener('click', g.click);
 
-g.interval_id = setInterval(g.loop, 350);
+g.interval_id    = setInterval(g.loop, 350);
