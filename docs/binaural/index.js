@@ -9,14 +9,17 @@ window.g = {
 	o_0         : null ,
 	o_1         : null ,
 	g_0         : null ,
-	f           : 120  ,
+	f           : 432 / 4 ,
 	b           : 3.5  ,
 	v           : 1.0  ,
 
 	twirl       : 0    ,
 	up          : null ,
 	down        : null ,
+	f_up        : null ,
+	f_down      : null ,
 	back        : null ,
+	mini_ship   : null ,
 };
 
 g.loop = function() {
@@ -28,13 +31,23 @@ g.loop = function() {
 	} else if (g.twirl === 2) {
 		g.twirl = 0;
 	}
-	if (g.up    === 1) g.up   = 0;
-	if (g.down  === 1) g.down = 0;
-	if (g.back  === 1) {
-		g.back  = null;
-		g.up    = null;
-		g.down  = 0;
-		g.twirl = 0;
+	if (g.up     === 1) g.up     = 0;
+	if (g.down   === 1) g.down   = 0;
+	if (g.f_up   === 1) g.f_up   = 0;
+	if (g.f_down === 1) g.f_down = 0;
+	if (g.mini_ship === 0) {
+		g.mini_ship = 1;
+	} else if (g.mini_ship === 1) {
+		g.mini_ship = 0;
+	}
+	if (g.back   === 1) {
+		g.back      = null;
+		g.up        = null;
+		g.down      = null;
+		g.f_up      = null;
+		g.f_down    = null;
+		g.mini_ship = null;
+		g.twirl     = 0   ;
 	}
 };
 
@@ -59,6 +72,24 @@ g.draw = function() {
 		ctx.drawImage(i_down_0 , 0, 0);
 	} else if (g.down === 1) {
 		ctx.drawImage(i_down_1 , 0, 0);
+	}
+	
+	if (g.f_up === 0) {
+		ctx.drawImage(i_f_up_0  , 0, 0);
+	} else if (g.f_up === 1) {
+		ctx.drawImage(i_f_up_1  , 0, 0);
+	}
+	
+	if (g.f_down === 0) {
+		ctx.drawImage(i_f_down_0 , 0, 0);
+	} else if (g.f_down === 1) {
+		ctx.drawImage(i_f_down_1 , 0, 0);
+	}
+	
+	if (g.mini_ship === 0) {
+		ctx.drawImage(i_mini_ship_0 , 0, 0);
+	} else if (g.mini_ship === 1) {
+		ctx.drawImage(i_mini_ship_1 , 0, 0);
 	}
 	
 	if (g.back === 0) {
@@ -88,14 +119,13 @@ g.click = function(e) {
 
 	if (g.twirl !== null) {
 		if (is_inside_circle(470, 515, 70, p)) {
-			g.twirl = null;
-			g.up    = 0;
-			g.down  = 0;
-			g.back  = 0;
-		} else if (is_inside_rect(0, 0, 500, 500, p)) {
-			console.log("decrease frequency");
-		} else if (is_inside_rect(500, 500, 1000, 1000, p)) {
-			console.log("increase frequency");
+			g.twirl     = null;
+			g.up        = 0;
+			g.down      = 0;
+			g.f_up      = 0;
+			g.f_down    = 0;
+			g.back      = 0;
+			g.mini_ship = 0;
 		}
 	} else if (is_inside_circle(470, 390, 50, p) && g.g_0.gain.value < 1) { // up the volume
 		let v = g.g_0.gain.value + .05;
@@ -103,12 +133,28 @@ g.click = function(e) {
 		g.g_0.gain.setTargetAtTime(v, g.audio.currentTime, .1);
 		g.up = 1;
 	} else if (is_inside_circle(470, 534, 50, p) && g.g_0.gain.value > 0) {
-		let v = g.g_0.gain.value - .05;
+		let v = g.g_0.gain.value - .08;
 		if (v < 0) v = 0;
 		g.g_0.gain.setTargetAtTime(v, g.audio.currentTime, .1);
 		g.down = 1;
 	} else if (g.back === 0 && is_inside_circle(773, 132, 120, p)) {
 		g.back  = 1;
+	} else if (is_inside_circle(722, 817, 100, p)) {
+		let f = g.o_0.frequency.value;
+		if (f < 900) {
+			f *= 13/12;
+			g.o_0.frequency.setValueAtTime(f, g.audio.currentTime);
+			g.o_1.frequency.setValueAtTime(f, g.audio.currentTime);
+			g.f_up = 1;
+		}
+	} else if (is_inside_circle(268, 777, 100, p)) {
+		let f = g.o_0.frequency.value;
+		if (f > 50) {
+			f *= 11/12;
+			g.o_0.frequency.setValueAtTime(f, g.audio.currentTime);
+			g.o_1.frequency.setValueAtTime(f, g.audio.currentTime);
+			g.f_down = 1;
+		}
 	}
 };
 
