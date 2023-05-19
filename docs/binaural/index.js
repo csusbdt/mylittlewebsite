@@ -142,7 +142,7 @@ g.click = function(e) {
 	} else if (is_inside_circle(722, 817, 100, p)) {
 		let f = g.o_0.frequency.value;
 		if (f < 900) {
-			f *= 13/12;
+			f *= 25/24;
 			g.o_0.frequency.setValueAtTime(f, g.audio.currentTime);
 			g.o_1.frequency.setValueAtTime(f, g.audio.currentTime);
 			g.f_up = 1;
@@ -150,11 +150,13 @@ g.click = function(e) {
 	} else if (is_inside_circle(268, 777, 100, p)) {
 		let f = g.o_0.frequency.value;
 		if (f > 50) {
-			f *= 11/12;
+			f *= 23/24;
 			g.o_0.frequency.setValueAtTime(f, g.audio.currentTime);
 			g.o_1.frequency.setValueAtTime(f, g.audio.currentTime);
 			g.f_down = 1;
 		}
+	} else if (is_inside_rect(133, 118, 343, 177, p)) {
+		g.back  = 1;
 	}
 };
 
