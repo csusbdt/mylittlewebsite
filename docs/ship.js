@@ -10,7 +10,7 @@ window.g = {
 	gun_left        : 'blue' , // 'red'
 	gun_right       : 'blue' , // 'red'
 	portal          : 0      , // 1, 2, 3, null, 4, 5, 6
-	small_twirl     : 0      , // null
+	blue_dot        : 0      , // null
 };
 
 g.start = function() {
@@ -32,7 +32,7 @@ g.stop = function() {
 	g.gun_left        = 'blue' ;
 	g.gun_right       = 'blue' ;
 	g.portal          = 0      ;
-	g.small_twirl     = 0      ;
+	g.blue_dot        = 0      ;
 };
 
 g.loop = function() {
@@ -92,13 +92,13 @@ g.loop = function() {
 		g.portal = 2;
 	} else if (g.portal === 2) {
 		g.portal = 3;
-		g.small_twirl = null;
+		g.blue_dot = null;
 	} else if (g.portal === 3) {
 		g.portal = null;
 		binaural.start_capture();
 	} else if (g.portal === 4) {
 		g.portal = 5;
-		g.small_twirl = 0;
+		g.blue_dot = 0;
 	} else if (g.portal === 5) {
 		g.portal = 6;
 	} else if (g.portal === 6) {
@@ -178,8 +178,8 @@ g.draw = function() {
 		ctx.drawImage(i_portal_1, 0, 0);
 	}
 
-	if (g.small_twirl === 0) {
-		ctx.drawImage(i_small_twirl, 0, 0);
+	if (g.blue_dot === 0) {
+		ctx.drawImage(i_blue_dot, 0, 0);
 	} 
 };
 

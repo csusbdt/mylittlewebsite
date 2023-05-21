@@ -4,6 +4,10 @@ let scale         = 1   ;
 let left          = 0   ;
 let top           = 0   ;
 
+window.assert = function(condition) {
+	if (!condition) throw new Error("assertion failed");
+}
+
 window.set_design_size = function(w, h) {
 	design_width  = w;
 	design_height = h;

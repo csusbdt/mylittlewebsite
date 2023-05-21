@@ -35,8 +35,11 @@ const reset_snapshots = _ => {
 };
 
 const schedule_snapshots = _ => {
-	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
-	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
+	assert(playout_duration !== null);
+	o_0.frequency.cancelScheduledValues(audio.currentTime);
+	o_1.frequency.cancelScheduledValues(audio.currentTime);
+	o_0.frequency.setValueAtTime(f_base            , audio.currentTime + .01);
+	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime + .01);
 	snapshots.forEach(snapshot => {
 		const t  = snapshot[0];
 		const f  = snapshot[1];
@@ -189,6 +192,7 @@ const click = e => {
 		if (f_base > 900) return;
 		f_base *= 13/12;
 		snapshots.forEach(snapshot => { snapshot[1] *= 13/12; });
+		//reset_snapshots();
 		schedule_snapshots();
 		f_base_up = 1;
 	} else if (is_inside_circle(268, 777, 100, p)) {
@@ -196,6 +200,7 @@ const click = e => {
 		if (f_base < 50) return;
 		f_base *= 12/13;
 		snapshots.forEach(snapshot => { snapshot[1] *= 12/13; });
+		//reset_snapshots();
 		schedule_snapshots();
 		f_base_down = 1;
 	}
