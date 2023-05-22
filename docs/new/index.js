@@ -1,6 +1,7 @@
 import "../main.js";
 import "./twirl.js";
+import "./ship.js";
 
 document.title = "new";
 
-g.start();
+start_twirl();
