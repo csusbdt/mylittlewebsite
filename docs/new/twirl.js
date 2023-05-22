@@ -18,7 +18,7 @@ const click = e => {
 	if (is_inside_circle(470, 515, 70, p)) {
 		stop();
 		start_audio();
-		start_ship();
+		start_audio();
 	} 
 };
 

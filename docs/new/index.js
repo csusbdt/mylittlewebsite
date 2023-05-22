@@ -1,6 +1,7 @@
 import "../main.js";
-import "./twirl.js";
 import "./ship.js";
+import "./twirl.js";
+import "./audio.js";
 
 document.title = "new";
 
