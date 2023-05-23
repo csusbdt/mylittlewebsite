@@ -104,6 +104,7 @@ const draw = _ => {
 		ctx.drawImage(i, x + offset_x, y + offset_y);
 	}
 	ctx.drawImage(i_back, 0, 0);
+	ctx.drawImage(i_blue_dot, 600, 865); //l=320 t=22 r=373 b=80
 };
 
 const loop = _ => {
@@ -125,6 +126,10 @@ const click = e => {
 		stop();
 		schedule_snapshots();
 		start_twirl();
+	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
+		g_0.gain.setTargetAtTime(0, audio.currentTime, .02);
+		canvas.removeEventListener('click', click);
+		setTimeout(_ => { location = "../" }, 30);
 	} else {
 		dest_x    = p.x;
 		dest_y    = p.y;

@@ -39,7 +39,6 @@ g.loop = function() {
 	if (g.ship !== null) {
 		if (++g.ship === 4) g.ship = 0;
 	} 
-
 	if (g.bullet_left === 2) {
 		if (g.ship === 0) {
 			g.explosion_left = 0   ;
@@ -58,14 +57,12 @@ g.loop = function() {
 		g.explosion_left = 2;
 	} else if (g.explosion_left === 2) {
 		g.explosion_left = null;
-		binaural.stop_capture();
 	} else if (g.explosion_right === 0) {
 		g.explosion_right = 1;
 	} else if (g.explosion_right === 1) {
 		g.explosion_right = 2;
 	} else if (g.explosion_right === 2) {
 		g.explosion_right = null;
-		binaural.stop_capture();
 	}
 
 	g.draw();
@@ -95,7 +92,6 @@ g.loop = function() {
 		g.blue_dot = null;
 	} else if (g.portal === 3) {
 		g.portal = null;
-		binaural.start_capture();
 	} else if (g.portal === 4) {
 		g.portal = 5;
 		g.blue_dot = 0;
@@ -189,8 +185,7 @@ g.click = function(e) {
 		if (is_inside_circle(183, 212, 45, p)) {
 			g.portal = 1;
 		} else if (is_inside_rect(320, 22, 373, 80, p)) {
-			g.stop();
-			binaural.start();
+			location = "new/";
 		}
 	} else if (
 		g.portal          === null && 
@@ -202,11 +197,9 @@ g.click = function(e) {
 		if (is_inside_rect(22, 228, 126, 372, p)) {
 			g.gun_left    = 'red';
 			g.bullet_left = 0;
-			binaural.down();
 		} else if (is_inside_rect(235, 215, 344, 360, p)) {
 			g.gun_right    = 'red';
 			g.bullet_right = 0;
-			binaural.up();
 		}
 	} 
 };
