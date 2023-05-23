@@ -181,11 +181,13 @@ g.draw = function() {
 
 g.click = function(e) {
 	const p = design_coords(e);
+	g.draw(); //? or loop()
 	if (g.portal === 0) {
 		if (is_inside_circle(183, 212, 45, p)) {
 			g.portal = 1;
 		} else if (is_inside_rect(320, 22, 373, 80, p)) {
-			location = "new/";
+			g.stop();
+			start_twirl();
 		}
 	} else if (
 		g.portal          === null && 
