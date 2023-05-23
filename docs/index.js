@@ -1,8 +1,4 @@
-import "./main.js"  ;
-import "./ship.js"  ;
-import "./twirl.js" ;
-//import "./audio.js" ;
+import "./main.js"                 ;
+import { start } from "./ship.js"  ;
 
-g.start();
-
-// maybe split g into 2 files 
+start();

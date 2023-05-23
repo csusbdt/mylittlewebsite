@@ -1,208 +1,205 @@
 import { start as start_twirl } from "./twirl.js";
 
-let interval_id = null   ;
+let loop_interval_id = null;
 
-	// state variables
-let ship = 0      , // 1, 2, 3, null
-let explosion_left  : null   , // 0, 1, 2
-let explosion_right : null   , // 0, 1, 2
-let bullet_left     : null   , // 0, 1, 2
-let bullet_right    : null   , // 0, 1, 2
-let gun_left        : 'blue' , // 'red'
-let gun_right       : 'blue' , // 'red'
-let portal          : 0      , // 1, 2, 3, null, 4, 5, 6
-let blue_dot        : 0      , // null
-};
+let ship_i            = 0      ; // 0, 1, 2, 3, null
+let explosion_left_i  = null   ; // 0, 1, 2, null
+let explosion_right_i = null   ; // 0, 1, 2, null
+let bullet_left_i     = null   ; // 0, 1, 2, null
+let bullet_right_i    = null   ; // 0, 1, 2, null
+let gun_left_i        = 0      ; // 0, 1, null
+let gun_right_i       = 0      ; // 0, 1, null
+let portal_i          = 0      ; // 0, 1, 2, 3, null, 4, 5, 6
+let blue_dot_i        = 0      ; // 0, null
 
-g.start = function() {
+const start = _ => {
 	set_design_size(400, 400);
-	canvas.addEventListener('click', g.click);
-	g.interval_id = setInterval(g.loop, 350);
+	ship_i            = 0      ;
+	explosion_left_i  = null   ;
+	explosion_right_i = null   ;
+	bullet_left_i     = null   ;
+	bullet_right_i    = null   ;
+	gun_left_i        = 0      ;
+	gun_right_i       = 0      ;
+	portal_i          = 0      ;
+	blue_dot_i        = 0      ;
+	canvas.addEventListener('click', click);
+	loop_interval_id = setInterval(loop, 350);
 };
 
-g.stop = function() {
-	canvas.removeEventListener('click', g.click);
-	clearInterval(g.interval_id);
-	g.interval_id = null;
-
-	g.ship            = 0      ;
-	g.explosion_left  = null   ;
-	g.explosion_right = null   ;
-	g.bullet_left     = null   ;
-	g.bullet_right    = null   ;
-	g.gun_left        = 'blue' ;
-	g.gun_right       = 'blue' ;
-	g.portal          = 0      ;
-	g.blue_dot        = 0      ;
+const stop = _ => {
+	canvas.removeEventListener('click', click);
+	clearInterval(loop_interval_id);
+	loop_interval_id  = null   ;
 };
 
-g.loop = function() {
-	if (g.ship !== null) {
-		if (++g.ship === 4) g.ship = 0;
-	} 
-	if (g.bullet_left === 2) {
-		if (g.ship === 0) {
-			g.explosion_left = 0   ;
-			g.bullet_left    = null;
-			g.ship           = null;
+const loop = _ => {
+	if (ship_i !== null && ++ship_i === 4) ship_i = 0;
+	if (bullet_left_i === 2) {
+		if (ship_i === 0) {
+			explosion_left_i = 0   ;
+			bullet_left_i    = null;
+			ship_i           = null;
 		}
-	} else if (g.bullet_right === 2) {
-		if (g.ship === 2) {
-			g.explosion_right = 0   ;
-			g.bullet_right    = null;			
-			g.ship            = null;
+	} else if (bullet_right_i === 2) {
+		if (ship_i === 2) {
+			explosion_right_i = 0   ;
+			bullet_right_i    = null;			
+			ship_i            = null;
 		}
-	} else if (g.explosion_left === 0) {
-		g.explosion_left = 1;
-	} else if (g.explosion_left === 1) {
-		g.explosion_left = 2;
-	} else if (g.explosion_left === 2) {
-		g.explosion_left = null;
-	} else if (g.explosion_right === 0) {
-		g.explosion_right = 1;
-	} else if (g.explosion_right === 1) {
-		g.explosion_right = 2;
-	} else if (g.explosion_right === 2) {
-		g.explosion_right = null;
+	} else if (explosion_left_i === 0) {
+		explosion_left_i = 1;
+	} else if (explosion_left_i === 1) {
+		explosion_left_i = 2;
+	} else if (explosion_left_i === 2) {
+		explosion_left_i = null;
+	} else if (explosion_right_i === 0) {
+		explosion_right_i = 1;
+	} else if (explosion_right_i === 1) {
+		explosion_right_i = 2;
+	} else if (explosion_right_i === 2) {
+		explosion_right_i = null;
 	}
 
-	g.draw();
+	draw();
 
-	if (g.bullet_left === 0) {
-		g.bullet_left = 1;
-		g.gun_left    = 'blue';
-	} else if (g.bullet_left === 1) {
-		g.bullet_left = 2;
-	} else if (g.bullet_left === 2) {
-		g.bullet_left = null;
-	} else if (g.bullet_right === 0) {
-		g.bullet_right = 1;
-		g.gun_right    = 'blue';
-	} else if (g.bullet_right === 1) {
-		g.bullet_right = 2;
-	} else if (g.bullet_right === 2) {
-		g.bullet_right = null;
+	if (bullet_left_i === 0) {
+		bullet_left_i = 1;
+		gun_left_i    = 0;
+	} else if (bullet_left_i === 1) {
+		bullet_left_i = 2;
+	} else if (bullet_left_i === 2) {
+		bullet_left_i = null;
+	} else if (bullet_right_i === 0) {
+		bullet_right_i = 1;
+		gun_right_i    = 0;
+	} else if (bullet_right_i === 1) {
+		bullet_right_i = 2;
+	} else if (bullet_right_i === 2) {
+		bullet_right_i = null;
 	}
 
-	if (g.explosion_left === 2 || g.explosion_right === 2) {
-		g.portal = 4;
-	} else if (g.portal === 1) {
-		g.portal = 2;
-	} else if (g.portal === 2) {
-		g.portal = 3;
-		g.blue_dot = null;
-	} else if (g.portal === 3) {
-		g.portal = null;
-	} else if (g.portal === 4) {
-		g.portal = 5;
-		g.blue_dot = 0;
-	} else if (g.portal === 5) {
-		g.portal = 6;
-	} else if (g.portal === 6) {
-		g.portal = 0;
-		g.ship = Math.floor(Math.random() * 4);
+	if (explosion_left_i === 2 || explosion_right_i === 2) {
+		portal_i = 4;
+	} else if (portal_i === 1) {
+		portal_i = 2;
+	} else if (portal_i === 2) {
+		portal_i = 3;
+		blue_dot_i = null;
+	} else if (portal_i === 3) {
+		portal_i = null;
+	} else if (portal_i === 4) {
+		portal_i = 5;
+		blue_dot_i = 0;
+	} else if (portal_i === 5) {
+		portal_i = 6;
+	} else if (portal_i === 6) {
+		portal_i = 0;
+		ship_i = Math.floor(Math.random() * 4);
 	}
 };
 
-g.draw = function() {
+const draw = _ => {
 	ctx.drawImage(i_green, 0, 0);
 
-	if (g.ship === 0) {
+	if (ship_i === 0) {
 		ctx.drawImage(i_ship_left, 0, 0);
-	} else if (g.ship === 1 || g.ship === 3) {
+	} else if (ship_i === 1 || ship_i === 3) {
 		ctx.drawImage(i_ship_middle, 0, 0);
-	} else if (g.ship === 2) {
+	} else if (ship_i === 2) {
 		ctx.drawImage(i_ship_right, 0, 0);
 	}
 
-	if (g.explosion_left === 0) {
+	if (explosion_left_i === 0) {
 		ctx.drawImage(i_explosion_left_0, 0, 0);
-	} else 	if (g.explosion_left === 1) {
+	} else 	if (explosion_left_i === 1) {
 		ctx.drawImage(i_explosion_left_1, 0, 0);
-	} else 	if (g.explosion_left === 2) {
+	} else 	if (explosion_left_i === 2) {
 		ctx.drawImage(i_explosion_left_2, 0, 0);
 	}
 	
-	if (g.explosion_right === 0) {
+	if (explosion_right_i === 0) {
 		ctx.drawImage(i_explosion_right_0, 0, 0);
-	} else 	if (g.explosion_right === 1) {
+	} else 	if (explosion_right_i === 1) {
 		ctx.drawImage(i_explosion_right_1, 0, 0);
-	} else 	if (g.explosion_right === 2) {
+	} else 	if (explosion_right_i === 2) {
 		ctx.drawImage(i_explosion_right_2, 0, 0);
 	}
 
 	ctx.drawImage(i_gun_left_border, 0, 0);
-	if (g.gun_left === 'blue') {
+	if (gun_left_i === 0) {
 		ctx.drawImage(i_gun_left_blue, 0, 0);
 	} else {
 		ctx.drawImage(i_gun_left_red, 0, 0);
 	}
 
 	ctx.drawImage(i_gun_right_border, 0, 0);
-	if (g.gun_right === 'blue') {
+	if (gun_right_i === 0) {
 		ctx.drawImage(i_gun_right_blue, 0, 0);
 	} else {
 		ctx.drawImage(i_gun_right_red, 0, 0);
 	}
 
-	if (g.bullet_left === 0) {
+	if (bullet_left_i === 0) {
 		ctx.drawImage(i_bullet_left_0, 0, 0);		
-	} else if (g.bullet_left === 1) {
+	} else if (bullet_left_i === 1) {
 		ctx.drawImage(i_bullet_left_1, 0, 0);		
-	} else if (g.bullet_left === 2) {
+	} else if (bullet_left_i === 2) {
 		ctx.drawImage(i_bullet_left_0, 0, -140);		
-	} else if (g.bullet_right === 0) {
+	} else if (bullet_right_i === 0) {
 		ctx.drawImage(i_bullet_right_0, 0, 0);		
-	} else if (g.bullet_right === 1) {
+	} else if (bullet_right_i === 1) {
 		ctx.drawImage(i_bullet_right_1, 0, 0);		
-	} else if (g.bullet_right === 2) {
+	} else if (bullet_right_i === 2) {
 		ctx.drawImage(i_bullet_right_0, 0, -120);
 	} 
 	
-	if (g.portal === 0) {
+	if (portal_i === 0) {
 		ctx.drawImage(i_portal_0, 0, 0);
-	} else if (g.portal === 1) {
+	} else if (portal_i === 1) {
 		ctx.drawImage(i_portal_1, 0, 0);
-	} else if (g.portal === 2) {
+	} else if (portal_i === 2) {
 		ctx.drawImage(i_portal_2, 0, 0);
-	} else if (g.portal === 3) {
+	} else if (portal_i === 3) {
 		ctx.drawImage(i_portal_3, 0, 0);
-	} else if (g.portal === 4) {
+	} else if (portal_i === 4) {
 		ctx.drawImage(i_portal_3, 0, 0);
-	} else if (g.portal === 5) {
+	} else if (portal_i === 5) {
 		ctx.drawImage(i_portal_2, 0, 0);
-	} else if (g.portal === 6) {
+	} else if (portal_i === 6) {
 		ctx.drawImage(i_portal_1, 0, 0);
 	}
 
-	if (g.blue_dot === 0) {
+	if (blue_dot_i === 0) {
 		ctx.drawImage(i_blue_dot, 0, 0);
 	} 
 };
 
-g.click = function(e) {
+const click = e => {
 	const p = design_coords(e);
-	g.draw(); //? or loop()
-	if (g.portal === 0) {
+	draw(); //? or loop()
+	if (portal_i === 0) {
 		if (is_inside_circle(183, 212, 45, p)) {
-			g.portal = 1;
+			portal_i = 1;
 		} else if (is_inside_rect(320, 22, 373, 80, p)) {
-			g.stop();
+			stop();
 			start_twirl();
 		}
 	} else if (
-		g.portal          === null && 
-		g.explosion_left  === null && 
-		g.explosion_right === null &&
-	    g.bullet_left     === null && 
-		g.bullet_right    === null  
+		portal_i          === null && 
+		explosion_left_i  === null && 
+		explosion_right_i === null &&
+	    bullet_left_i     === null && 
+		bullet_right_i    === null  
 	) {
 		if (is_inside_rect(22, 228, 126, 372, p)) {
-			g.gun_left    = 'red';
-			g.bullet_left = 0;
+			gun_left_i    = 'red';
+			bullet_left_i = 0;
 		} else if (is_inside_rect(235, 215, 344, 360, p)) {
-			g.gun_right    = 'red';
-			g.bullet_right = 0;
+			gun_right_i    = 'red';
+			bullet_right_i = 0;
 		}
 	} 
 };
+
+export { start };

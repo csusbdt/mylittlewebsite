@@ -91,7 +91,8 @@ const play_snapshots = _ => {
 	o_1.frequency.cancelScheduledValues(audio.currentTime);
 	g_0.gain.cancelScheduledValues(audio.currentTime);
 	let t = 0;
-	for (let i = 0; i < snapshot.length; ++i) {
+	for (let i = 0; i < snapshots.length; ++i) {
+		const snapshot = snapshots[i];
 		const f  = snapshot[1];
 		const v  = snapshot[2];
 		o_0.frequency.setValueAtTime(f            , audio.currentTime + t);
