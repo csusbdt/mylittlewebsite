@@ -1,16 +1,17 @@
-window.g = {
-	interval_id     : null   ,
+import { start as start_twirl } from "./twirl.js";
+
+let interval_id = null   ;
 
 	// state variables
-	ship            : 0      , // 1, 2, 3, null
-	explosion_left  : null   , // 0, 1, 2
-	explosion_right : null   , // 0, 1, 2
-	bullet_left     : null   , // 0, 1, 2
-	bullet_right    : null   , // 0, 1, 2
-	gun_left        : 'blue' , // 'red'
-	gun_right       : 'blue' , // 'red'
-	portal          : 0      , // 1, 2, 3, null, 4, 5, 6
-	blue_dot        : 0      , // null
+let ship = 0      , // 1, 2, 3, null
+let explosion_left  : null   , // 0, 1, 2
+let explosion_right : null   , // 0, 1, 2
+let bullet_left     : null   , // 0, 1, 2
+let bullet_right    : null   , // 0, 1, 2
+let gun_left        : 'blue' , // 'red'
+let gun_right       : 'blue' , // 'red'
+let portal          : 0      , // 1, 2, 3, null, 4, 5, 6
+let blue_dot        : 0      , // null
 };
 
 g.start = function() {

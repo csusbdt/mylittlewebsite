@@ -1,3 +1,6 @@
+import { start as start_twirl } from "./twirl.js";
+import { start as start_ship  } from "./ship.js" ;
+
 const ship = [ 
 	[ i_ship_left  ,  -78, -46 ], 
 	[ i_ship_middle, -187, -45 ],
@@ -28,7 +31,7 @@ let capture_start_time    = 0                 ;
 let playout_duration      = null              ;
 let reschedule_timeout_id = null              ;
 
-window.init_audio = _ => {
+const init_audio = _ => {
 	// this function must run in click handler to work on apple hardware
 	if (audio === null) {
 		audio = new (window.AudioContext || window.webkitAudioContext)();
@@ -48,51 +51,55 @@ window.init_audio = _ => {
 };
 
 const push_snapshot = _ => {
-	o_0.frequency.setValueAtTime(f_base, audio.currentTime);
-	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime  );
-	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
+	assert(audio !== null);
+	assert(capture_start_time !== null);
+//	o_0.frequency.setValueAtTime(f_base, audio.currentTime);
+//	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
+//	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
 	snapshots.push([audio.currentTime - capture_start_time, f_base, vol]);
-};
-
-const reset_snapshots = _ => {
-	clearInterval(reschedule_timeout_id);
-	o_0.frequency.cancelScheduledValues(audio.currentTime);
-	o_1.frequency.cancelScheduledValues(audio.currentTime);
-	g_0.gain.cancelScheduledValues(audio.currentTime);
-	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
-	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
-	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
-	snapshots.length = 0;
-	playout_duration  = null;
-};
-
-const schedule_snapshots = _ => {
-	assert(playout_duration !== null);
-	assert(snapshots.length > 0);
-	o_0.frequency.cancelScheduledValues(audio.currentTime);
-	o_1.frequency.cancelScheduledValues(audio.currentTime);
-	g_0.gain.cancelScheduledValues(audio.currentTime);
-	snapshots.forEach(snapshot => {
-		const t  = snapshot[0];
-		const f  = snapshot[1];
-		const v  = snapshot[2];
-		o_0.frequency.setValueAtTime(f            , audio.currentTime + t);
-		o_1.frequency.setValueAtTime(f + beat_freq, audio.currentTime + t);
-		g_0.gain.setTargetAtTime(v, audio.currentTime + t, .1);
-	});
-	reschedule_timeout_id = setTimeout(schedule_snapshots,  playout_duration * 1000);
 };
 
 const start_capture = _ => {
 	assert(audio !== null);
+	snapshots.length = 0;
 	push_snapshot();
 	capture_start_time = audio.currentTime;
+	playout_duration = null;
 };
 
 const stop_capture = _ => {
 	assert(audio !== null);
 	playout_duration = audio.currentTime - capture_start_time;
-	schedule_snapshots();
+//	schedule_snapshots();
+};
+
+// const reset_snapshots = _ => {
+// 	clearInterval(reschedule_timeout_id);
+// 	o_0.frequency.cancelScheduledValues(audio.currentTime);
+// 	o_1.frequency.cancelScheduledValues(audio.currentTime);
+// 	g_0.gain.cancelScheduledValues(audio.currentTime);
+// 	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
+// 	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
+// 	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
+// 	snapshots.length = 0;
+// 	playout_duration  = null;
+// };
+
+const play_snapshots = _ => {
+	if (playout_duration === null) return;
+	o_0.frequency.cancelScheduledValues(audio.currentTime);
+	o_1.frequency.cancelScheduledValues(audio.currentTime);
+	g_0.gain.cancelScheduledValues(audio.currentTime);
+	let t = 0;
+	for (let i = 0; i < snapshot.length; ++i) {
+		const f  = snapshot[1];
+		const v  = snapshot[2];
+		o_0.frequency.setValueAtTime(f            , audio.currentTime + t);
+		o_1.frequency.setValueAtTime(f + beat_freq, audio.currentTime + t);
+		g_0.gain.setTargetAtTime(v, audio.currentTime + t, .1);
+		t = snapshot[0];
+	}
+	reschedule_timeout_id = setTimeout(play_snapshots, playout_duration * 1000);
 };
 
 const draw = _ => {
@@ -123,13 +130,19 @@ const loop = _ => {
 const click = e => {
 	const p = design_coords(e);
 	if (is_inside_rect(0, 0, 150, 150, p)) {
+		stop_capture();
+//		play_snapshots();
 		stop();
-		schedule_snapshots();
 		start_twirl();
 	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
 		g_0.gain.setTargetAtTime(0, audio.currentTime, .02);
 		canvas.removeEventListener('click', click);
-		setTimeout(_ => { location = "./" }, 30);
+		setTimeout(_ => {
+			stop_capture();
+			playout_duration = null;
+			stop();
+			start_ship();
+		}, 30);
 	} else {
 		dest_x    = p.x;
 		dest_y    = p.y;
@@ -143,15 +156,19 @@ const stop = _ => {
 	canvas.removeEventListener('click', click);
 	clearInterval(loop_interval_id);
 	loop_interval_id = null;
-	stop_capture();
-	schedule_snapshots();
+//	stop_capture();
+//	schedule_snapshots();
 };
 
-window.start_audio = _ => {
-	reset_snapshots();
+const start = _ => {
+//	reset_snapshots();
 	start_capture();
 	canvas.addEventListener('click', click);
 	set_design_size(1000, 1000);
 	loop();
 	loop_interval_id = setInterval(loop, 100);
 };
+
+export { init_audio     };
+export { play_snapshots };
+export { start          };
