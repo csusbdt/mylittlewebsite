@@ -104,7 +104,7 @@ const draw = _ => {
 		ctx.drawImage(i, x + offset_x, y + offset_y);
 	}
 	ctx.drawImage(i_back, 0, 0);
-	ctx.drawImage(i_blue_dot, 600, 865); //l=320 t=22 r=373 b=80
+	ctx.drawImage(i_blue_dot, 600, 865);
 };
 
 const loop = _ => {

@@ -7,7 +7,8 @@ let twirl_i               = 0    ;
 let loop_interval_id      = null ;
 
 const draw = _ => {
-	ctx.drawImage(i_blue, 0, 0);	
+	ctx.drawImage(i_blue, 0, 0);
+	ctx.drawImage(i_blue_dot, 600, 865);
 	if (twirl_i !== null) ctx.drawImage(twirl[twirl_i], 0, 0);
 };
 
@@ -22,7 +23,10 @@ const click = e => {
 		stop();
 		init_audio();
 		start_audio();
-	} 
+	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
+		canvas.removeEventListener('click', click);
+		location = "../";
+	}
 };
 
 const stop = function() {
