@@ -5,7 +5,6 @@ const ship = [
 ];
 
 let ship_i           = 0    ;
-let back_i           = 0    ;
 let loop_interval_id = null ;
 let x                = 600  ;
 let y                = 600  ;
@@ -50,8 +49,8 @@ window.init_audio = _ => {
 
 const push_snapshot = _ => {
 	o_0.frequency.setValueAtTime(f_base, audio.currentTime);
-	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
-	g_0.gain.setTargetAtTime(vol, audio.currentTime, .1);
+	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime  );
+	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
 	snapshots.push([audio.currentTime - capture_start_time, f_base, vol]);
 };
 
@@ -62,7 +61,7 @@ const reset_snapshots = _ => {
 	g_0.gain.cancelScheduledValues(audio.currentTime);
 	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
 	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
-	g_0.gain.setTargetAtTime(vol, audio.currentTime, .1);
+	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
 	snapshots.length = 0;
 	playout_duration  = null;
 };
@@ -104,7 +103,7 @@ const draw = _ => {
 		const offset_y = ship[ship_i][2];
 		ctx.drawImage(i, x + offset_x, y + offset_y);
 	}
-	if (back_i === 0) ctx.drawImage(i_back_0, 0, 0);
+	ctx.drawImage(i_back, 0, 0);
 };
 
 const loop = _ => {
@@ -122,7 +121,7 @@ const loop = _ => {
 
 const click = e => {
 	const p = design_coords(e);
-	if (is_inside_circle(773, 132, 120, p)) {
+	if (is_inside_rect(0, 0, 150, 150, p)) {
 		stop();
 		schedule_snapshots();
 		start_twirl();
