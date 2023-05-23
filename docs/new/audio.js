@@ -7,10 +7,10 @@ const ship = [
 let ship_i           = 0    ;
 let back_i           = 0    ;
 let loop_interval_id = null ;
-let x                = 500  ;
-let y                = 500  ;
-let dest_x           = 500  ;
-let dest_y           = 500  ;
+let x                = 600  ;
+let y                = 600  ;
+let dest_x           = 600  ;
+let dest_y           = 600  ;
 const speed          = 180  ;
 
 // audio graph
@@ -21,15 +21,15 @@ let o_1                   = null    ;
 let g_0                   = null    ;
 
 // sound
-let vol                   = .5      ;
-let f_base                = 432 / 4 ;
-const beat_freq           = 3.5     ;
-const snapshots           = []      ;
-let capture_start_time    = 0       ;
-let playout_duration      = null    ;
-let reschedule_timeout_id = null    ;
+let vol                   = x / 1000          ;
+let f_base                = 40 + y * y / 1400 ;
+const beat_freq           = 3.5               ;
+const snapshots           = []                ;
+let capture_start_time    = 0                 ;
+let playout_duration      = null              ;
+let reschedule_timeout_id = null              ;
 
-window.start_audio = _ => {
+window.init_audio = _ => {
 	// this function must run in click handler to work on apple hardware
 	if (audio === null) {
 		audio = new (window.AudioContext || window.webkitAudioContext)();
@@ -51,15 +51,18 @@ window.start_audio = _ => {
 const push_snapshot = _ => {
 	o_0.frequency.setValueAtTime(f_base, audio.currentTime);
 	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
-	snapshots.push([audio.currentTime - capture_start_time, f_base]);
+	g_0.gain.setTargetAtTime(vol, audio.currentTime, .1);
+	snapshots.push([audio.currentTime - capture_start_time, f_base, vol]);
 };
 
 const reset_snapshots = _ => {
 	clearInterval(reschedule_timeout_id);
 	o_0.frequency.cancelScheduledValues(audio.currentTime);
 	o_1.frequency.cancelScheduledValues(audio.currentTime);
+	g_0.gain.cancelScheduledValues(audio.currentTime);
 	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
 	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
+	g_0.gain.setTargetAtTime(vol, audio.currentTime, .1);
 	snapshots.length = 0;
 	playout_duration  = null;
 };
@@ -69,13 +72,14 @@ const schedule_snapshots = _ => {
 	assert(snapshots.length > 0);
 	o_0.frequency.cancelScheduledValues(audio.currentTime);
 	o_1.frequency.cancelScheduledValues(audio.currentTime);
-	// o_0.frequency.setValueAtTime(f_base            , audio.currentTime + .01);
-	// o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime + .01);
+	g_0.gain.cancelScheduledValues(audio.currentTime);
 	snapshots.forEach(snapshot => {
 		const t  = snapshot[0];
 		const f  = snapshot[1];
+		const v  = snapshot[2];
 		o_0.frequency.setValueAtTime(f            , audio.currentTime + t);
 		o_1.frequency.setValueAtTime(f + beat_freq, audio.currentTime + t);
+		g_0.gain.setTargetAtTime(v, audio.currentTime + t, .1);
 	});
 	reschedule_timeout_id = setTimeout(schedule_snapshots,  playout_duration * 1000);
 };
@@ -123,12 +127,11 @@ const click = e => {
 		schedule_snapshots();
 		start_twirl();
 	} else {
-		dest_x = p.x;
-		dest_y = p.y;
-		if (f_base > 50) {
-			f_base *= 12/13;
-			push_snapshot();
-		}
+		dest_x    = p.x;
+		dest_y    = p.y;
+		f_base    = 40 + dest_y * dest_y / 1400;
+		vol       = dest_x / 1000;
+		push_snapshot();
 	}
 };
 

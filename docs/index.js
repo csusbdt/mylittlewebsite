@@ -1,6 +1,5 @@
 import "./main.js"     ;
-import "./ship.js" ;
-import "./binaural.js" ;
+import "./ship.js"     ;
 
 g.start();
 
