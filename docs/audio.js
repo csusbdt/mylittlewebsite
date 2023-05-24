@@ -9,10 +9,10 @@ const ship = [
 
 let ship_i           = 0    ;
 let loop_interval_id = null ;
-let x                = 600  ;
-let y                = 600  ;
-let dest_x           = 600  ;
-let dest_y           = 600  ;
+let x                = 250  ;
+let y                = 350  ;
+let dest_x           = x    ;
+let dest_y           = y    ;
 const speed          = 180  ;
 
 // audio graph
@@ -23,8 +23,8 @@ let o_1                   = null    ;
 let g_0                   = null    ;
 
 // sound
-let vol                   = x / 1000          ;
-let f_base                = 40 + y * y / 1400 ;
+let vol                   = dest_x / 1000          ;
+let f_base                = 40 + dest_y * dest_y / 1400 ;
 const beat_freq           = 3.5               ;
 const snapshots           = []                ;
 let capture_start_time    = 0                 ;
@@ -45,26 +45,31 @@ const init_audio = _ => {
 		o_1.connect(merger, 0, 1);
 		o_0.frequency.value = f_base; 
 	    o_1.frequency.value = f_base + beat_freq;
-		o_0.start();
-		o_1.start();
 	}
 };
 
 const push_snapshot = _ => {
 	assert(audio !== null);
 	assert(capture_start_time !== null);
-//	o_0.frequency.setValueAtTime(f_base, audio.currentTime);
-//	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
-//	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
+	o_0.frequency.setValueAtTime(f_base, audio.currentTime);
+	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
+	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
 	snapshots.push([audio.currentTime - capture_start_time, f_base, vol]);
 };
 
 const start_capture = _ => {
 	assert(audio !== null);
+	clearInterval(reschedule_timeout_id);
+	o_0.frequency.cancelScheduledValues(audio.currentTime);
+	o_1.frequency.cancelScheduledValues(audio.currentTime);
+	g_0.gain.cancelScheduledValues(audio.currentTime);
+	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
+	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
+	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
 	snapshots.length = 0;
-	push_snapshot();
 	capture_start_time = audio.currentTime;
 	playout_duration = null;
+	push_snapshot();
 };
 
 const stop_capture = _ => {
@@ -86,7 +91,7 @@ const stop_capture = _ => {
 // };
 
 const play_snapshots = _ => {
-	if (playout_duration === null) return;
+	if (playout_duration === null || snapshots.length === 0) return;
 	o_0.frequency.cancelScheduledValues(audio.currentTime);
 	o_1.frequency.cancelScheduledValues(audio.currentTime);
 	g_0.gain.cancelScheduledValues(audio.currentTime);
@@ -157,12 +162,16 @@ const stop = _ => {
 	canvas.removeEventListener('click', click);
 	clearInterval(loop_interval_id);
 	loop_interval_id = null;
-//	stop_capture();
+	stop_capture();
 //	schedule_snapshots();
 };
 
 const start = _ => {
-//	reset_snapshots();
+	if (audio === null) init_audio();
+	o_0.start();
+	o_1.start();
+
+	//	reset_snapshots();
 	start_capture();
 	canvas.addEventListener('click', click);
 	set_design_size(1000, 1000);

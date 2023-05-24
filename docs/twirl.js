@@ -20,7 +20,6 @@ const loop = _ => {
 };
 
 const click = e => {
-	init_audio();
 	const p = design_coords(e);
 	if (is_inside_circle(470, 515, 70, p)) {
 		stop();
