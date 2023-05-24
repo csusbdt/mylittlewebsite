@@ -1,5 +1,6 @@
-import { start as start_audio } from "./audio.js";
-import { start as start_ship  } from "./ship.js" ;
+import { start  as start_audio } from "./audio.js";
+import { play_0                } from "./audio.js";
+import { start  as start_ship  } from "./ship.js" ;
 
 const twirl = [ i_twirl_0, i_twirl_1, i_twirl_2 ];
 
@@ -36,7 +37,7 @@ const stop = _ => {
 
 const start = _ => {
 	document.title = "use headphones to hear binaural beats";
-	//play_snapshots();
+	play_0();
 	set_design_size(1000, 1000);
 	loop();
 	canvas.addEventListener('click', click);

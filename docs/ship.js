@@ -180,7 +180,7 @@ const draw = _ => {
 
 const click = e => {
 	const p = design_coords(e);
-//	loop();
+	draw();
 	if (portal_i === 0) {
 		if (is_inside_circle(183, 212, 45, p)) {
 			portal_i = 1;
