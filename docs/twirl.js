@@ -1,4 +1,3 @@
-import { play_snapshots       } from "./audio.js";
 import { start as start_audio } from "./audio.js";
 import { start as start_ship  } from "./ship.js" ;
 
@@ -37,7 +36,7 @@ const stop = _ => {
 
 const start = _ => {
 	document.title = "use headphones to hear binaural beats";
-	play_snapshots();
+	//play_snapshots();
 	set_design_size(1000, 1000);
 	loop();
 	canvas.addEventListener('click', click);
