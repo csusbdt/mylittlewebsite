@@ -177,11 +177,11 @@ const draw = _ => {
 
 const click = e => {
 	const p = design_coords(e);
-	draw(); //? or loop()
+	loop();
 	if (portal_i === 0) {
 		if (is_inside_circle(183, 212, 45, p)) {
 			portal_i = 1;
-		} else if (is_inside_rect(320, 22, 373, 80, p)) {
+		} else if (is_inside_circle(326, 55, 32, p)) {
 			stop();
 			start_twirl();
 		}
@@ -193,10 +193,10 @@ const click = e => {
 		bullet_right_i    === null  
 	) {
 		if (is_inside_rect(22, 228, 126, 372, p)) {
-			gun_left_i    = 'red';
+			gun_left_i    = 1;
 			bullet_left_i = 0;
 		} else if (is_inside_rect(235, 215, 344, 360, p)) {
-			gun_right_i    = 'red';
+			gun_right_i    = 1;
 			bullet_right_i = 0;
 		}
 	} 

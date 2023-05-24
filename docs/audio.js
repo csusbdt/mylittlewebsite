@@ -23,13 +23,13 @@ let o_1                   = null    ;
 let g_0                   = null    ;
 
 // sound
-let vol                   = dest_x / 1000          ;
-let f_base                = 40 + dest_y * dest_y / 1400 ;
-const beat_freq           = 3.5               ;
-const snapshots           = []                ;
-let capture_start_time    = 0                 ;
-let playout_duration      = null              ;
-let reschedule_timeout_id = null              ;
+let vol                 = dest_x / 1000          ;
+let f_base              = 40 + dest_y * dest_y / 1400 ;
+const beat_freq         = 3.5               ;
+const snapshots         = []                ;
+let capture_start_time  = 0                 ;
+let play_duration       = null              ;
+let play_timeout_id     = null              ;
 
 const init_audio = _ => {
 	// this function must run in click handler to work on apple hardware
@@ -45,6 +45,8 @@ const init_audio = _ => {
 		o_1.connect(merger, 0, 1);
 		o_0.frequency.value = f_base; 
 	    o_1.frequency.value = f_base + beat_freq;
+		o_0.start();
+		o_1.start();
 	}
 };
 
@@ -54,58 +56,28 @@ const push_snapshot = _ => {
 	o_0.frequency.setValueAtTime(f_base, audio.currentTime);
 	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
 	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
-	snapshots.push([audio.currentTime - capture_start_time, f_base, vol]);
+	if (snapshots.length === 0) {
+		snapshots.push([0, f_base, vol]);		
+	} else {
+		snapshots.push([audio.currentTime - capture_start_time, f_base, vol]);
+	}
 };
-
-const start_capture = _ => {
-	assert(audio !== null);
-	clearInterval(reschedule_timeout_id);
-	o_0.frequency.cancelScheduledValues(audio.currentTime);
-	o_1.frequency.cancelScheduledValues(audio.currentTime);
-	g_0.gain.cancelScheduledValues(audio.currentTime);
-	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
-	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
-	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
-	snapshots.length = 0;
-	capture_start_time = audio.currentTime;
-	playout_duration = null;
-	push_snapshot();
-};
-
-const stop_capture = _ => {
-	assert(audio !== null);
-	playout_duration = audio.currentTime - capture_start_time;
-//	schedule_snapshots();
-};
-
-// const reset_snapshots = _ => {
-// 	clearInterval(reschedule_timeout_id);
-// 	o_0.frequency.cancelScheduledValues(audio.currentTime);
-// 	o_1.frequency.cancelScheduledValues(audio.currentTime);
-// 	g_0.gain.cancelScheduledValues(audio.currentTime);
-// 	o_0.frequency.setValueAtTime(f_base            , audio.currentTime);
-// 	o_1.frequency.setValueAtTime(f_base + beat_freq, audio.currentTime);
-// 	g_0.gain.setTargetAtTime(vol, audio.currentTime, .02);
-// 	snapshots.length = 0;
-// 	playout_duration  = null;
-// };
 
 const play_snapshots = _ => {
-	if (playout_duration === null || snapshots.length === 0) return;
+	if (play_duration === null || snapshots.length === 0) return;
 	o_0.frequency.cancelScheduledValues(audio.currentTime);
 	o_1.frequency.cancelScheduledValues(audio.currentTime);
 	g_0.gain.cancelScheduledValues(audio.currentTime);
-	let t = 0;
 	for (let i = 0; i < snapshots.length; ++i) {
 		const snapshot = snapshots[i];
+		const t  = snapshot[0];
 		const f  = snapshot[1];
 		const v  = snapshot[2];
 		o_0.frequency.setValueAtTime(f            , audio.currentTime + t);
 		o_1.frequency.setValueAtTime(f + beat_freq, audio.currentTime + t);
 		g_0.gain.setTargetAtTime(v, audio.currentTime + t, .1);
-		t = snapshot[0];
 	}
-	reschedule_timeout_id = setTimeout(play_snapshots, playout_duration * 1000);
+	play_timeout_id = setTimeout(play_snapshots, play_duration * 1000);
 };
 
 const draw = _ => {
@@ -136,19 +108,11 @@ const loop = _ => {
 const click = e => {
 	const p = design_coords(e);
 	if (is_inside_rect(0, 0, 150, 150, p)) {
-		stop_capture();
-//		play_snapshots();
 		stop();
 		start_twirl();
 	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
-		g_0.gain.setTargetAtTime(0, audio.currentTime, .02);
-		canvas.removeEventListener('click', click);
-		setTimeout(_ => {
-			stop_capture();
-			playout_duration = null;
-			stop();
-			start_ship();
-		}, 30);
+		stop();
+		start_ship();
 	} else {
 		dest_x    = p.x;
 		dest_y    = p.y;
@@ -159,26 +123,34 @@ const click = e => {
 };
 
 const stop = _ => {
+	assert(audio !== null);
+	assert(snapshots.length > 0);
+	assert(play_timeout_id === null);
+	play_duration = audio.currentTime - capture_start_time;
+	g_0.gain.setTargetAtTime(0, audio.currentTime, .02);
 	canvas.removeEventListener('click', click);
 	clearInterval(loop_interval_id);
 	loop_interval_id = null;
-	stop_capture();
-//	schedule_snapshots();
 };
 
 const start = _ => {
 	if (audio === null) init_audio();
-	o_0.start();
-	o_1.start();
-
-	//	reset_snapshots();
-	start_capture();
+	if (play_timeout_id !== null) {
+		clearInterval(play_timeout_id);
+		play_timeout_id = null;
+		o_0.frequency.cancelScheduledValues(audio.currentTime);
+		o_1.frequency.cancelScheduledValues(audio.currentTime);
+		g_0.gain.cancelScheduledValues(audio.currentTime);
+		snapshots.length = 0;
+	}
+	play_duration = null;
+	capture_start_time = audio.currentTime;
+	push_snapshot();
 	canvas.addEventListener('click', click);
 	set_design_size(1000, 1000);
 	loop();
 	loop_interval_id = setInterval(loop, 100);
 };
 
-export { init_audio     };
 export { play_snapshots };
 export { start          };
