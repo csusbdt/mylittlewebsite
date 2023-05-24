@@ -34,68 +34,71 @@ const stop = _ => {
 };
 
 const loop = _ => {
+	draw();
+
 	if (ship_i !== null && ++ship_i === 4) ship_i = 0;
-	if (bullet_left_i === 2) {
-		if (ship_i === 0) {
-			explosion_left_i = 0   ;
-			bullet_left_i    = null;
-			ship_i           = null;
-		}
-	} else if (bullet_right_i === 2) {
-		if (ship_i === 2) {
-			explosion_right_i = 0   ;
-			bullet_right_i    = null;			
-			ship_i            = null;
-		}
+
+	if (bullet_left_i !== null && ++bullet_left_i === 3) {
+		bullet_left_i = null;
+	} else if (bullet_left_i === 1)	{
+		gun_left_i = 0;
+	} else if (bullet_left_i === 2 && ship_i === 0) {
+		bullet_left_i = null;
+		ship_i = null;
+		explosion_left_i = 0;
 	} else if (explosion_left_i === 0) {
 		explosion_left_i = 1;
 	} else if (explosion_left_i === 1) {
 		explosion_left_i = 2;
 	} else if (explosion_left_i === 2) {
 		explosion_left_i = null;
+		portal_i = 4;
+		return;
+	}
+	
+	if (bullet_right_i !== null && ++bullet_right_i === 3) {
+		bullet_right_i = null;
+	} else if (bullet_right_i === 1)	{
+		gun_right_i = 0;
+	} else if (bullet_right_i === 2 && ship_i === 2) {
+		bullet_right_i = null;
+		ship_i = null;
+		explosion_right_i = 0;
 	} else if (explosion_right_i === 0) {
 		explosion_right_i = 1;
 	} else if (explosion_right_i === 1) {
 		explosion_right_i = 2;
 	} else if (explosion_right_i === 2) {
 		explosion_right_i = null;
-	}
-
-	draw();
-
-	if (bullet_left_i === 0) {
-		bullet_left_i = 1;
-		gun_left_i    = 0;
-	} else if (bullet_left_i === 1) {
-		bullet_left_i = 2;
-	} else if (bullet_left_i === 2) {
-		bullet_left_i = null;
-	} else if (bullet_right_i === 0) {
-		bullet_right_i = 1;
-		gun_right_i    = 0;
-	} else if (bullet_right_i === 1) {
-		bullet_right_i = 2;
-	} else if (bullet_right_i === 2) {
-		bullet_right_i = null;
-	}
-
-	if (explosion_left_i === 2 || explosion_right_i === 2) {
 		portal_i = 4;
+		return;
+	}
+
+	if (portal_i === 0) {
+		return;
 	} else if (portal_i === 1) {
 		portal_i = 2;
+		return;
 	} else if (portal_i === 2) {
 		portal_i = 3;
 		blue_dot_i = null;
+		return;
 	} else if (portal_i === 3) {
 		portal_i = null;
-	} else if (portal_i === 4) {
+		return;
+	}
+	
+	if (portal_i === 4) {
 		portal_i = 5;
 		blue_dot_i = 0;
+		return;
 	} else if (portal_i === 5) {
 		portal_i = 6;
+		return;
 	} else if (portal_i === 6) {
 		portal_i = 0;
 		ship_i = Math.floor(Math.random() * 4);
+		return;
 	}
 };
 
@@ -177,7 +180,7 @@ const draw = _ => {
 
 const click = e => {
 	const p = design_coords(e);
-	loop();
+//	loop();
 	if (portal_i === 0) {
 		if (is_inside_circle(183, 212, 45, p)) {
 			portal_i = 1;
@@ -193,11 +196,11 @@ const click = e => {
 		bullet_right_i    === null  
 	) {
 		if (is_inside_rect(22, 228, 126, 372, p)) {
-			gun_left_i    = 1;
 			bullet_left_i = 0;
+			gun_left_i    = 1;
 		} else if (is_inside_rect(235, 215, 344, 360, p)) {
-			gun_right_i    = 1;
 			bullet_right_i = 0;
+			gun_right_i    = 1;
 		}
 	} 
 };
