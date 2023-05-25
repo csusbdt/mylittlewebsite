@@ -26,7 +26,9 @@ const click = e => {
 	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
 		stop();
         start_ship();
-	}
+	} else if (is_inside_rect(0, 970, 30, 1000, p)) {
+		play_0();
+	} 
 };
 
 const stop = _ => {
@@ -37,7 +39,6 @@ const stop = _ => {
 
 const start = _ => {
 	document.title = "use headphones to hear binaural beats";
-	play_0();
 	set_design_size(1000, 1000);
 	loop();
 	canvas.addEventListener('click', click);
