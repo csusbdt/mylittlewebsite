@@ -1,3 +1,8 @@
+import { init as init_audio } from "./audio.js";
+import { once as play_once  } from "./audio.js";
+import { loop as play_loop  } from "./audio.js";
+import { stop as stop_play  } from "./audio.js";
+
 let loop_interval_id  = null;
 
 const too_portal    = [ i_too_portal_0   , i_too_portal_1   , i_too_portal_2    ];
@@ -26,9 +31,11 @@ const click = e => {
 	const p = design_coords(e);
 	if (too_portal_i === 0 && is_inside_circle(667, 271, 95, p)) {
 		too_portal_i = 1;
+		play_once([[750, .6, .12]]);
 	}
 	if (return_portal_i === 0 && is_inside_rect(92, 809, 300, 945, p)) {
 		return_portal_i = 1;
+		play_once([[70, 1, .18]]);
 	}
 };
 
