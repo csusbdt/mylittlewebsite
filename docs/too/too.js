@@ -8,33 +8,14 @@ let loop_interval_id  = null;
 const too_portal    = [ i_too_portal_0   , i_too_portal_1   , i_too_portal_2    ];
 const return_portal = [ i_return_portal_0, i_return_portal_1, i_return_portal_2 ];
 const blob          = [ i_blob_0         , i_blob_1         , i_blob_2          ];
+const blue_blob     = [ i_blue_blob_0    , i_blue_blob_1    , i_blue_blob_2     ];
 
 let too_portal_i      = 0    ; // null, 0, 1, 2
 let return_portal_i   = null ; // null, 0, 1, 2
 let green_i           = 0    ; // null, 0
 let red_i             = null ; // null, 0
 let blob_i            = null ; // null, 0, 1, 2
-
-const song = [
-	[ 77, 0.50, 0.86],
-	[ 52, 0.34, 0.60],
-	[ 49, 0.62, 0.22],
-	[ 90, 0.44, 0.56],
-	[259, 0.31, 0.43],
-	[193, 0.67, 0.37],
-	[ 65, 0.68, 0.32],
-	[ 55, 0.45, 0.29],
-	[152, 0.32, 0.28],
-	[248, 0.26, 0.23],
-	[273, 0.24, 0.26],
-	[330, 0.23, 0.28],
-	[446, 0.23, 0.25],
-	[408, 0.38, 0.25],
-	[246, 0.52, 0.24],
-	[153, 0.46, 0.23],
-	[134, 0.34, 0.27],
-	[ 97, 0.30, 0.70]
-];
+let blue_blob_i       = null ; // null, 0, 1, 2
 
 const start = _ => {
 	set_design_size(1000, 1000);
@@ -52,17 +33,27 @@ const click = e => {
 	const p = design_coords(e);
 	if (too_portal_i === 0 && is_inside_circle(667, 271, 95, p)) {
 		too_portal_i = 1;
-//		play_loop(song);
+		play_loop(song_1);
 	}
 	if (return_portal_i === 0 && is_inside_rect(92, 809, 300, 945, p)) {
 		return_portal_i = 1;
 		play_once([[70, 1, .18]]);
 	}
+	if (return_portal_i === 0 && is_inside_circle(490, 331, 150, p)) {
+		stop_play();
+		if      (blob_i      === 0) blob_i      = null, blue_blob_i = 0, play_loop(song_2);
+		else if (blob_i      === 1) blob_i      = null, blue_blob_i = 1, play_loop(song_2);
+		else if (blob_i      === 2) blob_i      = null, blue_blob_i = 2, play_loop(song_2);
+		else if (blue_blob_i === 0) blue_blob_i = null, blob_i      = 0, play_loop(song_1);
+		else if (blue_blob_i === 1) blue_blob_i = null, blob_i      = 1, play_loop(song_1);
+		else if (blue_blob_i === 2) blue_blob_i = null, blob_i      = 2, play_loop(song_1);
+	}
 };
 
 const loop = _ => {
 	draw();
-	if (blob_i !== null && ++blob_i === 3) blob_i = 0;
+	if (blob_i      !== null && ++blob_i      === 3) blob_i      = 0;
+	if (blue_blob_i !== null && ++blue_blob_i === 3) blue_blob_i = 0;
 	
 	if (too_portal_i === 0) {
 		return;
@@ -104,6 +95,45 @@ const draw = _ => {
 	if (too_portal_i    !== null) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
 	if (return_portal_i !== null) ctx.drawImage(return_portal[return_portal_i], 0, 0);
 	if (blob_i          !== null) ctx.drawImage(blob         [blob_i         ], 0, 0);
+	if (blue_blob_i     !== null) ctx.drawImage(blue_blob    [blue_blob_i    ], 0, 0);
 };
 
 export { start };
+
+const song_1 = [
+	[ 77, 0.50, 0.86],
+	[ 52, 0.34, 0.60],
+	[ 49, 0.62, 0.22],
+	[ 90, 0.44, 0.56],
+	[259, 0.31, 0.43],
+	[193, 0.67, 0.37],
+	[ 65, 0.68, 0.32],
+	[ 55, 0.45, 0.29],
+	[152, 0.32, 0.28],
+	[248, 0.26, 0.23],
+	[273, 0.24, 0.26],
+	[330, 0.23, 0.28],
+	[446, 0.23, 0.25],
+	[408, 0.38, 0.25],
+	[246, 0.52, 0.24],
+	[153, 0.46, 0.23],
+	[134, 0.34, 0.27],
+	[ 97, 0.30, 0.70]
+];
+
+const song_2 = [
+	[ 77, 0.50, 0.86],
+	[ 52, 0.34, 0.86],
+	[ 77, 0.62, 0.86],
+	[ 52, 0.44, 0.43],
+	[260, 0.31, 0.43],
+	[193, 0.67, 0.86],
+	[340, 0.41, 0.21],
+	[293, 0.31, 0.21],
+	[260, 0.41, 0.43],
+	[340, 0.65, 0.32],
+	[177, 0.68, 0.86],
+	[135, 0.45, 0.43],
+	[152, 0.32, 0.21],
+	[248, 0.26, 0.22]
+];
