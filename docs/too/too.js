@@ -33,21 +33,21 @@ const click = e => {
 	const p = design_coords(e);
 	if (too_portal_i === 0 && is_inside_circle(667, 271, 95, p)) {
 		too_portal_i = 1;
-		play_loop(happy_birthday_2);
+//		play_loop(happy_birthday_2);
 	}
 	if (return_portal_i === 0 && is_inside_rect(92, 809, 300, 945, p)) {
 		return_portal_i = 1;
-		play_once([[70, 1, .18]]);
+//		play_once([[70, 1, .18]]);
 	}
-	if (return_portal_i === 0 && is_inside_circle(490, 331, 150, p)) {
-		stop_play();
-		if      (blob_i      === 0) blob_i      = null, blue_blob_i = 0, play_loop(song_2);
-		else if (blob_i      === 1) blob_i      = null, blue_blob_i = 1, play_loop(song_2);
-		else if (blob_i      === 2) blob_i      = null, blue_blob_i = 2, play_loop(song_2);
-		else if (blue_blob_i === 0) blue_blob_i = null, blob_i      = 0, play_loop(song_1);
-		else if (blue_blob_i === 1) blue_blob_i = null, blob_i      = 1, play_loop(song_1);
-		else if (blue_blob_i === 2) blue_blob_i = null, blob_i      = 2, play_loop(song_1);
-	}
+// 	if (return_portal_i === 0 && is_inside_circle(490, 331, 150, p)) {
+// //		stop_play();
+// 		if      (blob_i      === 0) blob_i      = null, blue_blob_i = 0; //, play_loop(song_2);
+// 		else if (blob_i      === 1) blob_i      = null, blue_blob_i = 1; //, play_loop(song_2);
+// 		else if (blob_i      === 2) blob_i      = null, blue_blob_i = 2; //, play_loop(song_2);
+// 		else if (blue_blob_i === 0) blue_blob_i = null, blob_i      = 0; //, play_loop(song_1);
+// 		else if (blue_blob_i === 1) blue_blob_i = null, blob_i      = 1; //, play_loop(song_1);
+// 		else if (blue_blob_i === 2) blue_blob_i = null, blob_i      = 2; //, play_loop(song_1);
+// 	}
 };
 
 const loop = _ => {
@@ -74,6 +74,7 @@ const loop = _ => {
 	if (return_portal_i === 1) {
 		return_portal_i = 2;
 		blob_i = null;
+		blue_blob_i = null;
 		return;
 	}
 	if (return_portal_i === 2) {
@@ -92,10 +93,15 @@ const draw = _ => {
 		ctx.drawImage(i_red, 0, 0);
 	}
 
-	if (too_portal_i    !== null) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
+//	if (too_portal_i    !== null) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
 	if (return_portal_i !== null) ctx.drawImage(return_portal[return_portal_i], 0, 0);
-	if (blob_i          !== null) ctx.drawImage(blob         [blob_i         ], 0, 0);
-	if (blue_blob_i     !== null) ctx.drawImage(blue_blob    [blue_blob_i    ], 0, 0);
+	
+//	if (too_portal_i === 2 || return_portal_i !== null) {
+	if (too_portal_i !== 0) {
+		if (blob_i          !== null) ctx.drawImage(blob         [blob_i         ], 0, 0);
+		if (blue_blob_i     !== null) ctx.drawImage(blue_blob    [blue_blob_i    ], 0, 0);
+	}
+	if (too_portal_i    === 1   ) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
 };
 
 export { start };
