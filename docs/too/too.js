@@ -15,6 +15,27 @@ let green_i           = 0    ; // null, 0
 let red_i             = null ; // null, 0
 let blob_i            = null ; // null, 0, 1, 2
 
+const song = [
+	[ 77, 0.50, 0.86],
+	[ 52, 0.34, 0.60],
+	[ 49, 0.62, 0.22],
+	[ 90, 0.44, 0.56],
+	[259, 0.31, 0.43],
+	[193, 0.67, 0.37],
+	[ 65, 0.68, 0.32],
+	[ 55, 0.45, 0.29],
+	[152, 0.32, 0.28],
+	[248, 0.26, 0.23],
+	[273, 0.24, 0.26],
+	[330, 0.23, 0.28],
+	[446, 0.23, 0.25],
+	[408, 0.38, 0.25],
+	[246, 0.52, 0.24],
+	[153, 0.46, 0.23],
+	[134, 0.34, 0.27],
+	[ 97, 0.30, 0.70]
+];
+
 const start = _ => {
 	set_design_size(1000, 1000);
 	canvas.addEventListener('click', click);
@@ -31,7 +52,7 @@ const click = e => {
 	const p = design_coords(e);
 	if (too_portal_i === 0 && is_inside_circle(667, 271, 95, p)) {
 		too_portal_i = 1;
-		play_once([[750, .6, .12]]);
+//		play_loop(song);
 	}
 	if (return_portal_i === 0 && is_inside_rect(92, 809, 300, 945, p)) {
 		return_portal_i = 1;
