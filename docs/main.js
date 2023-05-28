@@ -1,3 +1,9 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+//
+// error handling
+//
+///////////////////////////////////////////////////////////////////////////////////////////
+
 window.assert = function(condition, msg) {
 	if (!condition) {
 		if (msg === undefined) msg = "assertion failed";
@@ -5,6 +11,61 @@ window.assert = function(condition, msg) {
 		throw new Error(msg);
 	}
 };
+
+const timeout_ids = [];
+
+window.set_timeout = function(f, t) {
+	const id = setTimeout(f, t);
+	timeout_ids.push(id);
+	return id;
+}
+
+window.clear_timeout = function(id) {
+	const i = timeout_ids.indexOf(id);
+	if (i !== -1) {
+		clearTimeout(id);
+		timeout_ids.splice(i, 1);		
+	}
+}
+
+const interval_ids = [];
+
+window.set_interval = function(f, t) {
+	const id = setInterval(f, t);
+	interval_ids.push(id);
+	return id;
+}
+
+window.clear_interval = function(id) {
+	const i = interval_ids.indexOf(id);
+	if (i !== -1) {
+		clearInterval(id);
+		interval_ids.splice(i, 1);		
+	}
+}
+
+window.addEventListener("error", e => {
+	let i = e.filename.indexOf("//") + 2;
+	i += e.filename.substring(i).indexOf("/") + 1;
+	const filename = e.filename.substring(i);
+    document.body.innerHTML = `<h1>${e.error}<br>${filename}<br>Line ${e.lineno}</h1>`;
+	window.removeEventListener('resize', adjust_canvas);
+	for (let i = timeout_ids.length - 1; i >= 0; --i) {
+		const id = timeout_ids[i];
+		clear_timeout(id);
+	}
+	for (let i = interval_ids.length - 1; i >= 0; --i) {
+		const id = interval_ids[i];
+		clear_interval(id);
+	}
+});
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//
+// gui helper functions
+//
+///////////////////////////////////////////////////////////////////////////////////////////
 
 window.is_inside_circle = function(x, y, r, p) {
 	return (x - p.x) * (x - p.x) +  (y - p.y) * (y - p.y) < r * r;
