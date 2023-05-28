@@ -1,18 +1,14 @@
 import "../main.js";
 
-// audio graph
-let merger      = null ;
 let o_0         = null ;
 let o_1         = null ;
 
-//const beat_freq = 3.5  ;
 let loop_id     = null ;
 
 const init = _ => {
-	init_audio();
-	if (merger !== null) return;
-//	merger = new ChannelMergerNode(audio, { numberOfInputs: 2 });
-	merger = new ChannelMergerNode(audio);
+	init_audio();	
+	if (o_0 !== null) return;
+	const merger = new ChannelMergerNode(audio);
 	merger.connect(gain);
 	o_0 = audio.createOscillator();
 	o_1 = audio.createOscillator();
@@ -80,18 +76,18 @@ const play = (notes, beat_freq, ramp_up, ramp_down) => {
 	return t;
 };
 
-const once = notes => {
+const once = (notes, beat_freq, ramp_up, ramp_down) => {
 	init();
 	stop();
-	const duration = play(notes);
+	const duration = play(notes, beat_freq, ramp_up, ramp_down);
 	gain.gain.setTargetAtTime(0, audio.currentTime + duration, .1);
 };
 
-const loop = notes => {
+const loop = (notes, beat_freq, ramp_up, ramp_down) => {
 	init();
 	if (loop_id !== null) return;
-	const duration = play(notes);
-	loop_id = setInterval(play.bind(null, notes), duration * 1000);
+	const duration = play(notes, beat_freq, ramp_up, ramp_down);
+	loop_id = setInterval(play.bind(null, notes, beat_freq, ramp_up, ramp_down), duration * 1000);
 };
 
 const stop = _ => {
