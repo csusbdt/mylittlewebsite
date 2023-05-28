@@ -1,12 +1,26 @@
-let design_width  = 360 ;
-let design_height = 360 ;
-let scale         = 1   ;
-let left          = 0   ;
-let top           = 0   ;
+window.assert = function(condition, msg) {
+	if (!condition) {
+		if (msg === undefined) msg = "assertion failed";
+		document.body.innerHTML = "<h1>" + msg + "</h1>";
+		throw new Error(msg);
+	}
+};
 
-window.assert = function(condition) {
-	if (!condition) throw new Error("assertion failed");
-}
+window.is_inside_circle = function(x, y, r, p) {
+	return (x - p.x) * (x - p.x) +  (y - p.y) * (y - p.y) < r * r;
+};
+
+window.is_inside_rect = function(left, top, right, bottom, p) {
+	return left <= p.x && top <= p.y && p.x < right && p.y < bottom;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+let design_width  = 1000 ;
+let design_height = 1000 ;
+let scale         = 1    ;
+let left          = 0    ;
+let top           = 0    ;
 
 window.set_design_size = function(w, h) {
 	design_width  = w;
@@ -49,10 +63,53 @@ window.addEventListener('resize', adjust_canvas);
 
 adjust_canvas();
 
-window.is_inside_circle = function(x, y, r, p) {
-	return (x - p.x) * (x - p.x) +  (y - p.y) * (y - p.y) < r * r;
+///////////////////////////////////////////////////////////////////////////////////////////
+
+window.audio = null;
+window.gain  = null;
+
+window.init_audio = v => {
+	// this function must run in click handler to work on apple hardware
+	if (audio === null) {
+		audio = new (window.AudioContext || window.webkitAudioContext)();
+		assert(audio !== null)
+	}
+	if (audio.state === "suspended") {
+		audio.resume();
+	}
+	if (gain === null) {
+		gain = audio.createGain();
+		if (v === undefined) {
+			gain.gain.value = .5;
+		} else {
+			gain.gain.value = v;
+		}
+		gain.connect(audio.destination);
+	} else if (v !== undefined) {
+		gain.gain.setTargetAtTime(v, audio.currentTime, .01);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+window.colors = {
+	red    : [243, 140, 105],
+	green  : [ 64, 216, 122],
+	blue   : [ 29, 225, 220],
+	yellow : [242, 244,  44],
+	black  : [ 72,  55,  55]
 };
 
-window.is_inside_rect = function(left, top, right, bottom, p) {
-	return left <= p.x && top <= p.y && p.x < right && p.y < bottom;
+window.draw = (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) => {
+	if (sx === undefined) {
+		ctx.drawImage(image, 0, 0);
+	} else if (sWidth === undefined) {
+		ctx.drawImage(image, sx, sy);
+	} else if (dx === undefined) {
+		ctx.drawImage(image, sx, sy, sWidth, sHeight);
+	} else if (dWidth === undefined) {
+		ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, sWidth, sHeight);
+	} else {
+		ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+	}
 };
