@@ -1,6 +1,7 @@
 import "../main.js";
-import { loop as play } from "./song.js";
-import { stop as stop } from "./song.js";
+import { loop as play } from "./song.js" ;
+import { stop as stop } from "./song.js" ;
+import { button       } from ".button.js";
 
 let loop_id = null;
 
@@ -15,6 +16,18 @@ let button_medium_i = 0;
 
 const button_large_color = [i_button_large_green, i_button_large_white];
 let button_large_i = 0;
+
+// approach 1
+const draw_button_small = _ => {
+    draw(button_small_color[button_small_i], 500, 0);
+    draw(i_button_small_border, 500, 0);	
+}
+
+// approach 2
+function button_draw() {
+    draw(this.color[this.color_i], this.x, this.y);
+    draw(this.border, this.x, this.y);
+}
 
 const click = e => {
     const p = design_coords(e);
@@ -33,16 +46,17 @@ const click = e => {
     }
     if (is_inside_circle(78 + 500, 253, 30, p)) {
         if (++button_small_i === 2) button_small_i = 0;
-        draw(button_small_color[button_small_i], 500, 0);
-        draw(i_button_small_border, 500, 0);
+		draw_button_small();
+//        draw(button_small_color[button_small_i], 500, 0);
+//        draw(i_button_small_border, 500, 0);
 		stop();
 		play(song_0, 3);
     }
-    // if (is_inside_circle(149, 325, 100, p)) {
-    //     if (++button_medium_i === 2) button_medium_i = 0;
-    //     draw(button_medium_color[button_medium_i]);
-    //     draw(i_button_medium_border);
-    // }
+    if (is_inside_circle(149, 325, 100, p)) {
+        if (++button_medium_i === 2) button_medium_i = 0;
+        draw(button_medium_color[button_medium_i]);
+        draw(i_button_medium_border);
+    }
 
 };
 
@@ -58,25 +72,16 @@ const loop = _ => {
     draw(i_audio_border);
     draw(button_large_color[button_large_i]);
     draw(i_button_large_border);
-    draw(button_small_color[button_small_i], 500, 0);
-    draw(i_button_small_border, 500, 0);
-    // draw(button_medium_color[button_medium_i]);
-    // draw(i_button_medium_border);
+	draw_button_small();
+    // draw(button_small_color[button_small_i], 500, 0);
+    // draw(i_button_small_border, 500, 0);
+    draw(button_medium_color[button_medium_i], 625, 125);
+    draw(i_button_medium_border, 625, 125);
 };
 
 loop();
 
 loop_id = set_interval(loop, 350);
-
-const song = [
-    [127, 0.25, .59],
-    [249, 0.52, .40],
-    [335, 0.34, .40],
-    [108, 0.41, .51],
-    [142, 0.62, .22],
-    [201, 0.59, .26],
-    [172, 0.38, .40]
-];
 
 const song_0 = [	
 	[ 77, 0.50, 0.86],
@@ -125,4 +130,14 @@ const song_3 = [
 	[ 96, .18, 6.20 - 5.22],
 	[ 51, .42, 7.19 - 6.20],
 	[ 69, .66, 8.26 - 7.19]
+];
+
+const song_4 = [
+    [127, 0.25, .59],
+    [249, 0.52, .40],
+    [335, 0.34, .40],
+    [108, 0.41, .51],
+    [142, 0.62, .22],
+    [201, 0.59, .26],
+    [172, 0.38, .40]
 ];
