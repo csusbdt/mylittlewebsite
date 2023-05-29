@@ -1,33 +1,28 @@
 import "../main.js";
-import { loop as play } from "./song.js" ;
-import { stop as stop } from "./song.js" ;
-import { button       } from ".button.js";
+import { loop as play } from "./song.js"  ;
+import { stop as stop } from "./song.js"  ;
+import button           from "./button.js";
 
 let loop_id = null;
 
 const audio_color = [i_audio_yellow, i_audio_white];
 let audio_i = 0;
 
-const button_small_color = [i_button_small_green, i_button_small_white];
-let button_small_i = 0;
+const button_large = button(
+	i_button_large_border, i_button_large_green, i_button_large_white,
+	247, 447, 194, 0, 0);
 
-const button_medium_color = [i_button_medium_green, i_button_medium_white];
-let button_medium_i = 0;
+const button_medium = button(
+	i_button_medium_border, i_button_medium_green, i_button_medium_white,
+	149, 325, 100, 625, 125);
 
-const button_large_color = [i_button_large_green, i_button_large_white];
-let button_large_i = 0;
+const button_small = button(
+	i_button_small_border, i_button_small_green, i_button_small_white,
+	78, 253, 100, 500, 0);
 
-// approach 1
-const draw_button_small = _ => {
-    draw(button_small_color[button_small_i], 500, 0);
-    draw(i_button_small_border, 500, 0);	
-}
-
-// approach 2
-function button_draw() {
-    draw(this.color[this.color_i], this.x, this.y);
-    draw(this.border, this.x, this.y);
-}
+const button_small_1 = button(
+	i_button_small_border, i_button_small_green, i_button_small_white,
+	78, 253, 100, 500, 125);
 
 const click = e => {
     const p = design_coords(e);
@@ -37,27 +32,18 @@ const click = e => {
         draw(i_audio_border);
 		stop();
     }
-    if (is_inside_circle(247, 447, 194, p)) {
-        if (++button_large_i === 2) button_large_i = 0;
-        draw(button_large_color[button_large_i]);
-        draw(i_button_large_border);
-		stop();
-		play(song_3, 3);
-    }
-    if (is_inside_circle(78 + 500, 253, 30, p)) {
-        if (++button_small_i === 2) button_small_i = 0;
-		draw_button_small();
-//        draw(button_small_color[button_small_i], 500, 0);
-//        draw(i_button_small_border, 500, 0);
-		stop();
-		play(song_0, 3);
-    }
-    if (is_inside_circle(149, 325, 100, p)) {
-        if (++button_medium_i === 2) button_medium_i = 0;
-        draw(button_medium_color[button_medium_i]);
-        draw(i_button_medium_border);
-    }
-
+	if (button_large.click(p)) {
+		if (button_large.off) stop(); else play(song_0, 3);
+	}
+	if (button_medium.click(p)) {
+		if (button_medium.off) stop(); else play(song_1, 3);
+	}
+	if (button_small.click(p)) {
+		if (button_small.off) stop(); else play(song_2, 3);
+	}
+	if (button_small_1.click(p)) {
+		if (button_small_1.off) stop(); else play(song_3, 3);
+	}
 };
 
 canvas.addEventListener('click', click);
@@ -70,13 +56,10 @@ const loop = _ => {
     draw(i_back_border);
     draw(audio_color[audio_i]);
     draw(i_audio_border);
-    draw(button_large_color[button_large_i]);
-    draw(i_button_large_border);
-	draw_button_small();
-    // draw(button_small_color[button_small_i], 500, 0);
-    // draw(i_button_small_border, 500, 0);
-    draw(button_medium_color[button_medium_i], 625, 125);
-    draw(i_button_medium_border, 625, 125);
+	button_large.draw();
+	button_medium.draw();
+	button_small.draw();
+	button_small_1.draw();
 };
 
 loop();
@@ -121,7 +104,7 @@ const song_1 = [
 	[248, 0.26, 0.22]
 ];
 
-const song_3 = [
+const song_2 = [
     [160, .25, 1.10 - 0   ],
 	[ 47, .52, 2.10 - 1.10],
 	[ 65, .42, 3.14 - 2.10],
@@ -132,7 +115,7 @@ const song_3 = [
 	[ 69, .66, 8.26 - 7.19]
 ];
 
-const song_4 = [
+const song_3 = [
     [127, 0.25, .59],
     [249, 0.52, .40],
     [335, 0.34, .40],

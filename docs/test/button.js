@@ -10,6 +10,20 @@ function c_button(border, off_color, on_color, cx, cy, cr, x = 0, y = 0, off = t
     this.off       = off      ;
 }
 
+c_button.prototype.set = function() {
+	if (this.off) {
+        this.off = false;
+        this.draw();		
+	}
+};
+
+c_button.prototype.reset = function() {
+	if (!this.off) {
+        this.off = true;
+        this.draw();		
+	}
+};
+
 c_button.prototype.draw = function() {
     if (this.off) {
         window.draw(this.off_color, this.x, this.y);
@@ -19,8 +33,8 @@ c_button.prototype.draw = function() {
     window.draw(this.border, this.x, this.y);
 };
 
-c_button.prototype.click = function() {
-    if (is_inside_circle(this.cx + this.x, this.cy + this.y, this.cr)) {
+c_button.prototype.click = function(p) {
+    if (is_inside_circle(this.cx + this.x, this.cy + this.y, this.cr, p)) {
         this.off = !this.off;
         this.draw();
         return true;
