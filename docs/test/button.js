@@ -24,6 +24,10 @@ c_button.prototype.reset = function() {
 	}
 };
 
+c_button.prototype.contains = function(p) {
+    return is_inside_circle(this.cx + this.x, this.cy + this.y, this.cr, p);
+};
+
 c_button.prototype.draw = function() {
     if (this.off) {
         window.draw(this.off_color, this.x, this.y);

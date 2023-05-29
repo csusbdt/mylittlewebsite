@@ -24,6 +24,22 @@ const button_small_1 = button(
 	i_button_small_border, i_button_small_green, i_button_small_white,
 	78, 253, 100, 500, 125);
 
+const reset_other_buttons = b => {
+	if (button_large !== b) button_large.reset();
+	if (button_medium !== b) button_medium.reset();
+	if (button_small !== b) button_small.reset();
+	if (button_small_1 !== b) button_small_1.reset();
+};
+
+const stop_all = _ => {
+	stop();
+	button_large.reset();
+	button_medium.reset();
+	button_small.reset();
+	button_small_1.reset();
+};
+
+
 const click = e => {
     const p = design_coords(e);
     if (is_inside_circle(260, 68, 54, p)) {
@@ -32,9 +48,19 @@ const click = e => {
         draw(i_audio_border);
 		stop();
     }
-	if (button_large.click(p)) {
-		if (button_large.off) stop(); else play(song_0, 3);
+	if (button_large.contains(p)) {
+		if (button_large.off) {
+			stop_all();
+			play(song_0, 3);
+			button_large.set();
+		} else {
+			stop();
+			button_large.reset();
+		}
 	}
+
+
+	
 	if (button_medium.click(p)) {
 		if (button_medium.off) stop(); else play(song_1, 3);
 	}
