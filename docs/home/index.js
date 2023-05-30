@@ -1,57 +1,44 @@
-import                  "../main.js"        ;
 import button      from "../home/button.js" ;
 import menu        from "../home/menu.js"   ;
 import start_songs from "../songs/index.js" ;
 
-const i_blue                 = image("../images/colors/blue.png"              );
-const i_button_small_border  = image("../home/images/button_small_border.png" );
-const i_button_small_green   = image("../home/images/button_small_green.png"  );
-const i_button_small_white   = image("../home/images/button_small_white.png"  );
-const i_button_medium_border = image("../home/images/button_medium_border.png");
-const i_button_medium_green  = image("../home/images/button_medium_green.png" );
-const i_button_medium_white  = image("../home/images/button_medium_white.png" );
-const i_button_large_border  = image("../home/images/button_large_border.png" );
-const i_button_large_green   = image("../home/images/button_large_green.png"  );
-
 let update_id = null;
 
 const button_small_0 = button(
-	i_button_small_border, i_button_small_green, i_button_small_white,
-	circle(78, 253, 100), 0, 0);
-
+	image("../home/images/button_small_border.png"),
+	image("../home/images/button_small_green.png" ), 
+	image("../home/images/button_small_white.png" ),
+	circle(78, 253, 35), 0, 0);
 const button_small_1 = button_small_0.clone(125, 0);
+const button_small_2 = button_small_0.clone(250, 0);
 
 const click = e => {
     const p = design_coords(e);
-	if (menu.silent(p)) return;
-	if (menu.back(p)) {
+	if (menu.silent(p)) {
+		// noop
+	} else if (menu.back(p)) {
 		clear_interval(update_id);
 		canvas.removeEventListener('click', click);
 		start_songs();
-	}
-	if (button_small_0.contains(p)) {
-		if (button_small_0.off) {
-			button_small_0.set();
-			canvas.removeEventListener('click', click);
-			clear_interval(update_id);	
-			start_songs();
-		} else {
-			button_small_0.reset();
-		}
-	} else if (button_small_1.contains(p)) {
-		if (button_small_1.off) {
-			button_small_1.set();
-		} else {
-			button_small_1.reset();
-		}
+	} else if (button_small_0.contains(p)) {
+		canvas.removeEventListener('click', click);
+		clear_interval(update_id);	
+		start_songs();
+	} else if (button_small_1.click_set(p)) {
+		// noop
+	} else if (button_small_1.click_reset(p)) {
+		// noop
+	} else if (button_small_2.click(p)) {
+		// noop
 	}
 };
 
 const update = _ => {
-    draw(i_blue);
+	bg_blue();
 	menu.update();
 	button_small_0.draw();
 	button_small_1.draw();
+	button_small_2.draw();
 };
 
 const start = _ => {

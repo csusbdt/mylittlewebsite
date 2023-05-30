@@ -15,19 +15,21 @@ c_button.prototype.clone = function(x = 0, y = 0) {
 c_button.prototype.set = function() {
 	if (this.off) {
         this.off = false;
-        this.draw();		
+        this.draw();
+		return true;
+	} else {
+		return false;
 	}
 };
 
 c_button.prototype.reset = function() {
 	if (!this.off) {
         this.off = true;
-        this.draw();		
+        this.draw();
+		return true;
+	} else {
+		return false;
 	}
-};
-
-c_button.prototype.contains = function(p) {
-    return this.shape({ x: p.x - this.x, y: p.y - this.y });
 };
 
 c_button.prototype.draw = function() {
@@ -39,11 +41,23 @@ c_button.prototype.draw = function() {
     window.draw(this.border, this.x, this.y);
 };
 
+c_button.prototype.contains = function(p) {
+    return this.shape({ x: p.x - this.x, y: p.y - this.y });
+};
+
+c_button.prototype.click_set = function(p) {
+    if (this.contains(p)) return this.set();
+};
+
+c_button.prototype.click_reset = function(p) {
+    if (this.contains(p)) return this.reset();
+};
+
 c_button.prototype.click = function(p) {
-    if (this.shape(p)) {
-        this.off = !this.off;
-        this.draw();
-        return true;
+	if (this.click_set(p)) {
+		return true;
+	} else if (this.click_reset(p)) {
+		return true;
     } else {
         return false;
     }

@@ -148,7 +148,7 @@ window.init_audio = _ => {
 	}
 	if (gain === null) {
 		gain = audio.createGain();
-		gain.gain.value = 0;
+		gain.gain.value = 1;
 		gain.connect(audio.destination);
 	}
 }
@@ -177,7 +177,20 @@ window.colors = {
 	green  : [ 64, 216, 122],
 	blue   : [ 29, 225, 220],
 	yellow : [242, 244,  44],
-	black  : [ 72,  55,  55]
+	black  : [ 72,  55,  55],
+	white  : [174, 201, 201]
+};
+
+const rgb_red    = `rgb(${colors.red   [0]}, ${colors.red   [1]}, ${colors.red   [2]})`;
+const rgb_green  = `rgb(${colors.green [0]}, ${colors.green [1]}, ${colors.green [2]})`;
+const rgb_blue   = `rgb(${colors.blue  [0]}, ${colors.blue  [1]}, ${colors.blue  [2]})`;
+const rgb_yellow = `rgb(${colors.yellow[0]}, ${colors.yellow[1]}, ${colors.yellow[2]})`;
+const rgb_black  = `rgb(${colors.black [0]}, ${colors.black [1]}, ${colors.black [2]})`;
+const rgb_white  = `rgb(${colors.white [0]}, ${colors.white [1]}, ${colors.white [2]})`;
+
+window.bg_blue = _ => {
+	ctx.fillStyle = rgb_blue;
+	ctx.fillRect(0, 0, design_width, design_height);
 };
 
 window.image = src => {
