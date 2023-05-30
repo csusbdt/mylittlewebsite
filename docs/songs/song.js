@@ -89,11 +89,12 @@ const once = (notes, beat_freq, ramp_up, ramp_down) => {
 	g.gain.setTargetAtTime(0, audio.currentTime + duration, .01);
 };
 
-const loop = (notes, beat_freq, ramp_up, ramp_down) => {
+const loop = (notes, beat_freq, ramp_up, ramp_down, delay) => {
 	init();
 	if (loop_id !== null) return;
-	const duration = play(notes, beat_freq, ramp_up, ramp_down);
-	loop_id = setInterval(play.bind(null, notes, beat_freq, ramp_up, ramp_down), duration * 1000);
+	let duration = play(notes, beat_freq, ramp_up, ramp_down);
+	if (delay !== undefined) duration+= delay;
+	loop_id = setInterval(play.bind(null, notes, beat_freq, ramp_up, ramp_down), (duration) * 1000);
 };
 
 const stop = _ => {

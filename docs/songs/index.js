@@ -96,7 +96,7 @@ const click = e => {
 	} else if (button_small_2.contains(p)) {
 		if (button_small_2.off) {
 			reset_play_buttons();
-			play_song(happy_birthday, 3);
+			play_song(happy_birthday, 3, .05, .1, 2);
 			button_small_2.set();
 		} else {
 			stop_audio();
