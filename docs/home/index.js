@@ -1,19 +1,18 @@
 import                  "../main.js"        ;
 import button      from "../test/button.js" ;
-import start_song  from "../test/index.js"  ;
+import menu        from "../home/menu.js"   ;
+
+const i_blue                 = image("../images/colors/blue.png"              );
+const i_button_small_border  = image("../test/images/button_small_border.png" );
+const i_button_small_green   = image("../test/images/button_small_green.png"  );
+const i_button_small_white   = image("../test/images/button_small_white.png"  );
+const i_button_medium_border = image("../test/images/button_medium_border.png");
+const i_button_medium_green  = image("../test/images/button_medium_green.png" );
+const i_button_medium_white  = image("../test/images/button_medium_white.png" );
+const i_button_large_border  = image("../test/images/button_large_border.png" );
+const i_button_large_green   = image("../test/images/button_large_green.png"  );
 
 let update_id = null;
-
-const silence_color = [i_silence_yellow, i_silence_white];
-let silence_i = 0;
-
-const button_back = button(
-	i_back_border, i_back_yellow, i_back_white,
-	rect(52, 20, 133, 120), 0, 0);
-
-const button_silence = button(
-	i_silence_border, i_silence_yellow, i_silence_white,
-	circle(262, 67, 54), 0, 0);
 
 const button_small_0 = button(
 	i_button_small_border, i_button_small_green, i_button_small_white,
@@ -23,23 +22,12 @@ const button_small_1 = button_small_0.clone(125, 0);
 
 const click = e => {
     const p = design_coords(e);
-
-	if (button_back.contains(p)) {
-		button_back.set();
+	if (menu.silent(p)) return;
+	if (menu.back(p)) {
 		clear_interval(update_id);
 		canvas.removeEventListener('click', click);
-		start_song();
+		alert("BACK");
 	}
-
-	if (button_silence.contains(p)) {
-		if (button_silence.off) {
-			volume(0);
-			button_silence.set();
-		} else {
-			button_silence.reset();
-		}
-	}
-
 	if (button_small_0.contains(p)) {
 		if (button_small_0.off) {
 			button_small_0.set();
@@ -60,10 +48,7 @@ const click = e => {
 
 const update = _ => {
     draw(i_blue);
-    draw(i_menu_red);
-    draw(i_menu_border);
-	button_back.draw();
-	button_silence.draw();
+	menu.update();
 	button_small_0.draw();
 	button_small_1.draw();
 };

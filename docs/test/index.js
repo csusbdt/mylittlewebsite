@@ -1,8 +1,8 @@
-import "../main.js";
-import button from "./button.js";
+import                             "../main.js";
+import start_home             from "../home/index.js";
+import button                 from "./button.js";
 import { loop as play_song  } from "./song.js";
 import { stop as stop_audio } from "./song.js";
-import start_home from "../home/index.js";
 
 const i_blue                 = new Image();
 const i_menu_border          = new Image();
@@ -24,7 +24,7 @@ const i_button_large_green   = new Image();
 const i_button_large_white   = new Image();
 
 i_blue.src                = "../images/colors/blue.png";
-i_menu_border.src         = "../test/images/menu_border.png"  ;   
+i_menu_border.src         = "../home/images/menu_border.png"  ;   
 i_menu_red.src            = "../test/images/menu_red.png";
 i_back_border.src         = "../test/images/back_border.png";
 i_back_yellow.src         = "../test/images/back_yellow.png";

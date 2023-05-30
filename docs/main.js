@@ -133,8 +133,9 @@ adjust_canvas();
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-window.audio = null;
-window.gain  = null;
+window.audio  = null;
+window.gain   = null;
+window.silent = false;
 
 window.init_audio = _ => {
 	// this function must run in click handler to work on apple hardware
@@ -152,8 +153,16 @@ window.init_audio = _ => {
 	}
 }
 
-window.volume = (v = 0) => {
-	if (audio !== null)	gain.gain.setTargetAtTime(v, audio.currentTime, .01);
+window.volume = v => {
+	if (gain === null) {
+		return 0;
+	}
+	if (v === undefined) {
+		return gain.gain.value;
+	}
+	if (!silent || v === 0) {
+		gain.gain.setTargetAtTime(v, audio.currentTime, .01);
+	}
 };
 
 
@@ -169,6 +178,12 @@ window.colors = {
 	blue   : [ 29, 225, 220],
 	yellow : [242, 244,  44],
 	black  : [ 72,  55,  55]
+};
+
+window.image = src => {
+	const i = new Image();
+	i.src = src;
+	return i;
 };
 
 window.draw = (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) => {
