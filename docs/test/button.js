@@ -1,10 +1,8 @@
-function c_button(border, off_color, on_color, cx, cy, cr, x = 0, y = 0, off = true) {
+function c_button(border, off_color, on_color, shape, x = 0, y = 0, off = true) {
 	this.border = border;
 	this.off_color = off_color;
 	this.on_color  = on_color ;
-	this.cx        = cx       ;
-	this.cy        = cy       ;
-	this.cr        = cr       ;
+	this.shape     = shape    ;
 	this.x         = x        ;
 	this.y         = y        ;
     this.off       = off      ;
@@ -25,7 +23,7 @@ c_button.prototype.reset = function() {
 };
 
 c_button.prototype.contains = function(p) {
-    return is_inside_circle(this.cx + this.x, this.cy + this.y, this.cr, p);
+    return this.shape({ x: p.x - this.x, y: p.y - this.y });
 };
 
 c_button.prototype.draw = function() {
@@ -38,7 +36,7 @@ c_button.prototype.draw = function() {
 };
 
 c_button.prototype.click = function(p) {
-    if (is_inside_circle(this.cx + this.x, this.cy + this.y, this.cr, p)) {
+    if (this.shape(p)) {
         this.off = !this.off;
         this.draw();
         return true;
@@ -47,8 +45,8 @@ c_button.prototype.click = function(p) {
     }
 };
 
-const button = (border, off_color, on_color, cx, cy, cr, x = 0, y = 0, off = true) => {
-    return new c_button(border, off_color, on_color, cx, cy, cr, x, y, off);
+const button = (border, off_color, on_color, shape, x = 0, y = 0, off = true) => {
+    return new c_button(border, off_color, on_color, shape, x, y, off);
 };
 
 export default button;

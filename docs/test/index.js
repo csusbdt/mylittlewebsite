@@ -8,25 +8,29 @@ let loop_id = null;
 const audio_color = [i_audio_yellow, i_audio_white];
 let audio_i = 0;
 
+const button_back = button(
+	i_back_border, i_back_yellow, i_back_white,
+	rect(52, 20, 133, 120), 0, 0);
+
 const button_disable_audio = button(
 	i_audio_border, i_audio_yellow, i_audio_white,
-	262, 67, 54, 0, 0);
+	circle(262, 67, 54), 0, 0);
 
 const button_large = button(
 	i_button_large_border, i_button_large_green, i_button_large_white,
-	247, 447, 194, 0, 0);
+	circle(247, 447, 194), 0, 0);
 
 const button_medium = button(
 	i_button_medium_border, i_button_medium_green, i_button_medium_white,
-	149, 325, 100, 625, 125);
+	circle(149, 325, 100), 625, 125);
 
 const button_small_0 = button(
 	i_button_small_border, i_button_small_green, i_button_small_white,
-	78, 253, 100, 500, 0);
+	circle(78, 253, 100), 500, 0);
 
 const button_small_1 = button(
 	i_button_small_border, i_button_small_green, i_button_small_white,
-	78, 253, 100, 500, 125);
+	circle(78, 253, 100), 500, 125);
 
 const reset_play_buttons = _ => {
 	stop_audio();
@@ -89,19 +93,6 @@ const click = e => {
 		}
 	}
 
-	// if (button_large.click(p)) {
-	// 	if (button_large.off) reset_play_buttons(); else play(song_0, 3);
-	// }
-
-	// if (button_medium.click(p)) {
-	// 	if (button_medium.off) reset_play_buttons(); else play(song_1, 3);
-	// }
-	// if (button_small.click(p)) {
-	// 	if (button_small.off) reset_play_buttons(); else play(song_2, 3);
-	// }
-	// if (button_small_1.click(p)) {
-	// 	if (button_small_1.off) reset_play_buttons(); else play(song_3, 3);
-	// }
 };
 
 canvas.addEventListener('click', click);

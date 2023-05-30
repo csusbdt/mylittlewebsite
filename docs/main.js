@@ -185,3 +185,17 @@ window.draw = (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) => {
 		ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 	}
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//
+// shapes
+//
+///////////////////////////////////////////////////////////////////////////////////////////
+
+window.circle = function(x, y, r) {
+	return function(p) { return (x - p.x) * (x - p.x) +  (y - p.y) * (y - p.y) < r * r; };
+}
+
+window.rect = function(left, top, right, bottom) {
+	return p => { return left <= p.x && top <= p.y && p.x < right && p.y < bottom; };
+}
