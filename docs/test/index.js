@@ -43,13 +43,14 @@ const reset_play_buttons = _ => {
 	button_small_2.reset();
 };
 
-
 const click = e => {
     const p = design_coords(e);
 
 	if (button_back.contains(p)) {
 		button_back.set();
 		reset_play_buttons();
+		clear_interval(update_id);
+		canvas.removeEventListener('click', click);
 	}
 
 	if (button_disable_audio.contains(p)) {
