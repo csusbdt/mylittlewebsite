@@ -1,16 +1,17 @@
 import                  "../main.js"        ;
-import button      from "../test/button.js" ;
+import button      from "../home/button.js" ;
 import menu        from "../home/menu.js"   ;
+import start_songs from "../songs/index.js" ;
 
 const i_blue                 = image("../images/colors/blue.png"              );
-const i_button_small_border  = image("../test/images/button_small_border.png" );
-const i_button_small_green   = image("../test/images/button_small_green.png"  );
-const i_button_small_white   = image("../test/images/button_small_white.png"  );
-const i_button_medium_border = image("../test/images/button_medium_border.png");
-const i_button_medium_green  = image("../test/images/button_medium_green.png" );
-const i_button_medium_white  = image("../test/images/button_medium_white.png" );
-const i_button_large_border  = image("../test/images/button_large_border.png" );
-const i_button_large_green   = image("../test/images/button_large_green.png"  );
+const i_button_small_border  = image("../home/images/button_small_border.png" );
+const i_button_small_green   = image("../home/images/button_small_green.png"  );
+const i_button_small_white   = image("../home/images/button_small_white.png"  );
+const i_button_medium_border = image("../home/images/button_medium_border.png");
+const i_button_medium_green  = image("../home/images/button_medium_green.png" );
+const i_button_medium_white  = image("../home/images/button_medium_white.png" );
+const i_button_large_border  = image("../home/images/button_large_border.png" );
+const i_button_large_green   = image("../home/images/button_large_green.png"  );
 
 let update_id = null;
 
@@ -26,14 +27,14 @@ const click = e => {
 	if (menu.back(p)) {
 		clear_interval(update_id);
 		canvas.removeEventListener('click', click);
-		alert("BACK");
+		start_songs();
 	}
 	if (button_small_0.contains(p)) {
 		if (button_small_0.off) {
 			button_small_0.set();
 			canvas.removeEventListener('click', click);
 			clear_interval(update_id);	
-			start_song();
+			start_songs();
 		} else {
 			button_small_0.reset();
 		}

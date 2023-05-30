@@ -1,5 +1,5 @@
 import             "../main.js"        ;
-import button from "../test/button.js" ;
+import button from "../home/button.js" ;
 
 const i_menu_border    = new Image();
 const i_menu_red       = new Image();
