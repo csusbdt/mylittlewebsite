@@ -168,7 +168,12 @@ window.silent = b => {
 };
 
 window.volume = v => {
+	if (v === undefined) {
+		return app_volume;
+	}
 	init_audio();
+	if (v < 0) v = 0;
+	if (v > 1) v = 1;
 	app_volume = v;
 	if (!app_silent) {
 		gain.gain.setTargetAtTime(v, audio.currentTime, .01);

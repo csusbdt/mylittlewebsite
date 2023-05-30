@@ -52,6 +52,8 @@ const click = e => {
     const p = design_coords(e);
 	if (menu.silent(p)) {
 		// noop
+	} else if (menu.volume(p)) {
+		// noop
 	} else if (menu.back(p)) {
 		clear_interval(update_id);
 		canvas.removeEventListener('click', click);

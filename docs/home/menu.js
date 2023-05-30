@@ -1,31 +1,35 @@
 import             "../main.js"        ;
 import button from "../home/button.js" ;
 
-const i_menu_border    = new Image();
-const i_menu_red       = new Image();
-const i_back_border    = new Image();
-const i_back_yellow    = new Image();
-const i_back_white     = new Image();
-const i_silent_border  = new Image();
-const i_silent_yellow  = new Image();
-const i_silent_white   = new Image();
-
-i_menu_border.src      = "../home/images/menu_border.png"    ;   
-i_menu_red.src         = "../home/images/menu_red.png"       ;
-i_back_border.src      = "../home/images/back_border.png"    ;
-i_back_yellow.src      = "../home/images/back_yellow.png"    ;
-i_back_white.src       = "../home/images/back_white.png"     ;
-i_silent_border.src    = "../home/images/silent_border.png" ;
-i_silent_yellow.src    = "../home/images/silent_yellow.png" ;
-i_silent_white.src     = "../home/images/silent_white.png"  ;
+const i_menu_border = image("../home/images/menu_border.png");   
+const i_menu_red    = image("../home/images/menu_red.png"   );
 
 const button_back = button(
-	i_back_border, i_back_yellow, i_back_white,
+	image("../home/images/back_border.png"), 
+	image("../home/images/back_yellow.png"), 
+	image("../home/images/back_white.png" ),
 	rect(52, 20, 133, 120), 0, 0);
 
 const button_silent = button(
-	i_silent_border, i_silent_yellow, i_silent_white,
+	image("../home/images/silent_border.png"), 
+	image("../home/images/silent_yellow.png"), 
+	image("../home/images/silent_white.png" ),
 	circle(262, 67, 54), 0, 0);
+
+const button_volume_up = button(
+	image("../home/images/volume_up_border.png"), 
+	image("../home/images/volume_up_yellow.png"), 
+	image("../home/images/volume_up_white.png" ),
+	rect(357, 21, 443, 121), 0, 0);
+
+const button_volume_down = button(
+	image("../home/images/volume_down_border.png"), 
+	image("../home/images/volume_down_yellow.png"), 
+	image("../home/images/volume_down_white.png" ),
+	rect(492, 14, 569, 116), 0, 0);
+
+if (volume() === 0) button_volume_down.set();
+if (volume() === 1) button_volume_up.set();
 
 const menu = {};
 
@@ -48,11 +52,33 @@ menu.silent = function(p) {
 	}
 };
 
+menu.volume = function(p) {
+	if (button_volume_up.click_flash(p)) {
+		if (button_volume_up.off) {
+			volume(volume() + .08);
+			if (volume() === 1) button_volume_up.set();
+			if (!button_volume_down.off) button_volume_down.reset();
+		}
+		return true;
+	} else if (button_volume_down.click_flash(p)) {
+		if (button_volume_down.off) {
+			volume(volume() - .08);
+			if (volume() === 0) button_volume_down.set();
+			if (!button_volume_up.off) button_volume_up.reset();
+		}
+		return true;
+	} else {
+		return false;
+	}
+};
+
 menu.update = function() {
     draw(i_menu_red);
     draw(i_menu_border);
 	button_back.draw();
 	button_silent.draw();
+	button_volume_up.draw();
+	button_volume_down.draw();
 };
 
 export default menu;
