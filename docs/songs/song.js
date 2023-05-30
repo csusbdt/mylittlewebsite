@@ -86,7 +86,7 @@ const once = (notes, beat_freq, ramp_up, ramp_down) => {
 	init();
 	stop();
 	const duration = play(notes, beat_freq, ramp_up, ramp_down);
-	g.gain.setTargetAtTime(0, audio.currentTime + duration, .1);
+	g.gain.setTargetAtTime(0, audio.currentTime + duration, .01);
 };
 
 const loop = (notes, beat_freq, ramp_up, ramp_down) => {
@@ -105,7 +105,7 @@ const stop = _ => {
 	o_0.frequency.cancelScheduledValues(audio.currentTime);
 	o_1.frequency.cancelScheduledValues(audio.currentTime);
 	g.gain.cancelScheduledValues(audio.currentTime);
-	g.gain.setTargetAtTime(0, audio.currentTime, .1);
+	g.gain.setTargetAtTime(0, audio.currentTime, .01);
 };
 
 export { init, once, loop, stop };

@@ -50,14 +50,13 @@ const reset_play_buttons = _ => {
 
 const click = e => {
     const p = design_coords(e);
-	if (menu.silent(p)) return;
-	if (menu.back(p)) {
+	if (menu.silent(p)) {
+		// noop
+	} else if (menu.back(p)) {
 		clear_interval(update_id);
 		canvas.removeEventListener('click', click);
-	// 	reset_play_buttons();
 		start_home();
 	}
-
 	if (button_large.contains(p)) {
 		if (button_large.off) {
 			reset_play_buttons();
@@ -97,14 +96,13 @@ const click = e => {
 	} else if (button_small_2.contains(p)) {
 		if (button_small_2.off) {
 			reset_play_buttons();
-			play_song(song_3, 3);
+			play_song(happy_birthday, 3);
 			button_small_2.set();
 		} else {
 			stop_audio();
 			button_small_2.reset();
 		}
 	}
-
 };
 
 const update = _ => {
@@ -181,5 +179,34 @@ const song_3 = [
     [201, 0.59, .26],
     [172, 0.38, .40]
 ];
+
+const happy_birthday = [
+	[311,0.5,0.84],
+	[311,0.5,0.28],
+	[349.085697024215,0.5,0.56],
+	[311,0.5,0.56],
+	[415.13519464688073,0.5,0.56],
+	[391.8354465173056,0.5,1.12],
+	[311,0.5,0.8400000000000001],
+	[311,0.5,0.28],
+	[349.085697024215,0.5,0.56],
+	[311,0.5,0.56],
+	[465.9735009086481,0.5,0.56],
+	[415.13519464688073,0.5,1.12],
+	[311,0.5,0.8400000000000001],
+	[311,0.5,0.28],
+	[622.0000000000002,0.5,0.56],
+	[523.0375702878106,0.5,0.56],
+	[415.13519464688073,0.5,0.56],
+	[391.8354465173056,0.5,0.56],
+	[349.085697024215,0.5,0.56],
+	[554.1390026832913,0.5,0.8400000000000001],
+	[554.1390026832913,0.5,0.28],
+	[523.0375702878106,0.5,0.56],
+	[415.13519464688073,0.5,0.56],
+	[465.9735009086481,0.5,0.56],
+	[415.13519464688073,0.5,1.12]
+];
+
 
 export default start;

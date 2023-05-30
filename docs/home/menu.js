@@ -30,23 +30,17 @@ const button_silent = button(
 const menu = {};
 
 menu.back = function(p) {
-	if (button_back.contains(p)) {
-		button_back.set();
-		return true;
-	} else {
-		return false;
-	}
+	return button_back.contains(p);
 };
 
 menu.silent = function(p) {
 	if (button_silent.contains(p)) {
 		if (button_silent.off) {
 			button_silent.set();
-			silent = true;
-			volume = 0;
+			silent(true);
 		} else {
 			button_silent.reset();
-			silent = false;
+			silent(false);
 		}
 		return true;
 	} else {

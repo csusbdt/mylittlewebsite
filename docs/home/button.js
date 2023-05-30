@@ -45,6 +45,15 @@ c_button.prototype.contains = function(p) {
     return this.shape({ x: p.x - this.x, y: p.y - this.y });
 };
 
+// c_button.prototype.click_flash = function(p) {
+//     if (this.contains(p)) {
+// 		window.draw(this.on_color, this.x, this.y);
+// 		return true;
+// 	} else {
+// 		return false;
+// 	}
+// };
+
 c_button.prototype.click_set = function(p) {
     if (this.contains(p)) return this.set();
 };
