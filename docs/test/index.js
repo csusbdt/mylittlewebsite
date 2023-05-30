@@ -1,12 +1,16 @@
 import "../main.js";
-import { loop as play } from "./song.js"  ;
-import { stop as stop } from "./song.js"  ;
-import button           from "./button.js";
+import button from "./button.js";
+import { loop as play       } from "./song.js"  ;
+import { stop as stop_audio } from "./song.js"  ;
 
 let loop_id = null;
 
 const audio_color = [i_audio_yellow, i_audio_white];
 let audio_i = 0;
+
+const button_disable_audio = button(
+	i_audio_border, i_audio_yellow, i_audio_white,
+	262, 67, 54, 0, 0);
 
 const button_large = button(
 	i_button_large_border, i_button_large_green, i_button_large_white,
@@ -16,7 +20,7 @@ const button_medium = button(
 	i_button_medium_border, i_button_medium_green, i_button_medium_white,
 	149, 325, 100, 625, 125);
 
-const button_small = button(
+const button_small_0 = button(
 	i_button_small_border, i_button_small_green, i_button_small_white,
 	78, 253, 100, 500, 0);
 
@@ -24,52 +28,80 @@ const button_small_1 = button(
 	i_button_small_border, i_button_small_green, i_button_small_white,
 	78, 253, 100, 500, 125);
 
-const reset_other_buttons = b => {
-	if (button_large !== b) button_large.reset();
-	if (button_medium !== b) button_medium.reset();
-	if (button_small !== b) button_small.reset();
-	if (button_small_1 !== b) button_small_1.reset();
-};
-
-const stop_all = _ => {
-	stop();
+const reset_play_buttons = _ => {
+	stop_audio();
 	button_large.reset();
 	button_medium.reset();
-	button_small.reset();
+	button_small_0.reset();
 	button_small_1.reset();
 };
 
 
 const click = e => {
     const p = design_coords(e);
-    if (is_inside_circle(260, 68, 54, p)) {
-        if (++audio_i === 2) audio_i = 0;
-        draw(audio_color[audio_i]);
-        draw(i_audio_border);
-		stop();
-    }
-	if (button_large.contains(p)) {
-		if (button_large.off) {
-			stop_all();
-			play(song_0, 3);
-			button_large.set();
+
+	if (button_disable_audio.contains(p)) {
+		if (button_disable_audio.off) {
+			reset_play_buttons();
+			button_disable_audio.set();
 		} else {
-			stop();
-			button_large.reset();
+			button_disable_audio.reset();
 		}
 	}
 
+	if (button_disable_audio.off) {
+		if (button_large.contains(p)) {
+			if (button_large.off) {
+				reset_play_buttons();
+				play(song_0, 3);
+				button_large.set();
+			} else {
+				stop_audio();
+				button_large.reset();
+			}
+		} else if (button_medium.contains(p)) {
+			if (button_medium.off) {
+				reset_play_buttons();
+				play(song_1, 3);
+				button_medium.set();
+			} else {
+				stop_audio();
+				button_medium.reset();
+			}
+		} else if (button_small_0.contains(p)) {
+			if (button_small_0.off) {
+				reset_play_buttons();
+				play(song_2, 3);
+				button_small_0.set();
+			} else {
+				stop_audio();
+				button_small_0.reset();
+			}
+		} else if (button_small_1.contains(p)) {
+			if (button_small_1.off) {
+				reset_play_buttons();
+				play(song_3, 3);
+				button_small_1.set();
+			} else {
+				stop_audio();
+				button_small_1.reset();
+			}
+		}
+	}
 
-	
-	if (button_medium.click(p)) {
-		if (button_medium.off) stop(); else play(song_1, 3);
-	}
-	if (button_small.click(p)) {
-		if (button_small.off) stop(); else play(song_2, 3);
-	}
-	if (button_small_1.click(p)) {
-		if (button_small_1.off) stop(); else play(song_3, 3);
-	}
+	// if (button_large.click(p)) {
+	// 	if (button_large.off) reset_play_buttons(); else play(song_0, 3);
+	// }
+
+	// if (button_medium.click(p)) {
+	// 	if (button_medium.off) reset_play_buttons(); else play(song_1, 3);
+	// }
+	// if (button_small.click(p)) {
+	// 	if (button_small.off) reset_play_buttons(); else play(song_2, 3);
+	// }
+	// if (button_small_1.click(p)) {
+	// 	if (button_small_1.off) reset_play_buttons(); else play(song_3, 3);
+	// }
 };
 
 canvas.addEventListener('click', click);
@@ -80,11 +112,10 @@ const loop = _ => {
     draw(i_menu_border);
     draw(i_back_yellow);
     draw(i_back_border);
-    draw(audio_color[audio_i]);
-    draw(i_audio_border);
+	button_disable_audio.draw();
 	button_large.draw();
 	button_medium.draw();
-	button_small.draw();
+	button_small_0.draw();
 	button_small_1.draw();
 };
 
