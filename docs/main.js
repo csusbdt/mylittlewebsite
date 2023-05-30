@@ -136,7 +136,7 @@ adjust_canvas();
 window.audio = null;
 window.gain  = null;
 
-window.init_audio = v => {
+window.init_audio = _ => {
 	// this function must run in click handler to work on apple hardware
 	if (audio === null) {
 		audio = new (window.AudioContext || window.webkitAudioContext)();
@@ -147,16 +147,15 @@ window.init_audio = v => {
 	}
 	if (gain === null) {
 		gain = audio.createGain();
-		if (v === undefined) {
-			gain.gain.value = .5;
-		} else {
-			gain.gain.value = v;
-		}
+		gain.gain.value = 0;
 		gain.connect(audio.destination);
-	} else if (v !== undefined) {
-		gain.gain.setTargetAtTime(v, audio.currentTime, .01);
 	}
 }
+
+window.volume = (v = 0) => {
+	if (audio !== null)	gain.gain.setTargetAtTime(v, audio.currentTime, .01);
+};
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //

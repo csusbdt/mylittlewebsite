@@ -1,11 +1,50 @@
 import "../main.js";
 import button from "./button.js";
-import { loop as play_song  } from "./song.js"  ;
-import { stop as stop_audio } from "./song.js"  ;
+import { loop as play_song  } from "./song.js";
+import { stop as stop_audio } from "./song.js";
+import start_home from "../home/index.js";
+
+const i_blue                 = new Image();
+const i_menu_border          = new Image();
+const i_menu_red             = new Image();
+const i_back_border          = new Image();
+const i_back_yellow          = new Image();
+const i_back_white           = new Image();
+const i_silence_border       = new Image();
+const i_silence_yellow       = new Image();
+const i_silence_white        = new Image();
+const i_button_small_border  = new Image();
+const i_button_small_green   = new Image();
+const i_button_small_white   = new Image();
+const i_button_medium_border = new Image();
+const i_button_medium_green  = new Image();
+const i_button_medium_white  = new Image();
+const i_button_large_border  = new Image();
+const i_button_large_green   = new Image();
+const i_button_large_white   = new Image();
+
+i_blue.src                = "../images/colors/blue.png";
+i_menu_border.src         = "../test/images/menu_border.png"  ;   
+i_menu_red.src            = "../test/images/menu_red.png";
+i_back_border.src         = "../test/images/back_border.png";
+i_back_yellow.src         = "../test/images/back_yellow.png";
+i_back_white.src          = "../test/images/back_white.png";
+i_silence_border.src      = "../test/images/audio_border.png";
+i_silence_yellow.src      = "../test/images/audio_yellow.png";
+i_silence_white.src       = "../test/images/audio_white.png";
+i_button_small_border.src = "../test/images/button_small_border.png";
+i_button_small_green.src  = "../test/images/button_small_green.png";
+i_button_small_white.src  = "../test/images/button_small_white.png";
+i_button_medium_border.src= "../test/images/button_medium_border.png";
+i_button_medium_green.src = "../test/images/button_medium_green.png";
+i_button_medium_white.src = "../test/images/button_medium_white.png";
+i_button_large_border.src = "../test/images/button_large_border.png";
+i_button_large_green.src  = "../test/images/button_large_green.png";
+i_button_large_white.src  = "../test/images/button_large_white.png";
 
 let update_id = null;
 
-const audio_color = [i_audio_yellow, i_audio_white];
+const audio_color = [i_silence_yellow, i_silence_white];
 let audio_i = 0;
 
 const button_back = button(
@@ -13,7 +52,7 @@ const button_back = button(
 	rect(52, 20, 133, 120), 0, 0);
 
 const button_disable_audio = button(
-	i_audio_border, i_audio_yellow, i_audio_white,
+	i_silence_border, i_silence_yellow, i_silence_white,
 	circle(262, 67, 54), 0, 0);
 
 const button_large = button(
@@ -51,6 +90,7 @@ const click = e => {
 		reset_play_buttons();
 		clear_interval(update_id);
 		canvas.removeEventListener('click', click);
+		start_home();
 	}
 
 	if (button_disable_audio.contains(p)) {
@@ -113,8 +153,6 @@ const click = e => {
 
 };
 
-canvas.addEventListener('click', click);
-
 const update = _ => {
     draw(i_blue);
     draw(i_menu_red);
@@ -128,9 +166,11 @@ const update = _ => {
 	button_small_2.draw();
 };
 
-update();
-
-update_id = set_interval(update, 350);
+const start = _ => {
+	canvas.addEventListener('click', click);
+	update_id = set_interval(update, 350);	
+	update();
+};
 
 const song_0 = [	
 	[ 77, 0.50, 0.86],
@@ -190,3 +230,5 @@ const song_3 = [
     [201, 0.59, .26],
     [172, 0.38, .40]
 ];
+
+export default start;
