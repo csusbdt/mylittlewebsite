@@ -8,6 +8,10 @@ function c_button(border, off_color, on_color, shape, x = 0, y = 0, off = true) 
     this.off       = off      ;
 }
 
+c_button.prototype.clone = function(x = 0, y = 0) {
+	return new c_button(this.border, this.off_color, this.on_color, this.shape, x, y, true)
+};
+
 c_button.prototype.set = function() {
 	if (this.off) {
         this.off = false;

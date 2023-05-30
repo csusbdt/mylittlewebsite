@@ -14,8 +14,8 @@ const init = _ => {
 	o_1 = audio.createOscillator();
 	o_0.connect(merger, 0, 0);
 	o_1.connect(merger, 0, 1);
-	o_0.frequency.value = 120; 
-	o_1.frequency.value = 120;
+	o_0.frequency.value = 0; 
+	o_1.frequency.value = 0;
 	o_0.start();
 	o_1.start();
 };

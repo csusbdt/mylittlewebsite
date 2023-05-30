@@ -1,9 +1,9 @@
 import "../main.js";
 import button from "./button.js";
-import { loop as play       } from "./song.js"  ;
+import { loop as play_song  } from "./song.js"  ;
 import { stop as stop_audio } from "./song.js"  ;
 
-let loop_id = null;
+let update_id = null;
 
 const audio_color = [i_audio_yellow, i_audio_white];
 let audio_i = 0;
@@ -32,17 +32,25 @@ const button_small_1 = button(
 	i_button_small_border, i_button_small_green, i_button_small_white,
 	circle(78, 253, 100), 500, 125);
 
+const button_small_2 = button_small_0.clone(500, 375);
+
 const reset_play_buttons = _ => {
 	stop_audio();
 	button_large.reset();
 	button_medium.reset();
 	button_small_0.reset();
 	button_small_1.reset();
+	button_small_2.reset();
 };
 
 
 const click = e => {
     const p = design_coords(e);
+
+	if (button_back.contains(p)) {
+		button_back.set();
+		reset_play_buttons();
+	}
 
 	if (button_disable_audio.contains(p)) {
 		if (button_disable_audio.off) {
@@ -57,7 +65,7 @@ const click = e => {
 		if (button_large.contains(p)) {
 			if (button_large.off) {
 				reset_play_buttons();
-				play(song_0, 3);
+				play_song(song_0, 3);
 				button_large.set();
 			} else {
 				stop_audio();
@@ -66,7 +74,7 @@ const click = e => {
 		} else if (button_medium.contains(p)) {
 			if (button_medium.off) {
 				reset_play_buttons();
-				play(song_1, 3);
+				play_song(song_1, 3);
 				button_medium.set();
 			} else {
 				stop_audio();
@@ -75,7 +83,7 @@ const click = e => {
 		} else if (button_small_0.contains(p)) {
 			if (button_small_0.off) {
 				reset_play_buttons();
-				play(song_2, 3);
+				play_song(song_2, 3);
 				button_small_0.set();
 			} else {
 				stop_audio();
@@ -84,11 +92,20 @@ const click = e => {
 		} else if (button_small_1.contains(p)) {
 			if (button_small_1.off) {
 				reset_play_buttons();
-				play(song_3, 3);
+				play_song(song_3, 3);
 				button_small_1.set();
 			} else {
 				stop_audio();
 				button_small_1.reset();
+			}
+		} else if (button_small_2.contains(p)) {
+			if (button_small_2.off) {
+				reset_play_buttons();
+				play_song(song_3, 3);
+				button_small_2.set();
+			} else {
+				stop_audio();
+				button_small_2.reset();
 			}
 		}
 	}
@@ -97,22 +114,22 @@ const click = e => {
 
 canvas.addEventListener('click', click);
 
-const loop = _ => {
+const update = _ => {
     draw(i_blue);
     draw(i_menu_red);
     draw(i_menu_border);
-    draw(i_back_yellow);
-    draw(i_back_border);
+	button_back.draw();
 	button_disable_audio.draw();
 	button_large.draw();
 	button_medium.draw();
 	button_small_0.draw();
 	button_small_1.draw();
+	button_small_2.draw();
 };
 
-loop();
+update();
 
-loop_id = set_interval(loop, 350);
+update_id = set_interval(update, 350);
 
 const song_0 = [	
 	[ 77, 0.50, 0.86],
