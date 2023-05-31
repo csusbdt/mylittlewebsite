@@ -1,7 +1,7 @@
 let g        = null ;
 let o_0      = null ;
 let o_1      = null ;
-let notes    = [[120, 3, .5]] ;
+let notes    = null ;
 
 let loop_id  = null ;
 
@@ -23,27 +23,20 @@ const init = _ => {
 	o_1.start();
 };
 
-const set_note = (f, beat_freq, v) => {
+const start_freq = (f, beat_freq, v) => {
 	init();
-	if (loop_id !== null) {
-		clearInterval(loop_id);
-		loop_id = null;
-	}
+	stop();
+	// if (loop_id !== null) {
+	// 	clearInterval(loop_id);
+	// 	loop_id = null;
+	// }
 	o_0.frequency.setValueAtTime(f            , audio.currentTime);
 	o_1.frequency.setValueAtTime(f + beat_freq, audio.currentTime);
 	g.gain.setTargetAtTime(v, audio.currentTime, .1);
 };
 
-const set_notes = ns => {
-	notes = ns.slice();
-};
-
-const play_notes = (beat_freq = 0) => {
-	loop(notes, beat_freq);
-};
-
 // play returns duration in seconds of note sequence
-const play = (notes, beat_freq, ramp_up, ramp_down) => {
+const play_notes = (beat_freq, ramp_up, ramp_down) => {
 	let duration = 0;
 	notes.forEach(note => {
 		duration += note[2];
@@ -77,23 +70,26 @@ const play = (notes, beat_freq, ramp_up, ramp_down) => {
 	return t;
 };
 
-const once = (notes, beat_freq, ramp_up, ramp_down) => {
+const start_once = (_notes, beat_freq, ramp_up, ramp_down) => {
 	init();
 	stop();
+ 	notes = _notes.slice();
 	const duration = play(notes, beat_freq, ramp_up, ramp_down);
 	g.gain.setTargetAtTime(0, audio.currentTime + duration, .01);
 };
 
-const loop = (notes, beat_freq, ramp_up, ramp_down, delay) => {
+const start_loop = (_notes, beat_freq, ramp_up, ramp_down, delay) => {
 	init();
-	if (loop_id !== null) return;
-	let duration = play(notes, beat_freq, ramp_up, ramp_down);
+	stop();
+//	if (loop_id !== null) return; // something already playing
+ 	notes = _notes.slice();
+	let duration = play_notes(beat_freq, ramp_up, ramp_down);
 	if (delay !== undefined) duration+= delay;
-	loop_id = setInterval(play.bind(null, notes, beat_freq, ramp_up, ramp_down), (duration) * 1000);
+	loop_id = setInterval(play_notes.bind(null, beat_freq, ramp_up, ramp_down), (duration) * 1000);
 };
 
 const stop = _ => {
-	init();
+	if (g === null) return;
 	if (loop_id !== null) {
 		clearInterval(loop_id);
 		loop_id = null;
@@ -104,4 +100,4 @@ const stop = _ => {
 	g.gain.setTargetAtTime(0, audio.currentTime, .01);
 };
 
-export { init, once, loop, stop, set_note, set_notes, play_notes };
+export { init, start_once, start_loop, start_freq, stop };

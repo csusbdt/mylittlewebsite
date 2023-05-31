@@ -1,8 +1,10 @@
-import menu                   from "../menu.js"        ;
-import start_home             from "../index.js"       ;
-import button                 from "../button.js"      ;
-import { loop as play_song  } from "../../binaural.js" ;
-import { stop as stop_audio } from "../../binaural.js" ;
+import menu                                   from "../menu.js"          ;
+import start_home                             from "../index.js"         ;
+import button                                 from "../button.js"        ;
+import { start_loop as binaural_start_loop  } from "../../binaural.js"   ;
+import { stop       as binaural_stop        } from "../../binaural.js"   ;
+
+//import { start_play as capture_start_play   } from "../capture/index.js" ;
 
 let update_id = null;
 
@@ -25,7 +27,6 @@ const button_small_1 = button_small_0.clone(500, 125);
 const button_small_2 = button_small_0.clone(500, 375);
 
 const reset_play_buttons = _ => {
-	stop_audio();
 	button_large.reset();
 	button_medium.reset();
 	button_small_0.reset();
@@ -40,46 +41,46 @@ const click = e => {
 	} else if (button_large.contains(p)) {
 		if (button_large.off) {
 			reset_play_buttons();
-			play_song(song_0, 3);
+			play_capture_notes();
 			button_large.set();
 		} else {
-			stop_audio();
+			binaural_stop();
 			button_large.reset();
 		}
 	} else if (button_medium.contains(p)) {
 		if (button_medium.off) {
 			reset_play_buttons();
-			play_song(song_1, 3);
+			binaural_start_loop(song_0, 3);
 			button_medium.set();
 		} else {
-			stop_audio();
+			binaural_stop();
 			button_medium.reset();
 		}
 	} else if (button_small_0.contains(p)) {
 		if (button_small_0.off) {
 			reset_play_buttons();
-			play_song(song_2, 3);
+			binaural_start_loop(song_1, 3);
 			button_small_0.set();
 		} else {
-			stop_audio();
+			binaural_stop();
 			button_small_0.reset();
 		}
 	} else if (button_small_1.contains(p)) {
 		if (button_small_1.off) {
 			reset_play_buttons();
-			play_song(song_3, 3);
+			binaural_start_loop(song_2, 3);
 			button_small_1.set();
 		} else {
-			stop_audio();
+			binaural_stop();
 			button_small_1.reset();
 		}
 	} else if (button_small_2.contains(p)) {
 		if (button_small_2.off) {
 			reset_play_buttons();
-			play_song(happy_birthday, 3, .05, .1, 2);
+			binaural_start_loop(song_3, 3, .05, .1, 2);
 			button_small_2.set();
 		} else {
-			stop_audio();
+			binaural_stop();
 			button_small_2.reset();
 		}
 	}
@@ -104,6 +105,18 @@ const start = _ => {
 	canvas.addEventListener('click', click);
 	update_id = set_interval(update, 350);	
 	update();
+};
+
+const play_capture_notes = _ => {
+	reset_play_buttons();
+	button_large.off = false;
+	let o = localStorage.getItem("home_capture");
+	if (o === null) {
+		binaural_start_loop([[120, .5, 1]], 3);	
+	} else {
+		o = JSON.parse(o);
+		binaural_start_loop(o.notes, 3);	
+	}
 };
 
 const song_0 = [	
@@ -193,4 +206,4 @@ const happy_birthday = [
 	[415.13519464688073,0.5,1.12]
 ];
 
-export default start;
+export { start, reset_play_buttons, play_capture_notes };

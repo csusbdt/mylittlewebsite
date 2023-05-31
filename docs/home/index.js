@@ -1,8 +1,8 @@
-import button        from "../home/button.js"         ;
-import menu          from "../home/menu.js"           ;
-import start_songs   from "../home/songs/index.js"    ;
-import start_capture from "../home/capture/index.js"  ;
-import start_shooter from "../space_shooter/index.js" ;
+import button                     from "../home/button.js"         ;
+import menu                       from "../home/menu.js"           ;
+import start_shooter              from "../space_shooter/index.js" ;
+import { start as start_songs   } from "../home/songs/index.js"    ;
+import { start as start_capture } from "../home/capture/index.js"  ;
 
 let update_id = null;
 
