@@ -1,6 +1,5 @@
-import start_twirl from "./twirl.js"       ;
+//import start_twirl from "./twirl.js"       ;
 import start_home  from "../home/index.js" ;
-
 
 const i_portal_0 = image("../images/portal_0.png");
 const i_portal_1 = image("../images/portal_1.png");
@@ -8,36 +7,33 @@ const i_portal_2 = image("../images/portal_2.png");
 const i_portal_3 = image("../images/portal_3.png");
 const i_blue_dot = image("../images/blue_dot.png");
 
-const i_ship_left = image("../images/ship_left.png"         );
-const i_ship_middle = image("../images/ship_middle.png"       );
-const i_ship_right = image("../images/ship_right.png"        );
-
-
+const i_ship_left = image("../images/ship_left.png"     );
+const i_ship_middle = image("../images/ship_middle.png" );
+const i_ship_right = image("../images/ship_right.png"   );
 
 const i_bullet_left_0 = image("../images/bullet_left_0.png");
 const i_bullet_left_1 = image("../images/bullet_left_1.png");
 
-const i_bullet_right_0 = image("../images/bullet_right_0.png");
-const i_bullet_right_1 = image("../images/bullet_right_1.png");
+const i_bullet_right_0 = image("../images/bullet_right_0.png"  );
+const i_bullet_right_1 = image("../images/bullet_right_1.png"      );
 
-const i_gun_left_border = image("../images/gun_left_border.png");
-const i_gun_left_blue = image("../images/gun_left_blue.png");
-const i_gun_left_red = image("../images/gun_left_red.png"     );
+const i_gun_left_border = image("../images/gun_left_border.png"    );
+const i_gun_left_blue = image("../images/gun_left_blue.png"        );
+const i_gun_left_red = image("../images/gun_left_red.png"          );
 
-const i_gun_right_border = image("../images/gun_right_border.png");
-const i_gun_right_blue = image("../images/gun_right_blue.png" );
-const i_gun_right_red = image("../images/gun_right_red.png" );
+const i_gun_right_border = image("../images/gun_right_border.png"  );
+const i_gun_right_blue = image("../images/gun_right_blue.png"      );
+const i_gun_right_red = image("../images/gun_right_red.png"        );
 
-const i_explosion_left_0 = image("../images/explosion_left_0.png" );
-const i_explosion_left_1 = image("../images/explosion_left_1.png" );
-const i_explosion_left_2 = image("../images/explosion_left_2.png" );
+const i_explosion_left_0 = image("../images/explosion_left_0.png"  );
+const i_explosion_left_1 = image("../images/explosion_left_1.png"  );
+const i_explosion_left_2 = image("../images/explosion_left_2.png"  );
 
 const i_explosion_right_0 = image("../images/explosion_right_0.png" );
 const i_explosion_right_1 = image("../images/explosion_right_1.png" );
 const i_explosion_right_2 = image("../images/explosion_right_2.png" );
 
-
-const i_back = image("../images/back.png"              );
+const i_back = image("../images/back.png");
 
 let update_id = null;
 
@@ -50,6 +46,39 @@ let gun_left_i        = 0      ; // 0, 1, null
 let gun_right_i       = 0      ; // 0, 1, null
 let portal_i          = 0      ; // 0, 1, 2, 3, null, 4, 5, 6
 let blue_dot_i        = 0      ; // 0, null
+
+const click = e => {
+	const p = design_coords(e);
+	if (portal_i === 0) {
+		if (is_inside_circle(183, 212, 45, p)) {
+			portal_i = 1;
+		} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
+    		stop();
+            start_home();
+    	} else if (is_inside_circle(326, 55, 32, p)) {
+			stop();
+//			start_twirl();
+    	} else if (is_inside_circle(90 - 30, 186 + 130, 20, p)) {
+ //   		stop_audio();
+    		stop();
+    		start_home();
+    	}
+    } else if (
+        portal_i          === null && 
+        explosion_left_i  === null && 
+        explosion_right_i === null &&
+        bullet_left_i     === null && 
+        bullet_right_i    === null  
+    ) {
+        if (is_inside_rect(22, 228, 126, 372, p)) {
+            bullet_left_i = 0;
+            gun_left_i    = 1;
+        } else if (is_inside_rect(235, 215, 344, 360, p)) {
+            bullet_right_i = 0;
+            gun_right_i    = 1;
+        }
+    }
+};
 
 const start = _ => {
 	set_design_size(400, 400);
@@ -198,6 +227,7 @@ const draw = _ => {
 	
 	if (portal_i === 0) {
 		ctx.drawImage(i_portal_0, 0, 0);
+		ctx.drawImage(i_bullet_left_0, -30, 130);
 	} else if (portal_i === 1) {
 		ctx.drawImage(i_portal_1, 0, 0);
 	} else if (portal_i === 2) {
@@ -215,37 +245,6 @@ const draw = _ => {
 	if (blue_dot_i === 0) {
 		ctx.drawImage(i_blue_dot, 0, 0);
 	} 
-};
-
-const click = e => {
-	const p = design_coords(e);
-	if (portal_i === 0) {
-		if (is_inside_circle(183, 212, 45, p)) {
-			portal_i = 1;
-		}
-        else if (is_inside_circle(326, 55, 32, p)) {
-			stop();
-			start_twirl();
-    	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
-    		stop_audio();
-    		stop();
-    		start_home();
-    	}
-    } else if (
-        portal_i          === null && 
-        explosion_left_i  === null && 
-        explosion_right_i === null &&
-        bullet_left_i     === null && 
-        bullet_right_i    === null  
-    ) {
-        if (is_inside_rect(22, 228, 126, 372, p)) {
-            bullet_left_i = 0;
-            gun_left_i    = 1;
-        } else if (is_inside_rect(235, 215, 344, 360, p)) {
-            bullet_right_i = 0;
-            gun_right_i    = 1;
-        }
-    }
 };
 
 export default start;
