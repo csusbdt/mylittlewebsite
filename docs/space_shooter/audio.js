@@ -1,5 +1,13 @@
 import { start as start_twirl } from "./twirl.js";
-import { start as start_ship  } from "./ship.js" ;
+import { start as start_ship  } from "./index.js" ;
+
+
+const i_ship_left = image("../images/ship_left.png"         );
+const i_ship_middle = image("../images/ship_middle.png"       );
+const i_ship_right = image("../images/ship_right.png"        );
+
+const i_blue_dot = image("../images/blue_dot.png");
+const i_back = image("../images/back.png"              );
 
 const ship = [ 
 	[ i_ship_left  ,  -78, -46 ], 
@@ -90,7 +98,7 @@ const play_snapshots = _ => {
 };
 
 const draw = _ => {
-	ctx.drawImage(i_blue, 0, 0);
+	bg_blue();
 	if (ship_i !== null) {
 		const i        = ship[ship_i][0];
 		const offset_x = ship[ship_i][1];

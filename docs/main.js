@@ -203,8 +203,33 @@ const rgb_yellow = `rgb(${colors.yellow[0]}, ${colors.yellow[1]}, ${colors.yello
 const rgb_black  = `rgb(${colors.black [0]}, ${colors.black [1]}, ${colors.black [2]})`;
 const rgb_white  = `rgb(${colors.white [0]}, ${colors.white [1]}, ${colors.white [2]})`;
 
+window.bg_red = _ => {
+	ctx.fillStyle = rgb_red;
+	ctx.fillRect(0, 0, design_width, design_height);
+};
+
+window.bg_green = _ => {
+	ctx.fillStyle = rgb_green;
+	ctx.fillRect(0, 0, design_width, design_height);
+};
+
 window.bg_blue = _ => {
 	ctx.fillStyle = rgb_blue;
+	ctx.fillRect(0, 0, design_width, design_height);
+};
+
+window.bg_yellow = _ => {
+	ctx.fillStyle = rgb_yellow;
+	ctx.fillRect(0, 0, design_width, design_height);
+};
+
+window.bg_black = _ => {
+	ctx.fillStyle = rgb_black;
+	ctx.fillRect(0, 0, design_width, design_height);
+};
+
+window.bg_white = _ => {
+	ctx.fillStyle = rgb_white;
 	ctx.fillRect(0, 0, design_width, design_height);
 };
 

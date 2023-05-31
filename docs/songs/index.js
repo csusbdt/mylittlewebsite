@@ -1,42 +1,28 @@
-import                    "../main.js";
-import start_home    from "../home/index.js";
-import button        from "../home/button.js" ;
-
-import { loop as play_song  } from "./song.js";
-import { stop as stop_audio } from "./song.js";
-
-import                  "../main.js"        ;
-import menu        from "../home/menu.js"   ;
-
-const i_blue                 = image("../images/colors/blue.png"              );
-const i_button_small_border  = image("../home/images/button_small_border.png" );
-const i_button_small_green   = image("../home/images/button_small_green.png"  );
-const i_button_small_white   = image("../home/images/button_small_white.png"  );
-const i_button_medium_border = image("../home/images/button_medium_border.png");
-const i_button_medium_green  = image("../home/images/button_medium_green.png" );
-const i_button_medium_white  = image("../home/images/button_medium_white.png" );
-const i_button_large_border  = image("../home/images/button_large_border.png" );
-const i_button_large_green   = image("../home/images/button_large_green.png"  );
-const i_button_large_white   = image("../home/images/button_large_white.png"  );
+import                             "../main.js"        ;
+import menu                   from "../home/menu.js"   ;
+import start_home             from "../home/index.js"  ;
+import button                 from "../home/button.js" ;
+import { loop as play_song  } from "./song.js"         ;
+import { stop as stop_audio } from "./song.js"         ;
 
 let update_id = null;
 
 const button_large = button(
-	i_button_large_border, i_button_large_green, i_button_large_white,
+	image("../home/images/button_large_border.png" ), 
+	image("../home/images/button_large_green.png"  ), 
+	image("../home/images/button_large_white.png"  ),
 	circle(247, 447, 194), 0, 0);
-
 const button_medium = button(
-	i_button_medium_border, i_button_medium_green, i_button_medium_white,
+	image("../home/images/button_medium_border.png"), 
+	image("../home/images/button_medium_green.png" ), 
+	image("../home/images/button_medium_white.png" ),
 	circle(149, 325, 100), 625, 125);
-
 const button_small_0 = button(
-	i_button_small_border, i_button_small_green, i_button_small_white,
+	image("../home/images/button_small_border.png" ), 
+	image("../home/images/button_small_green.png"  ), 
+	image("../home/images/button_small_white.png"  ),
 	circle(78, 253, 100), 500, 0);
-
-const button_small_1 = button(
-	i_button_small_border, i_button_small_green, i_button_small_white,
-	circle(78, 253, 100), 500, 125);
-
+const button_small_1 = button_small_0.clone(500, 125);
 const button_small_2 = button_small_0.clone(500, 375);
 
 const reset_play_buttons = _ => {
@@ -101,7 +87,7 @@ const click = e => {
 };
 
 const update = _ => {
-    draw(i_blue);
+    bg_blue();
 	menu.update();
 	button_large.draw();
 	button_medium.draw();
@@ -185,28 +171,27 @@ const happy_birthday = [
 	[311,0.5,0.28],
 	[349.085697024215,0.5,0.56],
 	[311,0.5,0.56],
-	[415.13519464688073,0.5,0.56],
+	[415,0.5,0.56],
 	[391.8354465173056,0.5,1.12],
-	[311,0.5,0.8400000000000001],
+	[311,0.5,0.84],
 	[311,0.5,0.28],
 	[349.085697024215,0.5,0.56],
 	[311,0.5,0.56],
 	[465.9735009086481,0.5,0.56],
 	[415.13519464688073,0.5,1.12],
-	[311,0.5,0.8400000000000001],
+	[311,0.5,0.84],
 	[311,0.5,0.28],
 	[622.0000000000002,0.5,0.56],
 	[523.0375702878106,0.5,0.56],
 	[415.13519464688073,0.5,0.56],
 	[391.8354465173056,0.5,0.56],
 	[349.085697024215,0.5,0.56],
-	[554.1390026832913,0.5,0.8400000000000001],
+	[554.1390026832913,0.5,0.84],
 	[554.1390026832913,0.5,0.28],
 	[523.0375702878106,0.5,0.56],
 	[415.13519464688073,0.5,0.56],
 	[465.9735009086481,0.5,0.56],
 	[415.13519464688073,0.5,1.12]
 ];
-
 
 export default start;

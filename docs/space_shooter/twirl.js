@@ -1,6 +1,13 @@
 import { start  as start_audio } from "./audio.js";
 import { play_0                } from "./audio.js";
-import { start  as start_ship  } from "./ship.js" ;
+import { start  as start_ship  } from "./index.js" ;
+
+
+const i_twirl_0 = image("../images/twirl_0.png"          );
+const i_twirl_1 = image("../images/twirl_1.png"         );
+const i_twirl_2 = image("../images/twirl_2.png"          );
+
+const i_blue_dot = image("../images/blue_dot.png");
 
 const twirl = [ i_twirl_0, i_twirl_1, i_twirl_2 ];
 
@@ -8,7 +15,7 @@ let twirl_i               = 0    ;
 let loop_interval_id      = null ;
 
 const draw = _ => {
-	ctx.drawImage(i_blue, 0, 0);
+	bg_blue();
 	ctx.drawImage(i_blue_dot, 600, 865);
 	if (twirl_i !== null) ctx.drawImage(twirl[twirl_i], 0, 0);
 };
@@ -45,4 +52,4 @@ const start = _ => {
 	loop_interval_id = setInterval(loop, 160);
 };
 
-export { start };
+export default start;

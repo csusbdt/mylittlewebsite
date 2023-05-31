@@ -57,7 +57,11 @@
 
 <img id="i_back"         src="../images/back.png"              />	
 
-<script type="module" src="index.js"></script>
+<script type="module">
+import "../main.js"              ;
+import { start } from "./index.js";
+start();
+</script>
 
 </body>
 </html>
