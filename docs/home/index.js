@@ -1,6 +1,7 @@
 import button        from "../home/button.js"         ;
 import menu          from "../home/menu.js"           ;
 import start_songs   from "../home/songs/index.js"    ;
+import start_capture from "../home/capture/index.js"  ;
 import start_shooter from "../space_shooter/index.js" ;
 
 let update_id = null;
@@ -25,10 +26,10 @@ const click = e => {
 		canvas.removeEventListener('click', click);
 		clear_interval(update_id);	
 		start_shooter();
-	} else if (button_small_1.click_reset(p)) {
-		// noop
-	} else if (button_small_2.click(p)) {
-		// noop
+	} else if (button_small_2.contains(p)) {
+		canvas.removeEventListener('click', click);
+		clear_interval(update_id);	
+		start_capture();
 	}
 };
 

@@ -1,6 +1,7 @@
 let g        = null ;
 let o_0      = null ;
 let o_1      = null ;
+let notes    = [[120, 3, .5]] ;
 
 let loop_id  = null ;
 
@@ -8,7 +9,7 @@ const init = _ => {
 	init_audio();	
 	if (g !== null) return;
 	g = audio.createGain();
-	g.gain.value = 1;
+	g.gain.value = 0;
 	g.connect(gain);	
 	const merger = new ChannelMergerNode(audio);
 	merger.connect(g);
@@ -22,28 +23,24 @@ const init = _ => {
 	o_1.start();
 };
 
-// const shutdown = _ => {
-// 	g.gain.setTargetAtTime(0, audio.currentTime, .01);
-// 	setTimeout(_ => {
-// 		g.disconnect();
-// 		merger.disconnect();
-// 		o_0.disconnect();
-// 		o_1.disconnect();
-// 		g      = null;
-// 		merger = null;
-// 		o_0    = null;
-// 		o_1    = null;
-// 	}, 150);
-// 	if (play_timeout_id !== null) {
-// 		clearInterval(play_timeout_id);
-// 		play_timeout_id = null;
-// 	}
-// 	snapshots.length   = 0    ;
-// 	play_duration      = null ;
-// 	capture_start_time = null ;
-// 	freq               = 120  ;
-// 	vol                = 0    ;
-// };
+const set_note = (f, beat_freq, v) => {
+	init();
+	if (loop_id !== null) {
+		clearInterval(loop_id);
+		loop_id = null;
+	}
+	o_0.frequency.setValueAtTime(f            , audio.currentTime);
+	o_1.frequency.setValueAtTime(f + beat_freq, audio.currentTime);
+	g.gain.setTargetAtTime(v, audio.currentTime, .1);
+};
+
+const set_notes = ns => {
+	notes = ns.slice();
+};
+
+const play_notes = (beat_freq = 0) => {
+	loop(notes, beat_freq);
+};
 
 // play returns duration in seconds of note sequence
 const play = (notes, beat_freq, ramp_up, ramp_down) => {
@@ -107,4 +104,4 @@ const stop = _ => {
 	g.gain.setTargetAtTime(0, audio.currentTime, .01);
 };
 
-export { init, once, loop, stop };
+export { init, once, loop, stop, set_note, set_notes, play_notes };

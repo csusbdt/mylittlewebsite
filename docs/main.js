@@ -133,10 +133,11 @@ adjust_canvas();
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-window.audio   = null  ;
-window.gain    = null  ;
-let app_silent = false ;
-let app_volume = 1     ;
+window.audio          = null  ;
+window.gain           = null  ;
+window.captured_notes = []    ;
+let app_silent        = false ;
+let app_volume        = 1     ;
 
 window.init_audio = _ => {
 	// this function must run in click handler to work on apple hardware
@@ -179,7 +180,6 @@ window.volume = v => {
 		gain.gain.setTargetAtTime(v, audio.currentTime, .01);
 	}
 };
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
