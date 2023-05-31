@@ -1,27 +1,25 @@
-/*
-import                             "../main.js"        ;
-import menu                   from "../home/menu.js"   ;
-import start_home             from "../home/index.js"  ;
-import button                 from "../home/button.js" ;
-import { loop as play_song  } from "./song.js"         ;
-import { stop as stop_audio } from "./song.js"         ;
+import menu                   from "../menu.js"        ;
+import start_home             from "../index.js"       ;
+import button                 from "../button.js"      ;
+import { loop as play_song  } from "../../binaural.js" ;
+import { stop as stop_audio } from "../../binaural.js" ;
 
 let update_id = null;
 
 const button_large = button(
-	image("../home/images/button_large_border.png" ), 
-	image("../home/images/button_large_green.png"  ), 
-	image("../home/images/button_large_white.png"  ),
+	image("/home/images/button_large_border.png" ), 
+	image("/home/images/button_large_green.png"  ), 
+	image("/home/images/button_large_white.png"  ),
 	circle(247, 447, 194), 0, 0);
 const button_medium = button(
-	image("../home/images/button_medium_border.png"), 
-	image("../home/images/button_medium_green.png" ), 
-	image("../home/images/button_medium_white.png" ),
+	image("/home/images/button_medium_border.png"), 
+	image("/home/images/button_medium_green.png" ), 
+	image("/home/images/button_medium_white.png" ),
 	circle(149, 325, 100), 625, 125);
 const button_small_0 = button(
-	image("../home/images/button_small_border.png" ), 
-	image("../home/images/button_small_green.png"  ), 
-	image("../home/images/button_small_white.png"  ),
+	image("/home/images/button_small_border.png" ), 
+	image("/home/images/button_small_green.png"  ), 
+	image("/home/images/button_small_white.png"  ),
 	circle(78, 253, 100), 500, 0);
 const button_small_1 = button_small_0.clone(500, 125);
 const button_small_2 = button_small_0.clone(500, 375);
@@ -196,4 +194,3 @@ const happy_birthday = [
 ];
 
 export default start;
-*/

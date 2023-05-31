@@ -1,7 +1,7 @@
 import button        from "../home/button.js"         ;
 import menu          from "../home/menu.js"           ;
-import start_songs   from "../songs/index.js"         ;
-import start_shooter from "../space_shooter/index.js" ;
+import start_songs   from "../home/songs/index.js"    ;
+//import start_shooter from "../space_shooter/index.js" ;
 
 let update_id = null;
 
@@ -24,7 +24,7 @@ const click = e => {
 	} else if (button_small_1.click_set(p)) {
 		canvas.removeEventListener('click', click);
 		clear_interval(update_id);	
-		start_shooter();
+//		start_shooter();
 	} else if (button_small_1.click_reset(p)) {
 		// noop
 	} else if (button_small_2.click(p)) {
@@ -41,11 +41,6 @@ const update = _ => {
 };
 
 const start = _ => {
-	// menu.set_back_func(_ => {
-	// 	clear_interval(update_id);
-	// 	canvas.removeEventListener('click', click);
-	// 	start_songs();
-	// });
 	canvas.addEventListener('click', click);
 	update_id = set_interval(update, 350);	
 	update();

@@ -1,11 +1,8 @@
-/*
-import "../main.js";
+let g        = null ;
+let o_0      = null ;
+let o_1      = null ;
 
-let g           = null ;
-let o_0         = null ;
-let o_1         = null ;
-
-let loop_id     = null ;
+let loop_id  = null ;
 
 const init = _ => {
 	init_audio();	
@@ -111,4 +108,3 @@ const stop = _ => {
 };
 
 export { init, once, loop, stop };
-*/

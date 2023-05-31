@@ -1,3 +1,4 @@
+/*
 import "../main.js";
 
 let o_0         = null ;
@@ -102,3 +103,4 @@ const stop = _ => {
 };
 
 export { init, shutdown, once, loop, stop };
+*/

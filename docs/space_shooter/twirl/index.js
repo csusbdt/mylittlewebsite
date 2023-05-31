@@ -1,4 +1,3 @@
-/*
 import { start  as start_audio } from "./audio.js";
 import { play_0                } from "./audio.js";
 import start_shooter from "./index.js" ;
@@ -54,4 +53,3 @@ const start = _ => {
 };
 
 export default start;
-*/

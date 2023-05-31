@@ -1,3 +1,4 @@
+/*
 import "../main.js";
 import { init as init_audio } from "./audio.js";
 import { once as play_once  } from "./audio.js";
@@ -117,3 +118,4 @@ const song_3 = [[160, .25, 1.10 - 0   ],
 // 				[ 51, .42, 7.19 - 6.20],
 // 				[ 69, .66, 8.26 - 7.19],
 // 				[154, .54, 9.47 - 8.26]];
+*/

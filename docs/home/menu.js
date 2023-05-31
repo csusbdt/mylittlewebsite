@@ -1,4 +1,4 @@
-import             "../main.js"        ;
+//import             "../main.js"        ;
 import button from "../home/button.js" ;
 
 const i_menu_border = image("../home/images/menu_border.png");   
