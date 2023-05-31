@@ -1,5 +1,5 @@
-import { start as start_twirl } from "./twirl.js";
-import { start as start_ship  } from "./index.js" ;
+import start_twirl from "./twirl.js";
+import start_ship  from "./index.js";
 
 
 const i_ship_left = image("../images/ship_left.png"         );

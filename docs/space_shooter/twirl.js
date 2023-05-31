@@ -1,6 +1,6 @@
 import { start  as start_audio } from "./audio.js";
 import { play_0                } from "./audio.js";
-import { start  as start_ship  } from "./index.js" ;
+import start_shooter from "./index.js" ;
 
 
 const i_twirl_0 = image("../images/twirl_0.png"          );
@@ -32,7 +32,7 @@ const click = e => {
 		start_audio();
 	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
 		stop();
-        start_ship();
+        start_shooter();
 	} else if (is_inside_rect(0, 970, 30, 1000, p)) {
 		play_0();
 	} 

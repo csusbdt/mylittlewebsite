@@ -222,29 +222,30 @@ const click = e => {
 	if (portal_i === 0) {
 		if (is_inside_circle(183, 212, 45, p)) {
 			portal_i = 1;
-		} else if (is_inside_circle(326, 55, 32, p)) {
+		}
+        else if (is_inside_circle(326, 55, 32, p)) {
 			stop();
 			start_twirl();
     	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
     		stop_audio();
     		stop();
     		start_home();
-    	} else if (
-    		portal_i          === null && 
-    		explosion_left_i  === null && 
-    		explosion_right_i === null &&
-    	    bullet_left_i     === null && 
-    		bullet_right_i    === null  
-    	) {
-    		if (is_inside_rect(22, 228, 126, 372, p)) {
-    			bullet_left_i = 0;
-    			gun_left_i    = 1;
-    		} else if (is_inside_rect(235, 215, 344, 360, p)) {
-    			bullet_right_i = 0;
-    			gun_right_i    = 1;
-    		}
     	}
+    } else if (
+        portal_i          === null && 
+        explosion_left_i  === null && 
+        explosion_right_i === null &&
+        bullet_left_i     === null && 
+        bullet_right_i    === null  
+    ) {
+        if (is_inside_rect(22, 228, 126, 372, p)) {
+            bullet_left_i = 0;
+            gun_left_i    = 1;
+        } else if (is_inside_rect(235, 215, 344, 360, p)) {
+            bullet_right_i = 0;
+            gun_right_i    = 1;
+        }
     }
 };
 
-export { start };
+export default start;

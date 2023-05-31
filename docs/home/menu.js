@@ -81,33 +81,6 @@ menu.click = function(p) {
 
 };
 
-// menu.back = function(p) {
-// 	return button_back.contains(p);
-// };
-
-// menu.silent = function(p) {
-// };
-
-// menu.volume = function(p) {
-// 	if (button_volume_up.click_flash(p)) {
-// 		if (button_volume_up.off) {
-// 			volume(volume() + .08);
-// 			if (volume() === 1) button_volume_up.set();
-// 			if (!button_volume_down.off) button_volume_down.reset();
-// 		}
-// 		return true;
-// 	} else if (button_volume_down.click_flash(p)) {
-// 		if (button_volume_down.off) {
-// 			volume(volume() - .08);
-// 			if (volume() === 0) button_volume_down.set();
-// 			if (!button_volume_up.off) button_volume_up.reset();
-// 		}
-// 		return true;
-// 	} else {
-// 		return false;
-// 	}
-// };
-
 menu.update = function() {
     draw(i_menu_red);
     draw(i_menu_border);
