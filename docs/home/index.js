@@ -14,14 +14,8 @@ const button_small_2 = button_small_0.clone(250, 0);
 
 const click = e => {
     const p = design_coords(e);
-	if (menu.silent(p)) {
+	if (menu.click(p)) {
 		// noop
-	} else if (menu.volume(p)) {
-		// noop
-	} else if (menu.back(p)) {
-		clear_interval(update_id);
-		canvas.removeEventListener('click', click);
-		start_songs();
 	} else if (button_small_0.contains(p)) {
 		canvas.removeEventListener('click', click);
 		clear_interval(update_id);	
@@ -44,6 +38,11 @@ const update = _ => {
 };
 
 const start = _ => {
+	// menu.set_back_func(_ => {
+	// 	clear_interval(update_id);
+	// 	canvas.removeEventListener('click', click);
+	// 	start_songs();
+	// });
 	canvas.addEventListener('click', click);
 	update_id = set_interval(update, 350);	
 	update();

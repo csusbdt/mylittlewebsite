@@ -50,16 +50,9 @@ const reset_play_buttons = _ => {
 
 const click = e => {
     const p = design_coords(e);
-	if (menu.silent(p)) {
+	if (menu.click(p)) {
 		// noop
-	} else if (menu.volume(p)) {
-		// noop
-	} else if (menu.back(p)) {
-		clear_interval(update_id);
-		canvas.removeEventListener('click', click);
-		start_home();
-	}
-	if (button_large.contains(p)) {
+	} else if (button_large.contains(p)) {
 		if (button_large.off) {
 			reset_play_buttons();
 			play_song(song_0, 3);
@@ -118,6 +111,11 @@ const update = _ => {
 };
 
 const start = _ => {
+	menu.set_back_func(_ => {
+		clear_interval(update_id);
+		canvas.removeEventListener('click', click);
+		start_home();
+	});
 	canvas.addEventListener('click', click);
 	update_id = set_interval(update, 350);	
 	update();

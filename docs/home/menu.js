@@ -31,13 +31,27 @@ const button_volume_down = button(
 if (volume() === 0) button_volume_down.set();
 if (volume() === 1) button_volume_up.set();
 
-const menu = {};
-
-menu.back = function(p) {
-	return button_back.contains(p);
+const menu = {
 };
 
-menu.silent = function(p) {
+let back_func = null;
+button_back.set();
+
+menu.set_back_func = f => {
+	back_func = f;
+	button_back.reset();
+};
+
+menu.click = function(p) {
+	if (button_back.contains(p)) {
+		if (back_func !== null) {
+			button_back.set();
+			const f = back_func;
+			back_func = null;
+			f();
+		}
+		return true;
+	}
 	if (button_silent.contains(p)) {
 		if (button_silent.off) {
 			button_silent.set();
@@ -47,13 +61,7 @@ menu.silent = function(p) {
 			silent(false);
 		}
 		return true;
-	} else {
-		return false;
-	}
-};
-
-menu.volume = function(p) {
-	if (button_volume_up.click_flash(p)) {
+	} else if (button_volume_up.click_flash(p)) {
 		if (button_volume_up.off) {
 			volume(volume() + .08);
 			if (volume() === 1) button_volume_up.set();
@@ -70,7 +78,35 @@ menu.volume = function(p) {
 	} else {
 		return false;
 	}
+
 };
+
+// menu.back = function(p) {
+// 	return button_back.contains(p);
+// };
+
+// menu.silent = function(p) {
+// };
+
+// menu.volume = function(p) {
+// 	if (button_volume_up.click_flash(p)) {
+// 		if (button_volume_up.off) {
+// 			volume(volume() + .08);
+// 			if (volume() === 1) button_volume_up.set();
+// 			if (!button_volume_down.off) button_volume_down.reset();
+// 		}
+// 		return true;
+// 	} else if (button_volume_down.click_flash(p)) {
+// 		if (button_volume_down.off) {
+// 			volume(volume() - .08);
+// 			if (volume() === 0) button_volume_down.set();
+// 			if (!button_volume_up.off) button_volume_up.reset();
+// 		}
+// 		return true;
+// 	} else {
+// 		return false;
+// 	}
+// };
 
 menu.update = function() {
     draw(i_menu_red);
