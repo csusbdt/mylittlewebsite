@@ -51,16 +51,9 @@ const click = e => {
 	if (portal_i === 0) {
 		if (is_inside_circle(183, 212, 45, p)) {
 			portal_i = 1;
-		} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
-    		stop();
-            start_home();
     	} else if (is_inside_circle(326, 55, 32, p)) {
 			stop();
-//			start_twirl();
-    	} else if (is_inside_circle(90 - 30, 186 + 130, 20, p)) {
- //   		stop_audio();
-    		stop();
-    		start_home();
+            start_home();
     	}
     } else if (
         portal_i          === null && 
@@ -226,7 +219,6 @@ const draw = _ => {
 	
 	if (portal_i === 0) {
 		ctx.drawImage(i_portal_0, 0, 0);
-		ctx.drawImage(i_bullet_left_0, -30, 130);
 	} else if (portal_i === 1) {
 		ctx.drawImage(i_portal_1, 0, 0);
 	} else if (portal_i === 2) {
