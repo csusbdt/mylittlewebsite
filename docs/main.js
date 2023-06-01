@@ -235,7 +235,7 @@ window.bg_white = _ => {
 
 window.file = f => {
 	if (window.location.pathname.startsWith('/mylittlewebsite')) {
-		return "/mylittlewebsite" + s;
+		return "/mylittlewebsite" + f;
 	} else {
 		return f;
 	}
