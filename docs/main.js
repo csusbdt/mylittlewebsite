@@ -233,9 +233,17 @@ window.bg_white = _ => {
 	ctx.fillRect(0, 0, design_width, design_height);
 };
 
+window.file = f => {
+	if (window.location.pathname.startsWith('/mylittlewebsite')) {
+		return "/mylittlewebsite" + s;
+	} else {
+		return f;
+	}
+};
+
 window.image = src => {
 	const i = new Image();
-	i.src = src;
+	i.src = file(src);
 	return i;
 };
 

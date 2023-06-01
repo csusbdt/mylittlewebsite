@@ -1,31 +1,31 @@
 //import             "../main.js"        ;
 import button from "../home/button.js" ;
 
-const i_menu_border = image("../home/images/menu_border.png");   
-const i_menu_red    = image("../home/images/menu_red.png"   );
+const i_menu_border = image("/home/images/menu_border.png");   
+const i_menu_red    = image("/home/images/menu_red.png"   );
 
 const button_back = button(
-	image("../home/images/back_border.png"), 
-	image("../home/images/back_yellow.png"), 
-	image("../home/images/back_white.png" ),
+	image("/home/images/back_border.png"), 
+	image("/home/images/back_yellow.png"), 
+	image("/home/images/back_white.png" ),
 	rect(52, 20, 133, 120), 0, 0);
 
 const button_silent = button(
-	image("../home/images/silent_border.png"), 
-	image("../home/images/silent_yellow.png"), 
-	image("../home/images/silent_white.png" ),
+	image("/home/images/silent_border.png"), 
+	image("/home/images/silent_yellow.png"), 
+	image("/home/images/silent_white.png" ),
 	circle(262, 67, 54), 0, 0);
 
 const button_volume_up = button(
-	image("../home/images/volume_up_border.png"), 
-	image("../home/images/volume_up_yellow.png"), 
-	image("../home/images/volume_up_white.png" ),
+	image("/home/images/volume_up_border.png"), 
+	image("/home/images/volume_up_yellow.png"), 
+	image("/home/images/volume_up_white.png" ),
 	rect(357, 21, 443, 121), 0, 0);
 
 const button_volume_down = button(
-	image("../home/images/volume_down_border.png"), 
-	image("../home/images/volume_down_yellow.png"), 
-	image("../home/images/volume_down_white.png" ),
+	image("/home/images/volume_down_border.png"), 
+	image("/home/images/volume_down_yellow.png"), 
+	image("/home/images/volume_down_white.png" ),
 	rect(492, 14, 569, 116), 0, 0);
 
 if (volume() === 0) button_volume_down.set();

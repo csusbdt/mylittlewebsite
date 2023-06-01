@@ -1,39 +1,38 @@
-//import start_twirl from "./twirl.js"       ;
 import start_home  from "../home/index.js" ;
 
-const i_portal_0 = image("../images/portal_0.png");
-const i_portal_1 = image("../images/portal_1.png");
-const i_portal_2 = image("../images/portal_2.png");
-const i_portal_3 = image("../images/portal_3.png");
-const i_blue_dot = image("../images/blue_dot.png");
+const i_portal_0 = image("/images/portal_0.png");
+const i_portal_1 = image("/images/portal_1.png");
+const i_portal_2 = image("/images/portal_2.png");
+const i_portal_3 = image("/images/portal_3.png");
+const i_blue_dot = image("/images/blue_dot.png");
 
-const i_ship_left = image("../images/ship_left.png"     );
-const i_ship_middle = image("../images/ship_middle.png" );
-const i_ship_right = image("../images/ship_right.png"   );
+const i_ship_left = image("/images/ship_left.png"     );
+const i_ship_middle = image("/images/ship_middle.png" );
+const i_ship_right = image("/images/ship_right.png"   );
 
-const i_bullet_left_0 = image("../images/bullet_left_0.png");
-const i_bullet_left_1 = image("../images/bullet_left_1.png");
+const i_bullet_left_0 = image("/images/bullet_left_0.png");
+const i_bullet_left_1 = image("/images/bullet_left_1.png");
 
-const i_bullet_right_0 = image("../images/bullet_right_0.png"  );
-const i_bullet_right_1 = image("../images/bullet_right_1.png"      );
+const i_bullet_right_0 = image("/images/bullet_right_0.png"  );
+const i_bullet_right_1 = image("/images/bullet_right_1.png"      );
 
-const i_gun_left_border = image("../images/gun_left_border.png"    );
-const i_gun_left_blue = image("../images/gun_left_blue.png"        );
-const i_gun_left_red = image("../images/gun_left_red.png"          );
+const i_gun_left_border = image("/images/gun_left_border.png"    );
+const i_gun_left_blue = image("/images/gun_left_blue.png"        );
+const i_gun_left_red = image("/images/gun_left_red.png"          );
 
-const i_gun_right_border = image("../images/gun_right_border.png"  );
-const i_gun_right_blue = image("../images/gun_right_blue.png"      );
-const i_gun_right_red = image("../images/gun_right_red.png"        );
+const i_gun_right_border = image("/images/gun_right_border.png"  );
+const i_gun_right_blue = image("/images/gun_right_blue.png"      );
+const i_gun_right_red = image("/images/gun_right_red.png"        );
 
-const i_explosion_left_0 = image("../images/explosion_left_0.png"  );
-const i_explosion_left_1 = image("../images/explosion_left_1.png"  );
-const i_explosion_left_2 = image("../images/explosion_left_2.png"  );
+const i_explosion_left_0 = image("/images/explosion_left_0.png"  );
+const i_explosion_left_1 = image("/images/explosion_left_1.png"  );
+const i_explosion_left_2 = image("/images/explosion_left_2.png"  );
 
-const i_explosion_right_0 = image("../images/explosion_right_0.png" );
-const i_explosion_right_1 = image("../images/explosion_right_1.png" );
-const i_explosion_right_2 = image("../images/explosion_right_2.png" );
+const i_explosion_right_0 = image("/images/explosion_right_0.png" );
+const i_explosion_right_1 = image("/images/explosion_right_1.png" );
+const i_explosion_right_2 = image("/images/explosion_right_2.png" );
 
-const i_back = image("../images/back.png");
+const i_back = image("/images/back.png");
 
 let update_id = null;
 
