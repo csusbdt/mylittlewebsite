@@ -20,30 +20,26 @@ const button_small_2 = button_small_0.clone(250, 0);
 const twirl = image("/anims/twirl/twirl_0.png");
 const blob  = image("/anims/blob/blob_0.png"  );
 
+const goto = start_func => {
+	canvas.removeEventListener('click', click);
+	clear_interval(update_id);
+	start_func(start);
+};
+
 const click = e => {
     const p = design_coords(e);
 	if (menu.click(p)) {
 		// noop
 	} else if (button_small_0.contains(p)) {
-		canvas.removeEventListener('click', click);
-		clear_interval(update_id);	
-		start_songs();
+		goto(start_songs);
 	} else if (button_small_1.contains(p)) {
-		canvas.removeEventListener('click', click);
-		clear_interval(update_id);	
-		start_shooter();
+		goto(start_shooter);
 	} else if (button_small_2.contains(p)) {
-		canvas.removeEventListener('click', click);
-		clear_interval(update_id);	
-		start_capture();
+		goto(start_capture);
 	} else if (circle(435, 253, 35)(p)) {
-		canvas.removeEventListener('click', click);
-		clear_interval(update_id);	
-		start_twirl(start);
+		goto(start_twirl);
 	} else if (circle(558, 253, 35)(p)) {
-		canvas.removeEventListener('click', click);
-		clear_interval(update_id);	
-		start_blob(start);
+		goto(start_blob);
 	}
 };
 
