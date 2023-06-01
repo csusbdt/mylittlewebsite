@@ -93,7 +93,7 @@ const draw = _ => {
 		ctx.drawImage(i_red, 0, 0);
 	}
 
-//	if (too_portal_i    !== null) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
+	if (too_portal_i    !== null) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
 	if (return_portal_i !== null) ctx.drawImage(return_portal[return_portal_i], 0, 0);
 	
 //	if (too_portal_i === 2 || return_portal_i !== null) {
@@ -103,8 +103,6 @@ const draw = _ => {
 	}
 	if (too_portal_i    === 1   ) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
 };
-
-export { start };
 
 const r = 0.05;
 
@@ -208,3 +206,6 @@ const song_2 = [
 	[152, 0.32, 0.21],
 	[248, 0.26, 0.22]
 ];
+
+	
+export { start };
