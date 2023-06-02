@@ -110,7 +110,17 @@ c_O.prototype.click = function(p) {
 
 c_O.prototype.draw = function() {
 	for (let i = 0; i < this.images.length; ++i) {
-		draw(this.images[i], this.x, this.y);
+		if (typeof this.images[i] !== "function") {
+			draw(this.images[i], this.x, this.y);
+		}
+	}
+};
+
+c_O.prototype.update = function() {
+	for (let i = 0; i < this.images.length; ++i) {
+		if (typeof this.images[i] === "function") {
+			this.images[i]();
+		}
 	}
 };
 
@@ -123,6 +133,36 @@ window.O = (images = [], shapes = [], x = 0, y = 0) => {
 	}
 	return new c_O(images, shapes, x, y);
 };
+
+function c_once(objs, f) {
+	this.objs = objs;
+	this.f = f;
+	this.i = null;
+}
+
+c_once.prototype.update = function() {
+	if (this.i === null) {
+		return;
+	} else if (this.i === this.objs.length) {
+		this.i = null;
+		if (this.f !== null) this.f();
+	} else {
+		if (typeof this.objs[this.i] === 'function') {
+			this.objs[this.i];
+		} else if (this.objs[this.i] !== null) {
+			this.objs[this.i].draw();
+		}
+		++this.i;
+	}
+};
+
+c_once.prototype.start = function() {
+	this.i = 0;
+};
+
+window.once = (objs, f = null) => {
+	return new c_once(objs, f);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //
