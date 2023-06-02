@@ -8,9 +8,6 @@
 <body>
 
 <canvas id='canvas'></canvas>
-
-<img id="i_green"                 src="images/green.png"             />
-<img id="i_red"                   src="images/red.png"               />
     
 <img id="i_too_portal_0"          src="images/too_portal_0.png"      />
 <img id="i_too_portal_1"          src="images/too_portal_1.png"      />
@@ -20,9 +17,9 @@
 <img id="i_return_portal_1"       src="images/return_portal_1.png"   />
 <img id="i_return_portal_2"       src="images/return_portal_2.png"   />
 
-<img id="i_blob_0"                src="images/blob_0.png"            />
-<img id="i_blob_1"                src="images/blob_1.png"            />
-<img id="i_blob_2"                src="images/blob_2.png"            />
+<img id="i_blob_0"                src="images/yellow_blob_0.png"            />
+<img id="i_blob_1"                src="images/yellow_blob_1.png"            />
+<img id="i_blob_2"                src="images/yellow_blob_2.png"            />
 
 <img id="i_blue_blob_0"           src="images/blue_blob_0.png"       />
 <img id="i_blue_blob_1"           src="images/blue_blob_1.png"       />
@@ -30,7 +27,11 @@
 
 <!-- ------------------------------------------------------------------------------------------------------- -->
 
-<script type="module" src="index.js"></script>
+<script type="module">
+import "../main.js"                ;
+import { start } from "./index.js" ;
+start();
+</script>
 
 </body>
 </html>
