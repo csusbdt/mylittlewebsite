@@ -49,9 +49,9 @@ let blue_dot_i        = 0      ; // 0, null
 const click = e => {
 	const p = design_coords(e);
 	if (portal_i === 0) {
-		if (is_inside_circle(183, 212, 45, p)) {
+		if (circle(183, 212, 45)(p)) {
 			portal_i = 1;
-    	} else if (is_inside_circle(326, 55, 32, p)) {
+    	} else if (circle(326, 55, 32)(p)) {
 			stop();
             start_home();
     	}
@@ -62,10 +62,10 @@ const click = e => {
         bullet_left_i     === null && 
         bullet_right_i    === null  
     ) {
-        if (is_inside_rect(22, 228, 126, 372, p)) {
+        if (rect(22, 228, 126, 372)(p)) {
             bullet_left_i = 0;
             gun_left_i    = 1;
-        } else if (is_inside_rect(235, 215, 344, 360, p)) {
+        } else if (rect(235, 215, 344, 360)(p)) {
             bullet_right_i = 0;
             gun_right_i    = 1;
         }
