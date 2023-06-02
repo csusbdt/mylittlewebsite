@@ -8,14 +8,15 @@ import { set_play_capture_button           } from "../songs/index.js" ;
 const i_ship_left   = image("/images/ship_left.png"  );
 const i_ship_middle = image("/images/ship_middle.png");
 const i_ship_right  = image("/images/ship_right.png" );
-const i_blue_dot    = image("/images/blue_dot.png"   );
-const i_back        = image("/images/back.png"       );
 
 const ship = [ 
 	[ i_ship_left  ,  -78, -46 ], 
 	[ i_ship_middle, -187, -45 ],
 	[ i_ship_right , -306, -39 ]
 ];
+
+const back   = O(image("/images/back.png"    ), rect(  0,   0, 150, 150)          );
+const cancel = O(image("/images/blue_dot.png"), rect(250, -15, 400, 135), 600, 865);
 
 let update_id               = null ;
 let ship_i                  = 0    ;
@@ -35,27 +36,25 @@ const vol = x => {
 	return x / 1000;
 };
 
-const stop = _ => {
-	binaural_stop();
+const exit = start_func => {
 	x = dest_x;
 	y = dest_y;
 	canvas.removeEventListener('click', click);
 	clearInterval(update_id);
-	update_id = null;
+	start_func();
 };
 
 const click = e => {
 	const p = design_coords(e);
-	if (is_inside_rect(0, 0, 150, 150, p)) {
+	if (back.click(p)) {
 		const t = audio.currentTime - current_note_start_time;
 		notes[notes.length - 1][2] = t;
 		set_item("home_capture", { x: x, y: y, notes: notes });
-		stop();
 		play_capture_notes();
-		start_home();
-	} else if (is_inside_rect(850, 850, 1000, 1000, p)) {
-		stop();
-		start_home();
+		exit(start_home);
+	} else if (cancel.click(p)) {
+		binaural_stop();
+		exit(start_home);
 	} else {
 		const t = audio.currentTime - current_note_start_time;
 		current_note_start_time = audio.currentTime;
@@ -87,8 +86,8 @@ const update = _ => {
 		const offset_y = ship[ship_i][2];
 		ctx.drawImage(i, x + offset_x, y + offset_y);
 	}
-	ctx.drawImage(i_back, 0, 0);
-	ctx.drawImage(i_blue_dot, 600, 865);
+	back.draw();
+	cancel.draw();
 };
 
 const play_capture_notes = _ => {
