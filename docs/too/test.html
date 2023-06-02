@@ -7,7 +7,12 @@
 </head>
 <body>
 
-<script>
+<canvas id="canvas"></canvas>
+
+<script type="module">
+import "../main.js";
+import { start_loop } from "../binaural.js";
+	
 function scale(octaveTones, baseFrequency, halfNotesAwayFromBase) {
 	const f = baseFrequency * Math.pow(Math.pow(2, 1.0 / octaveTones), halfNotesAwayFromBase); 
     return f;
@@ -48,8 +53,13 @@ sounds.push([scale(12, f,  5), v, 2 * q]);
 sounds.push([scale(12, f,  7), v, 2 * q]);
 sounds.push([scale(12, f,  5), v, 4 * q]);
 
-console.log(JSON.stringify(sounds));
-    
+set_design_size(1000, 1000);
+bg_blue();
+
+canvas.addEventListener('click', e => {
+	start_loop(sounds, 3, .01, .05, 1.5);
+});
+
 </script>
 
 </body>
