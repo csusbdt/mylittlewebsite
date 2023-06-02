@@ -88,16 +88,6 @@ window.get_item = (key, _default) => {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-
-// remove these in future:
-
-//window.is_inside_circle = function(x, y, r, p) {
-//	return (x - p.x) * (x - p.x) +  (y - p.y) * (y - p.y) < r * r;
-//};
-
-//window.is_inside_rect = function(left, top, right, bottom, p) {
-//	return left <= p.x && top <= p.y && p.x < right && p.y < bottom;
-
 function c_O(images = [], shapes = [], x = 0, y = 0) {
 	this.images = images;
 	this.shapes = shapes;
