@@ -1,8 +1,9 @@
 import start_home                            from "../index.js"       ;
 import { start_freq as binaural_start_freq } from "../../binaural.js" ;
 import { stop       as binaural_stop       } from "../../binaural.js" ;
-import { play_capture_notes                } from "../songs/index.js" ;
+import { start_loop as binaural_start_loop } from "../../binaural.js" ;
 import { reset_play_buttons                } from "../songs/index.js" ;
+import { set_play_capture_button           } from "../songs/index.js" ;
 
 const i_ship_left   = image("/images/ship_left.png"  );
 const i_ship_middle = image("/images/ship_middle.png");
@@ -23,7 +24,7 @@ let y                       = 350  ;
 let dest_x                  = x    ;
 let dest_y                  = y    ;
 const speed                 = 180  ;
-let notes                   = []   ;
+let notes                   = null ;
 let current_note_start_time = null ;
 
 const freq = y => {
@@ -48,7 +49,7 @@ const click = e => {
 	if (is_inside_rect(0, 0, 150, 150, p)) {
 		const t = audio.currentTime - current_note_start_time;
 		notes[notes.length - 1][2] = t;
-		localStorage.setItem("home_capture", JSON.stringify({ x: x, y: y, notes: notes }));
+		set_item("home_capture", { x: x, y: y, notes: notes });
 		stop();
 		play_capture_notes();
 		start_home();
@@ -90,16 +91,23 @@ const update = _ => {
 	ctx.drawImage(i_blue_dot, 600, 865);
 };
 
+const play_capture_notes = _ => {
+	let o = get_item("home_capture", { x: x, y: y, notes: [[freq(y), vol(x), 1]] });
+	binaural_start_loop(o.notes, 3);
+	reset_play_buttons();
+	set_play_capture_button();
+};
+
 const start = _ => {
-	let o = localStorage.getItem("home_capture");
-	if (o !== null) {
-		o = JSON.parse(o);
-		x = o.x;
-		y = o.y;
-	}
+	let o  = get_item("home_capture", { x: x, y: y, notes: [[freq(y), vol(x), 1]] });
+	x      = o.x;
+	y      = o.y;
+	dest_x = o.x;
+	dest_y = o.y;
+	notes  = o.notes;
 	reset_play_buttons();
 	binaural_start_freq(freq(y), 3, vol(x));
-	notes.length = 0;
+	notes = [];
 	notes.push([freq(y), vol(x), null]);
 	current_note_start_time = audio.currentTime;
 	canvas.addEventListener('click', click);
@@ -107,4 +115,4 @@ const start = _ => {
 	update_id = setInterval(update, 100);
 };
 
-export { start };
+export { start, play_capture_notes };

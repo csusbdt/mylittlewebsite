@@ -3,8 +3,7 @@ import start_home                             from "../index.js"         ;
 import button                                 from "../button.js"        ;
 import { start_loop as binaural_start_loop  } from "../../binaural.js"   ;
 import { stop       as binaural_stop        } from "../../binaural.js"   ;
-
-//import { start_play as capture_start_play   } from "../capture/index.js" ;
+import { play_capture_notes                 } from "../capture/index.js" ;
 
 let update_id = null;
 
@@ -34,14 +33,18 @@ const reset_play_buttons = _ => {
 	button_small_2.reset();
 };
 
+const set_play_capture_button = _ => {
+	button_large.off = false;
+};
+
 const click = e => {
     const p = design_coords(e);
 	if (menu.click(p)) {
 		// noop
 	} else if (button_large.contains(p)) {
 		if (button_large.off) {
-			reset_play_buttons();
 			play_capture_notes();
+			reset_play_buttons();
 			button_large.set();
 		} else {
 			binaural_stop();
@@ -105,18 +108,6 @@ const start = _ => {
 	canvas.addEventListener('click', click);
 	update_id = set_interval(update, 350);	
 	update();
-};
-
-const play_capture_notes = _ => {
-	reset_play_buttons();
-	button_large.off = false;
-	let o = localStorage.getItem("home_capture");
-	if (o === null) {
-		binaural_start_loop([[120, .5, 1]], 3);	
-	} else {
-		o = JSON.parse(o);
-		binaural_start_loop(o.notes, 3);	
-	}
 };
 
 const song_0 = [	
@@ -206,4 +197,4 @@ const happy_birthday = [
 	[415.13519464688073,0.5,1.12]
 ];
 
-export { start, reset_play_buttons, play_capture_notes };
+export { start, reset_play_buttons, set_play_capture_button };
