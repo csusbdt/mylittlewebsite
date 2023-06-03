@@ -348,75 +348,75 @@ window.O = (images = [], shapes = [], x = 0, y = 0) => {
 	return new c_O(images, shapes, x, y);
 };
 
-function c_loop(images, shapes, x, y) {
-	this.images = images;
-	this.shapes = shapes;
-	this.x      = x     ;
-	this.y      = y     ;
-	this.i      = 0     ;
-}
+// function c_loop(images, shapes, x, y) {
+// 	this.images = images;
+// 	this.shapes = shapes;
+// 	this.x      = x     ;
+// 	this.y      = y     ;
+// 	this.i      = 0     ;
+// }
 
-c_loop.prototype.clone = function(x, y) {
-	return new c_loop(this.images, this.shapes, x, y)
-};
+// c_loop.prototype.clone = function(x, y) {
+// 	return new c_loop(this.images, this.shapes, x, y)
+// };
 
-c_loop.prototype.click = function(p) {
-	for (let i = 0; i < this.shapes.length; ++i) {
-		if (this.shapes[i]({ x: p.x - this.x, y: p.y - this.y })) {
-			return true;		
-		}
-	}
-	return false;
-};
+// c_loop.prototype.click = function(p) {
+// 	for (let i = 0; i < this.shapes.length; ++i) {
+// 		if (this.shapes[i]({ x: p.x - this.x, y: p.y - this.y })) {
+// 			return true;		
+// 		}
+// 	}
+// 	return false;
+// };
 
-c_loop.prototype.draw = function() {
-	draw(this.images[this.i], this.x, this.y);
-	if (++this.i === this.images.length) this.i = 0;
-};
+// c_loop.prototype.draw = function() {
+// 	draw(this.images[this.i], this.x, this.y);
+// 	if (++this.i === this.images.length) this.i = 0;
+// };
 
-window.loop = (images = [], shapes = [], x = 0, y = 0) => {
-	if (!Array.isArray(images)) {
-		images = [images];
-	}
-	if (!Array.isArray(shapes)) {
-		shapes = [shapes];
-	}
-	return new c_loop(images, shapes, x, y);
-};
+// window.loop = (images = [], shapes = [], x = 0, y = 0) => {
+// 	if (!Array.isArray(images)) {
+// 		images = [images];
+// 	}
+// 	if (!Array.isArray(shapes)) {
+// 		shapes = [shapes];
+// 	}
+// 	return new c_loop(images, shapes, x, y);
+// };
 
 
-function c_once(images, f, x, y) {
-	this.images = images;
-	this.f      = f     ;
-	this.x      = x     ;
-	this.y      = y     ;
-	this.i      = null  ; // stopped
-}
+// function c_once(images, f, x, y) {
+// 	this.images = images;
+// 	this.f      = f     ;
+// 	this.x      = x     ;
+// 	this.y      = y     ;
+// 	this.i      = null  ; // stopped
+// }
 
-c_once.prototype.start = function() {
-	this.i = 0;
-};
+// c_once.prototype.start = function() {
+// 	this.i = 0;
+// };
 
-c_once.prototype.clone = function(x, y) {
-	return new c_once(this.images, this.f, x, y)
-};
+// c_once.prototype.clone = function(x, y) {
+// 	return new c_once(this.images, this.f, x, y)
+// };
 
-c_once.prototype.draw = function() {
-	if (this.i === null) return;
-	if (this.i === this.images.length) {
-		if (this.f !== null) f();
-		this.i = null;
-	} else {
-		draw(this.images[this.i++], this.x, this.y);
-	}
-};
+// c_once.prototype.draw = function() {
+// 	if (this.i === null) return;
+// 	if (this.i === this.images.length) {
+// 		if (this.f !== null) f();
+// 		this.i = null;
+// 	} else {
+// 		draw(this.images[this.i++], this.x, this.y);
+// 	}
+// };
 
-window.once = (images = [], f = null, x = 0, y = 0) => {
-	if (!Array.isArray(images)) {
-		images = [images];
-	}
-	return new c_once(images, shapes, x, y);
-};
+// window.once = (images = [], f = null, x = 0, y = 0) => {
+// 	if (!Array.isArray(images)) {
+// 		images = [images];
+// 	}
+// 	return new c_once(images, shapes, x, y);
+// };
 
 
 
@@ -458,3 +458,4 @@ window.once = (images = [], f = null, x = 0, y = 0) => {
 // 	}
 // 	return new c_loop(images, shapes, x, y);
 // };
+
