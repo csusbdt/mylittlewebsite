@@ -3,6 +3,7 @@ import menu                          from "./menu.js"                 ;
 import start_shooter                 from "../space_shooter/index.js" ;
 import start_twirl                   from "../anims/twirl/index.js"   ;
 import start_blob                    from "../anims/blob/index.js"    ;
+import start_lines                   from "../lines/index.js"         ;
 import {start as start_yellow_blob } from "../yellow_blob/index.js"   ;
 import { start as start_songs      } from "./songs/index.js"          ;
 import { start as start_capture    } from "./capture/index.js"        ;
@@ -22,6 +23,7 @@ const capture = O([
 
 const songs   = capture.clone(125, 0);
 const shooter = capture.clone(250, 0);
+const lines   = capture.clone(  0, 250);
 
 const twirl       = image("/anims/twirl/twirl_0.png");
 const blob        = image("/anims/blob/blob_0.png"  );
@@ -37,6 +39,7 @@ const click = e => {
 	if (inside_yellow_blob(p)) return exit(start_yellow_blob);
 	if (circle(435, 253, 35)(p)) return exit(start_twirl);
 	if (circle(558, 253, 35)(p)) return exit(start_blob );
+	if (lines.click(p)) return exit(start_lines);
 };
 
 const update = _ => {
@@ -45,6 +48,7 @@ const update = _ => {
 	capture.draw();
 	songs.draw();
 	shooter.draw();
+	lines.draw();
 	draw(yellow_blob, 0, 0, 1000, 1000, 560, 190, 200, 200);
 	draw(twirl, 0, 0, 1000, 1000, 395, 210, 90, 90);
 	draw(blob , 0, 0, 1000, 1000, 510, 210, 100, 100);

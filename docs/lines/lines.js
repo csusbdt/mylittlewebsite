@@ -1,4 +1,4 @@
-
+/*
 const dash = [
 	i_dash_0 , i_dash_1 , i_dash_2 , i_dash_3 , i_dash_4 , i_dash_5 , i_dash_6 , i_dash_7 , i_dash_8,
 	i_dash_9 , i_dash_10, i_dash_11, i_dash_12, i_dash_13, i_dash_14, i_dash_15, i_dash_16
@@ -82,3 +82,4 @@ const draw = _ => {
 };
 
 export { start };
+*/
