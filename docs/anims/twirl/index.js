@@ -12,6 +12,12 @@ const twirl = loop([
 const bg_colors = [bg_blue, bg_green, bg_yellow, bg_white, bg_black];
 let bg_colors_i = 0;
 
+const exit = _ => {
+	canvas.removeEventListener('click', click);
+	clear_interval(update_id);
+	back_func();
+};
+
 const update = _ => {
 	bg_colors[bg_colors_i]();
 	twirl.draw();
@@ -20,9 +26,7 @@ const update = _ => {
 const click = e => {
 	const p = design_coords(e);
 	if (twirl.click(p)) {
-		canvas.removeEventListener('click', click);
-		clear_interval(update_id);
-		back_func();
+		exit();
 	} else {
 		if (++bg_colors_i === bg_colors.length) bg_colors_i = 0;
 	}
