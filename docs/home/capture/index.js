@@ -5,9 +5,9 @@ import { start_loop as binaural_start_loop } from "../../binaural.js" ;
 import { reset_play_buttons                } from "../songs/index.js" ;
 import { set_play_capture_button           } from "../songs/index.js" ;
 
-const i_ship_left   = image("/images/ship_left.png"  );
-const i_ship_middle = image("/images/ship_middle.png");
-const i_ship_right  = image("/images/ship_right.png" );
+const i_ship_left   = image("/space_shooter/images/ship_left.png"  );
+const i_ship_middle = image("/space_shooter/images/ship_middle.png");
+const i_ship_right  = image("/space_shooter/images/ship_right.png" );
 
 const ship = [ 
 	[ i_ship_left  ,  -78, -46 ], 
@@ -15,8 +15,8 @@ const ship = [
 	[ i_ship_right , -306, -39 ]
 ];
 
-const back   = O(image("/images/back.png"    ), rect(  0,   0, 150, 150)          );
-const cancel = O(image("/images/blue_dot.png"), rect(250, -15, 400, 135), 600, 865);
+const back   = O(image("/home/capture/back.png"), rect(  0,   0, 150, 150)          );
+const cancel = O(image("/space_shooter/images/blue_dot.png"  ), rect(250, -15, 400, 135), 600, 865);
 
 let update_id               = null ;
 let ship_i                  = 0    ;

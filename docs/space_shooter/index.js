@@ -1,38 +1,38 @@
 import start_home  from "../home/index.js" ;
 
-const i_portal_0          = image("/images/portal_0.png"          );
-const i_portal_1          = image("/images/portal_1.png"          );
-const i_portal_2          = image("/images/portal_2.png"          );
-const i_portal_3          = image("/images/portal_3.png"          );
-const i_blue_dot          = image("/images/blue_dot.png"          );
+const i_portal_0          = image("/space_shooter/images/portal_0.png"          );
+const i_portal_1          = image("/space_shooter/images/portal_1.png"          );
+const i_portal_2          = image("/space_shooter/images/portal_2.png"          );
+const i_portal_3          = image("/space_shooter/images/portal_3.png"          );
+const i_blue_dot          = image("/space_shooter/images/blue_dot.png"          );
 
-const i_ship_left         = image("/images/ship_left.png"         );
-const i_ship_middle       = image("/images/ship_middle.png"       );
-const i_ship_right        = image("/images/ship_right.png"        );
+const i_ship_left         = image("/space_shooter/images/ship_left.png"         );
+const i_ship_middle       = image("/space_shooter/images/ship_middle.png"       );
+const i_ship_right        = image("/space_shooter/images/ship_right.png"        );
 
-const i_bullet_left_0     = image("/images/bullet_left_0.png"     );
-const i_bullet_left_1     = image("/images/bullet_left_1.png"     );
+const i_bullet_left_0     = image("/space_shooter/images/bullet_left_0.png"     );
+const i_bullet_left_1     = image("/space_shooter/images/bullet_left_1.png"     );
 
-const i_bullet_right_0    = image("/images/bullet_right_0.png"    );
-const i_bullet_right_1    = image("/images/bullet_right_1.png"    );
+const i_bullet_right_0    = image("/space_shooter/images/bullet_right_0.png"    );
+const i_bullet_right_1    = image("/space_shooter/images/bullet_right_1.png"    );
 
-const i_gun_left_border   = image("/images/gun_left_border.png"   );
-const i_gun_left_blue     = image("/images/gun_left_blue.png"     );
-const i_gun_left_red      = image("/images/gun_left_red.png"      );
+const i_gun_left_border   = image("/space_shooter/images/gun_left_border.png"   );
+const i_gun_left_blue     = image("/space_shooter/images/gun_left_blue.png"     );
+const i_gun_left_red      = image("/space_shooter/images/gun_left_red.png"      );
 
-const i_gun_right_border  = image("/images/gun_right_border.png"  );
-const i_gun_right_blue    = image("/images/gun_right_blue.png"    );
-const i_gun_right_red     = image("/images/gun_right_red.png"     );
+const i_gun_right_border  = image("/space_shooter/images/gun_right_border.png"  );
+const i_gun_right_blue    = image("/space_shooter/images/gun_right_blue.png"    );
+const i_gun_right_red     = image("/space_shooter/images/gun_right_red.png"     );
 
-const i_explosion_left_0  = image("/images/explosion_left_0.png"  );
-const i_explosion_left_1  = image("/images/explosion_left_1.png"  );
-const i_explosion_left_2  = image("/images/explosion_left_2.png"  );
+const i_explosion_left_0  = image("/space_shooter/images/explosion_left_0.png"  );
+const i_explosion_left_1  = image("/space_shooter/images/explosion_left_1.png"  );
+const i_explosion_left_2  = image("/space_shooter/images/explosion_left_2.png"  );
 
-const i_explosion_right_0 = image("/images/explosion_right_0.png" );
-const i_explosion_right_1 = image("/images/explosion_right_1.png" );
-const i_explosion_right_2 = image("/images/explosion_right_2.png" );
+const i_explosion_right_0 = image("/space_shooter/images/explosion_right_0.png" );
+const i_explosion_right_1 = image("/space_shooter/images/explosion_right_1.png" );
+const i_explosion_right_2 = image("/space_shooter/images/explosion_right_2.png" );
 
-const i_back              = image("/images/back.png"              );
+const i_back              = image("/home/capture/back.png"              );
 
 const inside_portal       = circle(183, 212, 45)     ;
 const inside_exit         = circle(326,  55, 32)     ;
