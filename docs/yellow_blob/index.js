@@ -1,38 +1,22 @@
 import start_home from "../home/index.js";
 
-
-
-
-
-
-
-
-
-//    abandon
-
-
-
-
-
-
-
 let update_id  = null;
 
-const i_too_portal_0 = image("/too/images/too_portal_0.png"       );
-const i_too_portal_1 = image("/too/images/too_portal_1.png"       );
-const i_too_portal_2 = image("/too/images/too_portal_2.png"       );
+const i_too_portal_0 = image("/yellow_blob/images/too_portal_0.png"       );
+const i_too_portal_1 = image("/yellow_blob/images/too_portal_1.png"       );
+const i_too_portal_2 = image("/yellow_blob/images/too_portal_2.png"       );
 
-const i_return_portal_0 = image("/too/images/return_portal_0.png" );
-const i_return_portal_1 = image("/too/images/return_portal_1.png" );
-const i_return_portal_2 = image("/too/images/return_portal_2.png" );
+const i_return_portal_0 = image("/yellow_blob/images/return_portal_0.png" );
+const i_return_portal_1 = image("/yellow_blob/images/return_portal_1.png" );
+const i_return_portal_2 = image("/yellow_blob/images/return_portal_2.png" );
 
-const i_blob_0 = image("/too/images/yellow_blob_0.png"            );
-const i_blob_1 = image("/too/images/yellow_blob_1.png"            );
-const i_blob_2 = image("/too/images/yellow_blob_2.png"            );
+const i_blob_0 = image("/yellow_blob/images/yellow_blob_0.png"            );
+const i_blob_1 = image("/yellow_blob/images/yellow_blob_1.png"            );
+const i_blob_2 = image("/yellow_blob/images/yellow_blob_2.png"            );
 
-const i_blue_blob_0 = image("/too/images/blue_blob_0.png"         );
-const i_blue_blob_1 = image("/too/images/blue_blob_1.png"         );
-const i_blue_blob_2 = image("/too/images/blue_blob_2.png"         );
+const i_blue_blob_0 = image("/yellow_blob/images/blue_blob_0.png"         );
+const i_blue_blob_1 = image("/yellow_blob/images/blue_blob_1.png"         );
+const i_blue_blob_2 = image("/yellow_blob/images/blue_blob_2.png"         );
 
 const too_portal    = [ i_too_portal_0   , i_too_portal_1   , i_too_portal_2    ];
 const return_portal = [ i_return_portal_0, i_return_portal_1, i_return_portal_2 ];
@@ -45,14 +29,6 @@ let green_i           = 0    ; // null, 0
 let red_i             = null ; // null, 0
 let yellow_blob_i            = null ; // null, 0, 1, 2
 let blue_blob_i       = null ; // null, 0, 1, 2
-
-const open_to_blob = once([
-	O(i_too_portal_0)   ,
-	O(i_too_portal_1)   , 
-	O(i_too_portal_2)],
-	_ => {
-		return_portal_i = 0;
-	}					 );
 
 const start = _ => {
     too_portal_i      = 0    ; 
@@ -77,8 +53,7 @@ const exit = f => {
 const click = e => {
 	const p = design_coords(e);
 	if (too_portal_i === 0 && circle(667, 271, 95)(p)) {
-		open_to_blob.start();
-		//too_portal_i = 1;
+		too_portal_i = 1;
 	}
 	if (return_portal_i === 0 && rect(92, 809, 300, 945)(p)) {
 		return_portal_i = 1;
@@ -90,13 +65,47 @@ const click = e => {
         else {
             exit(start_home);
         }
+		// else if (blue_blob_i === 0) blue_blob_i = null, yellow_blob_i      = 0; 
+		// else if (blue_blob_i === 1) blue_blob_i = null, yellow_blob_i      = 1; 
+		// else if (blue_blob_i === 2) blue_blob_i = null, yellow_blob_i      = 2; 
 	}
 };
 
 const update = _ => {
-	bg_red();
-	open_to_blob.update();
-	/*
+	draw();
+	if (yellow_blob_i      !== null && ++yellow_blob_i      === 3) yellow_blob_i      = 0;
+	if (blue_blob_i !== null && ++blue_blob_i === 3) blue_blob_i = 0;
+    
+	if (too_portal_i === 0) {
+		return;
+	}
+	if (too_portal_i === 1) {
+		yellow_blob_i = 0;
+		too_portal_i = 2;
+		return;
+	}
+	if (too_portal_i === 2) {
+		too_portal_i = null;
+		return_portal_i = 0;
+		return;
+	}
+	if (return_portal_i === 0) {
+		return;
+	}
+	if (return_portal_i === 1) {
+		return_portal_i = 2;
+		yellow_blob_i = null;
+		blue_blob_i = null;
+		return;
+	}
+	if (return_portal_i === 2) {
+		return_portal_i = null;
+		too_portal_i = 0;
+		return;
+	}
+};
+
+const draw = _ => {
 	if (return_portal_i === null || return_portal_i === 0) {
 		bg_green();
 	}
@@ -113,46 +122,6 @@ const update = _ => {
 		if (blue_blob_i     !== null) ctx.drawImage(blue_blob    [blue_blob_i    ], 0, 0);
 	}
 	if (too_portal_i    === 1   ) ctx.drawImage(too_portal   [too_portal_i   ], 0, 0);
-	
-	draw();
-	if (yellow_blob_i      !== null && ++yellow_blob_i      === 3) yellow_blob_i      = 0;
-	if (blue_blob_i !== null && ++blue_blob_i === 3) blue_blob_i = 0;
-
-	open_to_blob.update();
-	
-	// if (too_portal_i === 0) {
-	// 	return;
-	// }
-	// if (too_portal_i === 1) {
-	// 	yellow_blob_i = 0;
-	// 	too_portal_i = 2;
-	// 	return;
-	// }
-	// if (too_portal_i === 2) {
-	// 	too_portal_i = null;
-	// 	return_portal_i = 0;
-	// 	return;
-	// }
-	
-	if (return_portal_i === 0) {
-		return;
-	}
-	if (return_portal_i === 1) {
-		return_portal_i = 2;
-		yellow_blob_i = null;
-		blue_blob_i = null;
-		return;
-	}
-	if (return_portal_i === 2) {
-		return_portal_i = null;
-		too_portal_i = 0;
-		return;
-	}
- */
-};
-
-const draw = _ => {
-
 };
 
 export { start };
